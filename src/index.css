@@ -1,0 +1,31 @@
+@import url(https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css);
+@font-face {
+	font-family: Futura-Light;
+	src: url("./assets/fonts/futura\ light\ bt.ttf");
+}
+@font-face {
+	font-family: Futura-Medium;
+	src: url("./assets/fonts/futura\ medium\ bt.ttf");
+}
+@font-face {
+	font-family: Futura-Bold;
+	src: url("./assets/fonts/Futura\ Bold.otf");
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body,
+html,
+button {
+	margin: 0;
+	font-family: Futura-Light;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+		monospace;
+}

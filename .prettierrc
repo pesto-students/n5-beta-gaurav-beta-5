@@ -1,0 +1,8 @@
+{
+    "formatOnPaste": true,
+    "formatOnType": true,
+    "formatOnSave": true,
+    "tabWidth": 4,
+    "useTabs": true,
+    "bracketSpacing": true
+}
