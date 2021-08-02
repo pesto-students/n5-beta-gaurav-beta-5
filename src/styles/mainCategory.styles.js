@@ -19,6 +19,12 @@ export const MainCategoryCard = styled.div`
 	background-size: cover;
 	display: inline-block;
 	margin: 0 20px;
+    @media only screen and (max-width: 768px) {
+        min-height: 300px;
+        width: 100%;
+        margin: 0;
+    
+    }
 	.category-btn {
 		margin: 130px auto;
 	}

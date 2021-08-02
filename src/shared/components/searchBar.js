@@ -35,10 +35,9 @@ function SearchBar(props) {
 	};
 
 	useEffect(() => {
-		if (props.coords !== null) {
-			// console.log(props.coords.latitude);
-			// setLat(props.coords.latitude);
-			// setLng(props.coords.longitude);
+        if (props.coords !== null) {
+            var coordinates = document.getElementById('coordinates');
+			
 			if (map.current) return; // initialize map only once
 			map.current = new mapboxgl.Map({
 				container: mapContainer.current,
@@ -47,10 +46,27 @@ function SearchBar(props) {
 				zoom: zoom,
 			});
 			var marker = new mapboxgl.Marker({
-				color: "red",
+                color: "red",
+                draggable: true,
 			})
 				.setLngLat([lng, lat])
-				.addTo(map.current);
+                .addTo(map.current);
+            
+            function onDragEnd() {
+                var lngLat = marker.getLngLat();
+                coordinates.style.display = 'block';
+                setLat(lngLat.lat);
+                setLng(lngLat.lng);
+                let to = [73.0206934, 19.0295309];
+                let from = [lngLat.lng, lngLat.lat];
+                var distanceCal = distance(to, from, options);
+                console.log("distance", distanceCal.toFixed(2), "km");
+                setCalculatedDis(distanceCal.toFixed(2));
+                coordinates.innerHTML =
+                'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
+            }
+                
+            marker.on('dragend', onDragEnd);
 			var greenMarker = new mapboxgl.Marker({
 				color: "green",
 			})
@@ -111,7 +127,8 @@ function SearchBar(props) {
 				<ModalBody>
 					<div>
 						<div ref={mapContainer} className="map-container"></div>
-						<div className="distance-text">{calculatedDis} KM</div>
+                        <div className="distance-text">{calculatedDis} KM</div>
+                        <pre id="coordinates" class="coordinates"></pre>
 					</div>
 				</ModalBody>
 			</Modal>

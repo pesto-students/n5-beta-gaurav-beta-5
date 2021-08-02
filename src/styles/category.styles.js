@@ -10,6 +10,11 @@ export const CategoryContainer = styled.div`
 			margin-top: 40px;
 		} */
 	}
+    .category-selector-container {
+        min-height: 100vh;
+        position: relative;
+    }
+    
 `;
 
 export const CategoryBanner = styled.div`
@@ -134,3 +139,29 @@ export const CategoryProductSlider = styled.div`
 		margin: 0px 0;
 	}
 `;
+
+export const CategoryBtn = styled.div`
+	width: 100%;
+	text-align: center;
+	font-size: 24px;
+	color: #7a7a7a;
+	padding: 20px;
+	font-weight: bold;
+    background-color: #f5f5f5;
+    margin: 10px 0;
+`;
+
+export const ModalClose = styled.div`
+	width: 100%;
+	text-align: right;
+    font-size: 43px;
+    color: #000;
+    position: absolute;
+    top: 6%;
+    z-index: 10;
+    right: 20px;
+    .close-icon{
+        font-size: 1em;
+    }
+`;
+
