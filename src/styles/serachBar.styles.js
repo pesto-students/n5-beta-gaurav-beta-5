@@ -6,6 +6,9 @@ export const SearchBarDiv = styled.div`
 	min-height: 61px;
 	background-color: #000;
 	text-align: left;
+	position: sticky;
+	top: 40px;
+	z-index: 3;
 	.modal-body {
 		width: 30%;
 		min-height: 200px;
@@ -91,5 +94,17 @@ export const SearchByLocation = styled.div`
 		top: 5px;
 		margin-right: 5px;
 		left: -5px;
+	}
+`;
+
+export const HamburgerMenu = styled.div`
+	display: inline-block;
+	width: 20%;
+	text-align: left;
+	color: white;
+	.menu {
+		font-size: 35px;
+		position: relative;
+		top: 10px;
 	}
 `;

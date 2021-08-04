@@ -12,7 +12,7 @@ export const HeaderDiv = styled.div`
 export const FreeShippingDiv = styled.div`
 	display: inline-block;
 	margin-top: 10px;
-	width: 20%;
+	width: ${(props) => (props.isSmall ? "60%" : "20%")};
 `;
 
 export const FreeShippingIcon = styled.span`
@@ -38,7 +38,7 @@ export const SameDayDiv = styled.span`
 
 export const HeaderLinksDiv = styled.div`
 	display: inline-block;
-	width: 20%;
+	width: ${(props) => (props.isSmall ? "40%" : "20%")};
 	color: #595959;
 	text-align: right;
 `;

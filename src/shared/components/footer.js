@@ -13,27 +13,29 @@ import {
 	FooterLink,
 } from "../../styles/footer.styles";
 import { Container, Grid } from "@material-ui/core";
-import { useTheme } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Facebook, Instagram, Twitter } from "@material-ui/icons";
 function Footer() {
-    const theme = useTheme();
-    const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+	const theme = useTheme();
+	const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
 	return (
 		<FooterContainer>
 			<Container>
 				<FooterTitle>Want updates from stores near you?</FooterTitle>
 				<FooterSubscribeContainer>
-					<FooterSubscribeInput />
-					<FooterSubscribeBtn>Subscribe</FooterSubscribeBtn>
+					<FooterSubscribeInput isSmall={isSmall} />
+					<FooterSubscribeBtn isSmall={isSmall}>
+						Subscribe
+					</FooterSubscribeBtn>
 				</FooterSubscribeContainer>
 				<Grid
 					container
 					direction="row"
 					justifyContent="center"
 					alignItems="center"
-                    spacing={ isSmall? 0: 7}
+					spacing={isSmall ? 0 : 7}
 					className="footer-links"
 				>
 					<Grid item lg xs="12">

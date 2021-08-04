@@ -59,6 +59,7 @@ function AddressMgmt() {
 											className="text-field"
 											label="Full Name (First & Last name)"
 											type="text"
+											required
 											InputLabelProps={{
 												shrink: true,
 											}}
@@ -68,6 +69,7 @@ function AddressMgmt() {
 											className="text-field"
 											label="Country/Region"
 											type="text"
+											required
 											InputLabelProps={{
 												shrink: true,
 											}}
@@ -77,6 +79,7 @@ function AddressMgmt() {
 											className="text-field"
 											label="Street Address"
 											type="text"
+											required
 											InputLabelProps={{
 												shrink: true,
 											}}
@@ -88,6 +91,7 @@ function AddressMgmt() {
 											className="text-field"
 											label="City"
 											type="text"
+											required
 											InputLabelProps={{
 												shrink: true,
 											}}
@@ -97,6 +101,7 @@ function AddressMgmt() {
 											className="text-field"
 											label="State"
 											type="text"
+											required
 											InputLabelProps={{
 												shrink: true,
 											}}
@@ -106,6 +111,7 @@ function AddressMgmt() {
 											className="text-field"
 											label="PIN Code"
 											type="text"
+											required
 											InputLabelProps={{
 												shrink: true,
 											}}

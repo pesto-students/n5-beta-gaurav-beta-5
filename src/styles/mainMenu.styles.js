@@ -3,14 +3,18 @@ import styled from "styled-components";
 export const MainMenuContainer = styled.div`
 	width: 100%;
 	text-align: left;
-	margin: 20px 0;
+	margin: ${(props) => (props.isSmall ? "10px 0 0 0" : "20px 0")};
 	min-height: 50px;
+	position: sticky;
+	top: 0px;
+	z-index: 3;
+	background-color: white;
 `;
 
 export const Logo = styled.div`
 	font-size: 24px;
 	font-family: Futura-Bold;
-	width: 60%;
+	width: ${(props) => (props.isSmall ? "40%" : "60%")};
 	display: inline-block;
 	cursor: pointer;
 `;
@@ -36,7 +40,7 @@ export const MenuItem = styled.a`
 `;
 
 export const IconsMenuDiv = styled.div`
-	width: 20%;
+	width: ${(props) => (props.isSmall ? "60%" : "20%")};
 	display: inline-block;
 	text-align: right;
 `;
