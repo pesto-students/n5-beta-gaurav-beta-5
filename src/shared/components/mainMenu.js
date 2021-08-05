@@ -11,6 +11,7 @@ import {
 import Container from "@material-ui/core/Container";
 import { ShoppingCartOutlined, PersonOutlined } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
+// import logImg from "../../assets/images/E-Life_logo.png";
 function MainMenu() {
 	const history = useHistory();
 	const handleClick = (route) => {
@@ -19,21 +20,31 @@ function MainMenu() {
 	return (
 		<MainMenuContainer>
 			<Container>
-				<Logo onClick={() => handleClick("/")}>E-Life.</Logo>
+				<Logo onClick={() => handleClick("/")}>
+					{/* <img src={logImg} /> */}
+					E-Life
+				</Logo>
+
 				<Menu>
 					<MenuItem onClick={() => handleClick("/")}>Home</MenuItem>
 					<MenuItem onClick={() => handleClick("/categories")}>
 						Catagories
 					</MenuItem>
-					<MenuItem>Orders</MenuItem>
+					<MenuItem onClick={() => handleClick("/orders")}>
+						Orders
+					</MenuItem>
 				</Menu>
 				<IconsMenuDiv>
 					<IconMenuItem>
-						<PersonOutlined />
+						<PersonOutlined
+							onClick={() => handleClick("/signin")}
+						/>
 						<IconMenuText>Hello Omkar</IconMenuText>
 					</IconMenuItem>
 					<IconMenuItem>
-						<ShoppingCartOutlined />
+						<ShoppingCartOutlined
+							onClick={() => handleClick("/cart")}
+						/>
 					</IconMenuItem>
 				</IconsMenuDiv>
 			</Container>
