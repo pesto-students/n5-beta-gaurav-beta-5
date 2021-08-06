@@ -250,11 +250,22 @@ function MakePayment() {
 									DELIVERY ADDRESS
 								</h3>
 								<hr />
-								<Typography className="semiBold address">
-									Omkar Kamble 506 Abc CHS, Plot 123, Sector
+								<Typography className="default-font address">
+									Omkar Kamale 506 Abc CHS, Plot 123, Sector
 									19, Nerul Navi, Mumbai Maharashtra 400706
 									India
 								</Typography>
+								<Box pb={4}>
+									<Button
+										variant="contained"
+										className="address-change"
+										onClick={() =>
+											handleClick("/address-management")
+										}
+									>
+										ADD/EDIT ADDRESS
+									</Button>
+								</Box>
 							</Box>
 						</Paper>
 					</Grid>

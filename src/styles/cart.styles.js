@@ -26,11 +26,13 @@ export const CartContainer = styled.div`
 		font-family: ${fontFamily};
 	}
 	.semiBold {
-		font-family: Futura-SemiBold;
+		font-family: inherit;
+		font-weight: bold;
 	}
 	.productName {
-		font-family: Futura-SemiBold;
+		font-weight: bold;
 		font-size: 14px;
+		font-family: inherit;
 	}
 	.productStock {
 		font-family: ${fontFamily};
@@ -101,6 +103,7 @@ export const CartContainer = styled.div`
 	.deletelink {
 		margin-left: 10px;
 	}
+
 	.submit-change {
 		background-color: #ffd814;
 		display: inline-block;
@@ -116,8 +119,18 @@ export const CartContainer = styled.div`
 		&:hover {
 			background-color: #f8dc4d;
 		}
+		font-family: inherit;
+		border-radius: 0;
+	}
+
+	.address-change {
+		background-color: #ffd814;
+		border-radius: 0;
+		font-family: inherit;
 	}
 	.ctn-shopping-btn {
 		background-color: #ffa41c;
+		border-radius: 0;
+		font-family: inherit;
 	}
 `;

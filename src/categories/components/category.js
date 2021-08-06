@@ -21,7 +21,7 @@ import { Container, Grid, Hidden, Modal, Box } from "@material-ui/core";
 import ProductCard from "../../shared/components/productCard";
 import LocalGlobalSwitch from "../../shared/components/localGlobalSwitch";
 import { useHistory } from "react-router-dom";
-import CategorySelection from "./categorySelection";
+import CategorySelection from "../../shared/components/categorySelection";
 import CloseIcon from "@material-ui/icons/Close";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";

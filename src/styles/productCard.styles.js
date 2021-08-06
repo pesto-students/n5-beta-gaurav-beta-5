@@ -12,6 +12,7 @@ export const ProductCardContainer = styled.div`
 	}
 	@media only screen and (max-width: 600px) {
 		margin-bottom: 15px;
+		max-width: 100%;
 	}
 `;
 

@@ -1,7 +1,8 @@
 import React from "react";
 import { ProductsContainer } from "../../styles/products.styles";
-import { Container, Grid } from "@material-ui/core";
+import { Container, Grid, Hidden, Modal, Box } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import CloseIcon from "@material-ui/icons/Close";
 import {
 	CategoryBanner,
 	CategoryBannerLink,
@@ -14,43 +15,54 @@ import {
 	CategoryProductSlider,
 	CategorySelectContainer,
 	CategoryBannerText,
+	CategoryBtn,
+	ModalClose,
 } from "../../styles/category.styles";
 import ProductCard from "../../shared/components/productCard";
 import LocalGlobalSwitch from "../../shared/components/localGlobalSwitch";
+import CategorySelection from "../../shared/components/categorySelection";
 function Products() {
 	const history = useHistory();
+	const [open, setOpen] = React.useState(false);
 	const handleClick = (route) => {
 		history.push(route);
+	};
+	const handleOpen = () => {
+		setOpen(true);
+	};
+	const handleClose = () => {
+		setOpen(false);
 	};
 	return (
 		<ProductsContainer>
 			<Container maxWidth={false} className="category-content">
 				<Grid container spacing="5" alignItems="stretch">
-					<Grid item lg="3">
-						<CategorySelectContainer className="category-selector-container">
-							<CategoryListTitle>
-								Clocks
-								<CategoryList>Wall Clocks</CategoryList>
-								<CategoryList>Alarm Clocks</CategoryList>
-								<CategoryList>Ethnic Clocks</CategoryList>
-								<CategoryList>Digital Clocks</CategoryList>
-							</CategoryListTitle>
-							<CategoryListTitle>
-								Clocks
-								<CategoryList>Wall Clocks</CategoryList>
-								<CategoryList>Alarm Clocks</CategoryList>
-								<CategoryList>Ethnic Clocks</CategoryList>
-								<CategoryList>Digital Clocks</CategoryList>
-							</CategoryListTitle>
-							<CategoryListTitle>
-								Clocks
-								<CategoryList>Wall Clocks</CategoryList>
-								<CategoryList>Alarm Clocks</CategoryList>
-								<CategoryList>Ethnic Clocks</CategoryList>
-								<CategoryList>Digital Clocks</CategoryList>
-							</CategoryListTitle>
-						</CategorySelectContainer>
-					</Grid>
+					<Hidden smDown>
+						<Grid item lg="3">
+							<CategorySelection />
+						</Grid>
+					</Hidden>
+					<Hidden smUp>
+						<Grid item xs="12">
+							<CategoryBtn onClick={handleOpen}>
+								Select Categories
+							</CategoryBtn>
+							<Modal
+								open={open}
+								onClose={handleClose}
+								disablePortal={true}
+								keepMounted={true}
+								maxWidth="sm"
+							>
+								<Box>
+									<ModalClose onClick={() => setOpen(false)}>
+										<CloseIcon className="close-icon" />
+									</ModalClose>
+									<CategorySelection />
+								</Box>
+							</Modal>
+						</Grid>
+					</Hidden>
 					<Grid item lg="9" xs="12">
 						<LocalGlobalSwitch />
 						<Container maxWidth={false}>

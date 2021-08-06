@@ -15,10 +15,12 @@ export const OrderContainer = styled.div`
 		font-family: ${fontFamily};
 	}
 	.semiBold {
-		font-family: Futura-SemiBold;
+		font-family: inherit;
+		font-weight: bold;
 	}
 	.productName {
-		font-family: Futura-SemiBold;
+		font-weight: bold;
+		font-family: inherit;
 		font-size: 14px;
 	}
 
@@ -90,8 +92,12 @@ export const OrderContainer = styled.div`
 		&:hover {
 			background-color: #f8dc4d;
 		}
+		font-family: inherit;
+		border-radius: 0;
 	}
 	.ctn-shopping-btn {
 		background-color: #ffa41c;
+		font-family: inherit;
+		border-radius: 0;
 	}
 `;

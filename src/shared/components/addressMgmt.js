@@ -5,7 +5,12 @@ import {
 	SelectAddressContainer,
 } from "../../styles/addressMgmt.styles";
 import { Container, Grid, TextField } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 function AddressMgmt() {
+	const history = useHistory();
+	const handleClick = (route) => {
+		history.push(route);
+	};
 	return (
 		<AddressMgmtContainer>
 			<Container>
@@ -26,7 +31,10 @@ function AddressMgmt() {
 								506 Abc CHS, Plot 123, Sector 19, Nerul, Navi
 								Mumbai Maharashtra, 400706 India
 							</p>
-							<button className="delivery-address-btn">
+							<button
+								className="delivery-address-btn"
+								onClick={() => handleClick("/makepayment")}
+							>
 								Deliver to this address
 							</button>
 							<button className="sub-btn first">Edit</button>
@@ -38,7 +46,10 @@ function AddressMgmt() {
 								506 Abc CHS, Plot 123, Sector 19, Nerul, Navi
 								Mumbai Maharashtra, 400706 India
 							</p>
-							<button className="delivery-address-btn">
+							<button
+								className="delivery-address-btn"
+								onClick={() => handleClick("/makepayment")}
+							>
 								Deliver to this address
 							</button>
 							<button className="sub-btn first">Edit</button>
