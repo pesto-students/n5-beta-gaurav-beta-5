@@ -35,9 +35,7 @@ function MainMenu() {
 						<MenuItem onClick={() => handleClick("/categories")}>
 							Catagories
 						</MenuItem>
-						<MenuItem
-							onClick={() => handleClick("/address-management")}
-						>
+						<MenuItem onClick={() => handleClick("/orders")}>
 							Orders
 						</MenuItem>
 					</Menu>
@@ -45,9 +43,7 @@ function MainMenu() {
 
 				<IconsMenuDiv isSmall={isSmall}>
 					<Hidden smDown>
-						<IconMenuItem
-							onClick={() => handleClick("/user-profile")}
-						>
+						<IconMenuItem onClick={() => handleClick("/signin")}>
 							<PersonOutlined />
 							<IconMenuText>Hello Omkar</IconMenuText>
 						</IconMenuItem>
@@ -56,7 +52,9 @@ function MainMenu() {
 						<LocationService isSmall={isSmall} />
 					</Hidden>
 					<IconMenuItem>
-						<ShoppingCartOutlined />
+						<ShoppingCartOutlined
+							onClick={() => handleClick("/cart")}
+						/>
 					</IconMenuItem>
 				</IconsMenuDiv>
 			</Container>
