@@ -27,4 +27,7 @@ export const LocalGlobalSwitchBtn = styled.div`
 		color: white;
 		border: 2px solid #303030;
 	}
+	@media only screen and (max-width: 600px) {
+		margin: 0;
+	}
 `;

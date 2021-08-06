@@ -10,11 +10,10 @@ export const CategoryContainer = styled.div`
 			margin-top: 40px;
 		} */
 	}
-    .category-selector-container {
-        min-height: 100vh;
-        position: relative;
-    }
-    
+	.category-selector-container {
+		min-height: 100vh;
+		position: relative;
+	}
 `;
 
 export const CategoryBanner = styled.div`
@@ -42,19 +41,19 @@ export const CategoryBannerText = styled.div`
 `;
 
 export const CategoryBannerTitle = styled.div`
-	width: 40%;
+	width: ${(props) => (props.theme.isSmall ? "80%" : "40%")};
 	text-align: center;
-	margin: 90px auto;
+	margin: ${(props) => (props.theme.isSmall ? "40px auto" : "90px auto")};
 	color: white;
 	padding: 15px 20px;
-	font-size: 48px;
+	font-size: ${(props) => (props.theme.isSmall ? "28px" : "48px")};
 	font-weight: bold;
 	background-color: rgba(0, 0, 0, 0.5);
 	display: inline-block;
 `;
 
 export const CategoryBannerLinksContainer = styled.div`
-	width: 40%;
+	width: ${(props) => (props.theme.isSmall ? "80%" : "40%")};
 	text-align: center;
 	margin: 20px auto;
 	color: white;
@@ -80,8 +79,17 @@ export const CategoryBannerLink = styled.a`
 	}
 	&.active,
 	:hover {
-		color: #0088b4;
-		border-bottom: 1px solid #0088b4;
+		background-color: #33333390;
+		color: white;
+	}
+	@media only screen and (max-width: 600px) {
+		border: none;
+		display: block;
+		&.active,
+		:hover {
+			background-color: #33333390;
+			color: white;
+		}
 	}
 `;
 
@@ -147,21 +155,20 @@ export const CategoryBtn = styled.div`
 	color: #7a7a7a;
 	padding: 20px;
 	font-weight: bold;
-    background-color: #f5f5f5;
-    margin: 10px 0;
+	background-color: #f5f5f5;
+	margin: 10px 0;
 `;
 
 export const ModalClose = styled.div`
 	width: 100%;
 	text-align: right;
-    font-size: 43px;
-    color: #000;
-    position: absolute;
-    top: 6%;
-    z-index: 10;
-    right: 20px;
-    .close-icon{
-        font-size: 1em;
-    }
+	font-size: 43px;
+	color: #000;
+	position: absolute;
+	top: 6%;
+	z-index: 10;
+	right: 20px;
+	.close-icon {
+		font-size: 1em;
+	}
 `;
-

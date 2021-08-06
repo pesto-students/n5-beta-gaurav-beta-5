@@ -22,6 +22,10 @@ export const ProductImage = styled.img`
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;
+	@media only screen and (max-width: 768px) {
+		width: auto;
+		min-height: 300px;
+	}
 `;
 
 export const ProductImageUl = styled.ul`
@@ -100,7 +104,6 @@ export const ProductPriceValue = styled.span`
 export const ProductAddContainer = styled.div`
 	display: inline-block;
 	padding: 10px;
-
 	.qty-dropdown {
 		display: inline-block;
 		.select-menu {
@@ -109,6 +112,9 @@ export const ProductAddContainer = styled.div`
 				padding-bottom: 10px;
 			}
 		}
+	}
+	@media only screen and (max-width: 768px) {
+		width: 100%;
 	}
 `;
 
@@ -127,6 +133,10 @@ export const ProductBtn = styled.div`
 	margin-bottom: 15px;
 	width: 130px;
 	font-weight: bold;
+	@media only screen and (max-width: 768px) {
+		width: 100%;
+		margin-bottom: 15px;
+	}
 `;
 
 export const ProductInStock = styled.div`

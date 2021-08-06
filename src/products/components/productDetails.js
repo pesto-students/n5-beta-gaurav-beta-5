@@ -56,7 +56,7 @@ function ProductDetails() {
 							xs="12"
 							className="price-container"
 						>
-							<Grid item lg="8">
+							<Grid item lg="8" xs="12">
 								<ProductPriceContainer>
 									<Box className="price-box">
 										<ProductPriceKey>MRP:</ProductPriceKey>
@@ -96,11 +96,10 @@ function ProductDetails() {
 									</Box>
 								</ProductPriceContainer>
 							</Grid>
-							<Grid item lg="4">
+							<Grid item lg="4" xs="12">
 								<ProductAddContainer>
 									<Box>
 										<ProductQtyLabel>Qty:</ProductQtyLabel>
-
 										<FormControl
 											variant="outlined"
 											className="qty-dropdown"

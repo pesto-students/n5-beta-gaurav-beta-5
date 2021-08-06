@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const ProductCardContainer = styled.div`
 	color: black;
-
 	box-shadow: 0px 2px 5px rgb(0 0 0 / 20%);
 	display: inline-block;
 	background: white;
@@ -10,6 +9,9 @@ export const ProductCardContainer = styled.div`
 	max-width: 265px;
 	.title {
 		cursor: pointer;
+	}
+	@media only screen and (max-width: 600px) {
+		margin-bottom: 15px;
 	}
 `;
 
