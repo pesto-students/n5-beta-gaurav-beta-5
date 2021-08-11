@@ -13,6 +13,7 @@ import distance from "@turf/distance";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import { SearchByLocation } from "../../styles/serachBar.styles";
 mapboxgl.accessToken =
 	"pk.eyJ1Ijoib21rYXJrYW1hbGUwMDEiLCJhIjoiY2tydGlsN3YzMWdqajJ1cGZ0b3BrYTJrMSJ9.VzUJw-oFBbvvyZ-XmuOWyA";
 
@@ -109,6 +110,10 @@ function LocationService(props) {
 		}
 	}, [mapContainer, map, lat, lng]);
 
+	const searchLocation = (e) => {
+		console.log(e.target.value);
+	};
+
 	return (
 		<>
 			<LocationServiceContainer isSmall={isSmall}>
@@ -123,13 +128,20 @@ function LocationService(props) {
 					keepMounted={true}
 				>
 					<ModalBody isSmall={isSmall}>
-						<div>
+						<div className="modal-body-div">
 							<div
 								ref={mapContainer}
 								className="map-container"
 							></div>
 							<div className="distance-text">
 								{calculatedDis} KM
+							</div>
+							<div className="search-location">
+								<input
+									type="text"
+									placeholder="Search Location"
+									onChange={(e) => searchLocation(e)}
+								/>
 							</div>
 							<pre id="coordinates" class="coordinates"></pre>
 						</div>

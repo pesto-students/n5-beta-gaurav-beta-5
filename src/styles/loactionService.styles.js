@@ -31,6 +31,13 @@ export const ModalBody = styled.div`
 	.distance-text {
 		text-align: center;
 		padding: 10px;
-		color: black;
+		color: white;
+	}
+	.modal-body-div {
+		background-color: black;
+		color: white;
+	}
+	.search-location {
+		text-align: center;
 	}
 `;

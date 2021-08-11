@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Spinner } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { actionCreators } from "../../state";
+import { authActions } from "../../state";
 import { Loader } from "../../styles/loader.styles";
 import { Grid, TextField, Button, Container } from "@material-ui/core";
 import { AuthContainer } from "../../styles/auth.styles";
@@ -10,8 +10,27 @@ import { useHistory } from "react-router-dom";
 
 function Signin() {
 	const history = useHistory();
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
 	const handleClick = (route) => {
 		history.push(route);
+	};
+	const { session, isLoading } = useSelector((state) => state.auth);
+	const dispatch = useDispatch();
+	const { signIn } = bindActionCreators(authActions, dispatch);
+	useEffect(() => {}, []);
+
+	useEffect(() => {
+		console.log("session", session);
+		if (session !== null && session.sessionToken && isLoading == false)
+			history.push("/");
+	}, [session]);
+
+	const userLogin = () => {
+		console.log(username, password, "login details");
+		signIn({ username, password });
+		if (session !== null && session.sessionToken && isLoading == false)
+			history.push("/");
 	};
 	return (
 		<AuthContainer>
@@ -28,6 +47,7 @@ function Signin() {
 							className="text-field"
 							label="Email or Mobile number"
 							type="text"
+							onChange={(e) => setUsername(e.target.value)}
 							InputLabelProps={{
 								shrink: true,
 							}}
@@ -41,6 +61,7 @@ function Signin() {
 							className="text-field"
 							label="Password"
 							type="password"
+							onChange={(e) => setPassword(e.target.value)}
 							InputLabelProps={{
 								shrink: true,
 							}}
@@ -73,7 +94,12 @@ function Signin() {
 					</Grid>
 				</Grid>
 				<Grid container justify="center" style={{ marginTop: "10px" }}>
-					<Button variant="contained" className="submit-change">
+					<Button
+						variant="contained"
+						className="submit-change"
+						disabled={isLoading}
+						onClick={() => userLogin()}
+					>
 						Login
 					</Button>
 				</Grid>
