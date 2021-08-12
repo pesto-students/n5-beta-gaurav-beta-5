@@ -9,6 +9,9 @@ import {
 	RESET_PASSWORD,
 	RESET_PASSWORD_SUCCESS,
 	RESET_PASSWORD_FAILED,
+	UPDATE_USER_INFO,
+	UPDATE_USER_INFO_SUCCESS,
+	UPDATE_USER_INFO_FAILED,
 } from "../../constants/actionType";
 
 export const signIn = (payload) => ({
@@ -53,6 +56,21 @@ export const resetPasswordSuccess = (payload) => ({
 
 export const resetPasswordFailed = (payload) => ({
 	type: RESET_PASSWORD_FAILED,
+	payload,
+});
+
+export const updateUserInfo = (payload) => ({
+	type: UPDATE_USER_INFO,
+	payload,
+});
+
+export const updateUserInfoSuccess = (payload) => ({
+	type: UPDATE_USER_INFO_SUCCESS,
+	payload,
+});
+
+export const updateUserInfoFailed = (payload) => ({
+	type: UPDATE_USER_INFO_FAILED,
 	payload,
 });
 

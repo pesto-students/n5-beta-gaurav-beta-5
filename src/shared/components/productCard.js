@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
 	ProductCardContainer,
 	ProductCardImg,
@@ -12,29 +12,35 @@ import {
 	ProductCardAddToCart,
 } from "../../styles/productCard.styles";
 import imgClock from "../../assets/images/clock.jpg";
-function ProductCard(props) {
+function ProductCard({ handleClick, product }) {
+	// const { url } = product.image1;
+	const image = { ...product["image1"] };
+	useEffect(() => {
+		console.log("product Card", image.url);
+	}, []);
 	return (
-		<ProductCardContainer
-			onClick={() =>
-				props.handleClick("/categories/products/product-details")
-			}
-		>
-			<ProductCardImg src={imgClock} />
-			<ProductCardTitle>
-				Solimo 12-inch Wall Clock - Classic Roulette....
-			</ProductCardTitle>
-			<ProductCardVendorSection>
-				<ProductCardVendorName>Vendor:</ProductCardVendorName>
-				<ProductCardVendorLocation>
-					Delux Store (5 km)
-				</ProductCardVendorLocation>
-			</ProductCardVendorSection>
-			<ProductCardPriceSection>
-				<ProductCardMrp>₹50.00</ProductCardMrp>
-				<ProductCardPrice>₹29.00</ProductCardPrice>
-			</ProductCardPriceSection>
-			<ProductCardAddToCart>Add to cart</ProductCardAddToCart>
-		</ProductCardContainer>
+		product &&
+		handleClick && (
+			<ProductCardContainer
+				onClick={() =>
+					handleClick("/categories/products/product-details")
+				}
+			>
+				<ProductCardImg src={image.url} title={image.name} />
+				<ProductCardTitle>{product.name}</ProductCardTitle>
+				<ProductCardVendorSection>
+					<ProductCardVendorName>Vendor:</ProductCardVendorName>
+					<ProductCardVendorLocation>
+						Delux Store (5 km)
+					</ProductCardVendorLocation>
+				</ProductCardVendorSection>
+				<ProductCardPriceSection>
+					<ProductCardMrp>MRP: ₹{product.mrp}</ProductCardMrp>
+					<ProductCardPrice>Price: ₹{product.price}</ProductCardPrice>
+				</ProductCardPriceSection>
+				<ProductCardAddToCart>Add to cart</ProductCardAddToCart>
+			</ProductCardContainer>
+		)
 	);
 }
 

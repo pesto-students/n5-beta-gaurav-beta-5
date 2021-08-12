@@ -104,6 +104,29 @@ export const CategorySelectContainer = styled.div`
 	}
 `;
 
+export const CategorySkeletonLoader = styled.div`
+	margin-bottom: 15px;
+	width: 100%;
+	height: 10px;
+	display: block;
+	background: linear-gradient(
+			to right,
+			rgba(255, 255, 255, 0),
+			rgba(255, 255, 255, 0.5) 50%,
+			rgba(255, 255, 255, 0) 80%
+		),
+		lightgray;
+	background-repeat: repeat-y;
+	background-size: 50px 500px;
+	background-position: 0 0;
+	animation: shine 1s infinite;
+	@keyframes shine {
+		to {
+			background-position: 100% 0;
+		}
+	}
+`;
+
 export const CategoryListTitle = styled.ul`
 	margin: 0;
 	padding: 0;

@@ -52,4 +52,11 @@ export const AuthContainer = styled.div`
 		color: #9e1b1b;
 		font-weight: 500;
 	}
+	.dialog-email-sent {
+		h2,
+		p,
+		button {
+			font-family: inherit;
+		}
+	}
 `;

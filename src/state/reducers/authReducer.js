@@ -9,6 +9,9 @@ import {
 	RESET_PASSWORD,
 	RESET_PASSWORD_SUCCESS,
 	RESET_PASSWORD_FAILED,
+	UPDATE_USER_INFO,
+	UPDATE_USER_INFO_SUCCESS,
+	UPDATE_USER_INFO_FAILED,
 } from "../../constants/actionType";
 
 let initialState = {
@@ -21,7 +24,8 @@ let initialState = {
 		localStorage.getItem("signUpSession") !== null
 			? JSON.parse(localStorage.getItem("signUpSession"))
 			: null,
-	resetPassword: null,
+	resetPasswordState: null,
+	userUpdate: null,
 	error: null,
 };
 
@@ -55,11 +59,24 @@ const reducer = (state = initialState, action) => {
 		case RESET_PASSWORD_SUCCESS:
 			return {
 				...state,
-				resetPassword: action.payload,
+				resetPasswordState: action.payload,
 				isLoading: false,
 			};
 			break;
 		case RESET_PASSWORD_FAILED:
+			return { ...state, error: action.payload, isLoading: false };
+			break;
+		case UPDATE_USER_INFO:
+			return { ...state, isLoading: true };
+			break;
+		case UPDATE_USER_INFO_SUCCESS:
+			return {
+				...state,
+				userUpdate: action.payload,
+				isLoading: false,
+			};
+			break;
+		case UPDATE_USER_INFO_FAILED:
 			return { ...state, error: action.payload, isLoading: false };
 			break;
 		case CLEAR_SESSION:

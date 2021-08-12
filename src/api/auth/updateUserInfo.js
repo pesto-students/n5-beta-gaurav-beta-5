@@ -1,14 +1,15 @@
 import { appId, restKey, serverUrl } from "../../shared/api/config";
 
-export async function userUpdateAPI({ payload }) {
+export async function updateUserInfoApi({ payload }) {
 	try {
-		const url = serverUrl + "login";
+		const url = `${serverUrl}users/${payload.objectId}`;
 		const body = {
 			username: payload.username,
-			password: payload.password,
+			email: payload.email,
+			phone: payload.phone,
 		};
 
-		const signInDataResponse = await fetch(url, {
+		const updateUserInfoDataResponse = await fetch(url, {
 			method: "POST",
 			headers: {
 				"X-Parse-Application-Id": appId,
@@ -17,7 +18,7 @@ export async function userUpdateAPI({ payload }) {
 			},
 			body: JSON.stringify(body),
 		});
-		return await signInDataResponse.json();
+		return await updateUserInfoDataResponse.json();
 	} catch (errors) {
 		return errors;
 	}

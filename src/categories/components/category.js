@@ -26,11 +26,43 @@ import CloseIcon from "@material-ui/icons/Close";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ThemeProvider } from "styled-components";
+import { useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { productsAction } from "../../state";
+
 function Category() {
 	const themeMat = useTheme();
 	const isSmall = useMediaQuery(themeMat.breakpoints.down("sm"));
 	const history = useHistory();
 	const [open, setOpen] = React.useState(false);
+	const [objId, setObjId] = React.useState("Btffw23eE4");
+	const [productListState, setProductListState] = useState([]);
+	const search = useLocation().search;
+	const id = new URLSearchParams(search).get("id");
+
+	const { productList, product, isLoading } = useSelector(
+		(state) => state.products
+	);
+	const dispatch = useDispatch();
+	const { getProducts, setProduct } = bindActionCreators(
+		productsAction,
+		dispatch
+	);
+
+	useEffect(() => {
+		if (id && id !== null) {
+			getProducts({ body: { categoryId: id }, type: "category" });
+		}
+		getProducts({ body: { categoryId: objId }, type: "category" });
+	}, []);
+
+	useEffect(() => {
+		console.log("products", productList);
+		if (productList.result) setProductListState(productList.result);
+		console.log("productListState", productListState);
+	}, [productList]);
+
 	const handleClick = (route) => {
 		history.push(route);
 	};
@@ -99,20 +131,20 @@ function Category() {
 									alignContent="center"
 									className="product-grid"
 								>
-									<Grid lg="3" xs="12">
-										<ProductCard
-											handleClick={handleClick}
-										/>
-									</Grid>
-									<Grid lg="3" xs="12">
-										<ProductCard />
-									</Grid>
-									<Grid lg="3" xs="12">
-										<ProductCard />
-									</Grid>
-									<Grid lg="3" xs="12">
-										<ProductCard />
-									</Grid>
+									{productList.result !== undefined &&
+										productList.result.length > 0 &&
+										productList.result
+											.slice(0, 4)
+											.map((product) => (
+												<Grid lg="3" xs="12">
+													<ProductCard
+														handleClick={
+															handleClick
+														}
+														product={product}
+													/>
+												</Grid>
+											))}
 								</Grid>
 							</CategoryProductSlider>
 							<Grid lg="12">
