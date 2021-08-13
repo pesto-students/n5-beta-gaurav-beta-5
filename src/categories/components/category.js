@@ -127,13 +127,13 @@ function Category() {
 								<Grid
 									container
 									spacing="0"
-									alignItems="center"
+									alignItems="stretch"
 									alignContent="center"
 									className="product-grid"
 								>
-									{productList.result !== undefined &&
-										productList.result.length > 0 &&
-										productList.result
+									{productListState !== undefined &&
+										productListState.length > 0 &&
+										productListState
 											.slice(0, 4)
 											.map((product) => (
 												<Grid lg="3" xs="12">

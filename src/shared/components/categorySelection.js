@@ -7,7 +7,7 @@ import {
 } from "../../styles/category.styles";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { categoriesActions } from "../../state";
+import { categoriesActions, productsAction } from "../../state";
 import { useTheme } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -24,6 +24,7 @@ function CategorySelection() {
 		categoriesActions,
 		dispatch
 	);
+	const { getProducts } = bindActionCreators(productsAction, dispatch);
 
 	const { categories, subCategories, isLoading } = useSelector(
 		(state) => state.category
@@ -62,8 +63,13 @@ function CategorySelection() {
 		setCategoriesState(categoriesArray);
 	};
 
-	const handleClick = (route) => {
-		history.push(route);
+	const handleClick = (obj) => {
+		console.log("obj", obj);
+		getProducts({
+			body: { subCategoryId: obj.subCat.objectId },
+			type: "subCategory",
+		});
+		history.push(obj.route);
 	};
 
 	return (
@@ -130,7 +136,10 @@ function CategorySelection() {
 							{cat.subCat.map((subItem) => (
 								<CategoryList
 									onClick={() =>
-										handleClick("/categories/products")
+										handleClick({
+											route: `/categories/products?subCat=${subItem.objectId}`,
+											subCat: subItem,
+										})
 									}
 								>
 									{subItem.name}

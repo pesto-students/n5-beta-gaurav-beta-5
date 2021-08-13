@@ -14,7 +14,7 @@ export const ProductDetailsContainer = styled.div`
 `;
 
 export const ProductImage = styled.img`
-	width: 50%;
+	width: 70%;
 	display: block;
 	margin: 0 auto;
 	text-align: center;
@@ -33,6 +33,7 @@ export const ProductImageUl = styled.ul`
 	text-align: center;
 	margin: 0;
 	padding: 0;
+	margin-top: 10px;
 	//background-color: #f8f9fa;
 `;
 
@@ -45,10 +46,13 @@ export const ProductImageList = styled.li`
 	background-position: center;
 	list-style: none;
 	display: inline-block;
-	width: 100px;
-	height: 100px;
+	width: 60px;
+	height: 60px;
 	margin: 0 10px;
 	cursor: pointer;
+	&.active {
+		border: 2px solid #b12704;
+	}
 `;
 
 export const ProductTitleContainer = styled.div`
@@ -132,6 +136,7 @@ export const ProductBtn = styled.div`
 	text-transform: uppercase;
 	margin-bottom: 15px;
 	width: 130px;
+	cursor: pointer;
 	font-weight: bold;
 	@media only screen and (max-width: 768px) {
 		width: 100%;

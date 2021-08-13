@@ -8,7 +8,7 @@ import {
 	IconMenuItem,
 	IconMenuText,
 } from "../../styles/mainMenu.styles";
-import { Container, Hidden, Tooltip } from "@material-ui/core";
+import { Container, Hidden, Tooltip, Box } from "@material-ui/core";
 import {
 	ShoppingCartOutlined,
 	PersonOutlined,
@@ -21,6 +21,9 @@ import { bindActionCreators } from "redux";
 import { authActions } from "../../state";
 import LocationService from "./locationService";
 import { useSelector, useDispatch } from "react-redux";
+import { addToCartActions } from "../../state";
+import { useLocation } from "react-router-dom";
+
 function MainMenu() {
 	const theme = useTheme();
 	const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
@@ -32,6 +35,7 @@ function MainMenu() {
 	const { clearSession } = bindActionCreators(authActions, dispatch);
 	const [userSession, setUserSession] = useState();
 	const { session } = useSelector((state) => state.auth);
+	const { cart } = useSelector((state) => state.myCart);
 
 	useEffect(() => {
 		if (
@@ -54,6 +58,7 @@ function MainMenu() {
 
 	const logout = () => {
 		clearSession();
+		setUserSession(null);
 	};
 
 	return (
@@ -82,7 +87,9 @@ function MainMenu() {
 							<IconMenuItem onClick={() => handleUserIconClick()}>
 								<PersonOutlined />
 								<IconMenuText>
-									{userSession ? userSession.name : ""}
+									{userSession && userSession !== null
+										? userSession.name
+										: ""}
 								</IconMenuText>
 							</IconMenuItem>
 						</Tooltip>
@@ -92,9 +99,16 @@ function MainMenu() {
 					</Hidden>
 					<IconMenuItem>
 						<Tooltip title="Shopping Cart">
-							<ShoppingCartOutlined
-								onClick={() => handleClick("/cart")}
-							/>
+							<Box className="cart-icon">
+								<ShoppingCartOutlined
+									onClick={() => handleClick("/cart")}
+								/>
+								{cart && cart.length > 0 && (
+									<div className="cart-count">
+										{cart.length}
+									</div>
+								)}
+							</Box>
 						</Tooltip>
 					</IconMenuItem>
 					{session !== null && (

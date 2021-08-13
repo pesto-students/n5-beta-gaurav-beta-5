@@ -7,9 +7,23 @@ export const ProductCardContainer = styled.div`
 	background: white;
 	padding: 20px;
 	max-width: 265px;
+	cursor: pointer;
 	.title {
 		cursor: pointer;
 	}
+	@media only screen and (max-width: 600px) {
+		margin-bottom: 15px;
+		max-width: 100%;
+	}
+`;
+
+export const ProductCardSkeleton = styled.div`
+	box-shadow: 0px 2px 5px rgb(0 0 0 / 20%);
+	display: inline-block;
+	background: white;
+	padding: 20px;
+	width: 265px;
+	min-height: 345px;
 	@media only screen and (max-width: 600px) {
 		margin-bottom: 15px;
 		max-width: 100%;

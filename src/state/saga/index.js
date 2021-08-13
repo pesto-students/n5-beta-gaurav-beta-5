@@ -7,6 +7,7 @@ import updateUserInfoRootSaga from "./updateUserInfoSaga";
 import getCategoriesRootSaga from "./getCategoriesSaga";
 import getSubCategoriesRootSaga from "./getSubCategoriesSaga";
 import getProductsRootSaga from "./getProductsSaga";
+import addToCartRootSaga from "./addToCartSaga";
 
 export default function* () {
 	yield all([
@@ -17,5 +18,6 @@ export default function* () {
 		getCategoriesRootSaga(),
 		getSubCategoriesRootSaga(),
 		getProductsRootSaga(),
+		addToCartRootSaga(),
 	]);
 }

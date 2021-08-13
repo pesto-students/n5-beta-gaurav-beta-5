@@ -52,6 +52,23 @@ export const IconMenuItem = styled.div`
 	margin-left: 10px;
 	position: relative;
 	top: 5px;
+	.cart-icon {
+		position: relative;
+		.cart-count {
+			position: absolute;
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			color: black;
+			background-color: #ffd814;
+			top: -8px;
+			text-align: center;
+			padding: 4px;
+			font-size: 10px;
+			right: -10px;
+			font-weight: bold;
+		}
+	}
 `;
 
 export const IconMenuText = styled.span`
