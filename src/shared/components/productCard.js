@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	ProductCardContainer,
 	ProductCardImg,
@@ -17,15 +17,34 @@ import { bindActionCreators } from "redux";
 import { productsAction } from "../../state";
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { distanceApi } from "../../api/location/distanceApi";
 
 function ProductCard({ handleClick, product }) {
 	// const { url } = product.image1;
+	const [vendorDistance, setVendorDistance] = useState(undefined);
 	const image = { ...product["image1"] };
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const { setProduct } = bindActionCreators(productsAction, dispatch);
+	const { userSelectedLocation } = useSelector(
+		(state) => state.searchedLocation
+	);
 	useEffect(() => {
-		console.log("product Card", image.url);
+		if (
+			userSelectedLocation.center == undefined ||
+			product.vendorRef == undefined
+		)
+			return;
+		console.log("product Card", product, userSelectedLocation);
+		let vendorGeo = `${product.vendorRef.geoLocation.long},${product.vendorRef.geoLocation.lat}`;
+
+		let userGeo = `${userSelectedLocation.center[0]},${userSelectedLocation.center[1]}`;
+		let query = `${vendorGeo};${userGeo}`;
+		distanceApi(query).then((data) => {
+			console.log("distance", data);
+			let distance = data.waypoints[0].distance;
+			setVendorDistance(distance);
+		});
 	}, []);
 
 	const showProductDetails = () => {
@@ -49,12 +68,14 @@ function ProductCard({ handleClick, product }) {
 				<ProductCardTitle>
 					{truncate(product.name, 50)}
 				</ProductCardTitle>
-				<ProductCardVendorSection>
-					<ProductCardVendorName>Vendor:</ProductCardVendorName>
-					<ProductCardVendorLocation>
-						Delux Store (5 km)
-					</ProductCardVendorLocation>
-				</ProductCardVendorSection>
+				{product.vendorRef && (
+					<ProductCardVendorSection>
+						<ProductCardVendorName>Vendor:</ProductCardVendorName>
+						<ProductCardVendorLocation>
+							{product.vendorRef.name} ({vendorDistance} km)
+						</ProductCardVendorLocation>
+					</ProductCardVendorSection>
+				)}
 				<ProductCardPriceSection>
 					<ProductCardMrp>₹{product.mrp}</ProductCardMrp>
 					<ProductCardPrice> ₹{product.price}</ProductCardPrice>

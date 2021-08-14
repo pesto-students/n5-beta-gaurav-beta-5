@@ -1,24 +1,24 @@
 import React, { useRef, useEffect, useState } from "react";
 import { LocationServiceContainer } from "../../styles/loactionService.styles";
 import { ModalBody } from "../../styles/loactionService.styles.js";
-import Container from "@material-ui/core/Container";
+
 import { LocationOnOutlined } from "@material-ui/icons";
 import Modal from "@material-ui/core/Modal";
-import { geolocated } from "react-geolocated";
+
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import distance from "@turf/distance";
+
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import { SearchByLocation } from "../../styles/serachBar.styles";
-import { searchLocationApi } from "../../api/location/locationSearchApi";
+
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { locationSearchAction } from "../../state";
-mapboxgl.accessToken =
-	"pk.eyJ1Ijoib21rYXJrYW1hbGUwMDEiLCJhIjoiY2tydGlsN3YzMWdqajJ1cGZ0b3BrYTJrMSJ9.VzUJw-oFBbvvyZ-XmuOWyA";
+import { mapBoxApiKey } from "../api/config";
+
+mapboxgl.accessToken = mapBoxApiKey;
 
 function LocationService(props) {
 	const [open, setOpen] = React.useState(false);
@@ -53,8 +53,6 @@ function LocationService(props) {
 
 	useEffect(() => {
 		if (props.coords !== null) {
-			var coordinates = document.getElementById("coordinates");
-
 			if (map.current) return; // initialize map only once
 			map.current = new mapboxgl.Map({
 				container: mapContainer.current,
@@ -71,56 +69,14 @@ function LocationService(props) {
 			setMapMarker(marker);
 			console.log("updated lat long", lat, lng);
 			function onDragEnd() {
-				var lngLat = marker.getLngLat();
-				coordinates.style.display = "block";
+				const lngLat = marker.getLngLat();
 				setLat(lngLat.lat);
 				setLng(lngLat.lng);
-				let to = [73.0206934, 19.0295309];
-				let from = [lngLat.lng, lngLat.lat];
-				var distanceCal = distance(to, from, options);
-				console.log("distance", distanceCal.toFixed(2), "km");
-				setCalculatedDis(distanceCal.toFixed(2));
-				coordinates.innerHTML =
-					"Longitude: " +
-					lngLat.lng +
-					"<br />Latitude: " +
-					lngLat.lat;
+				console.log("lngLat", lngLat);
+				locationSearch({ query: `${lngLat.lng},${lngLat.lat}` });
+				setShowLocSearch(true);
 			}
-
 			marker.on("dragend", onDragEnd);
-			var greenMarker = new mapboxgl.Marker({
-				color: "green",
-			})
-				.setLngLat([73.0206934, 19.0295309])
-				.addTo(map.current);
-			var from = [lng, lat];
-			var to = [73.0206934, 19.0295309];
-			console.log("marker", map.current);
-			var options = {
-				units: "kilometers",
-			};
-			var distanceCal = distance(to, from, options);
-			console.log("distance", distanceCal.toFixed(2), "km");
-			setCalculatedDis(distanceCal.toFixed(2));
-			var geolocate = new mapboxgl.GeolocateControl({
-				positionOptions: {
-					enableHighAccuracy: true,
-				},
-				trackUserLocation: true,
-			});
-			const geocoder = new MapboxGeocoder({
-				accessToken: mapboxgl.accessToken,
-				mapboxgl: mapboxgl,
-			});
-			// Add the control to the map.
-			//map.current.addControl(geolocate);
-			map.current.addControl(geocoder);
-			// Set an event listener that fires
-			// when a geolocate event occurs.
-			geocoder.on("geocoder", function (e) {
-				console.log("A geocoder event has occurred.", e);
-			});
-
 			setMapObject(map.current);
 		}
 	}, [mapContainer, map, lat, lng]);
@@ -156,12 +112,17 @@ function LocationService(props) {
 		setInputValue(loc.place_name);
 	};
 
+	const truncate = (input, length) =>
+		input.length > length ? `${input.substring(0, length)}...` : input;
+
 	return (
 		<>
 			<LocationServiceContainer isSmall={isSmall}>
 				<div onClick={handleOpen} className="location-text">
 					<LocationOnOutlined className="location-icon" />
-					{"Stores all around"}
+					{userSelectedLocation.place_name
+						? truncate(userSelectedLocation.place_name, 20)
+						: "Stores all around"}
 				</div>
 				<Modal
 					open={open}
@@ -209,8 +170,6 @@ function LocationService(props) {
 										</div>
 									)}
 							</div>
-
-							<pre id="coordinates" class="coordinates"></pre>
 						</div>
 					</ModalBody>
 				</Modal>

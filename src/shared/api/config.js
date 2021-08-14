@@ -5,3 +5,6 @@ export const serverUrl = "https://parseapi.back4app.com/";
 export const mapBoxApiKey =
 	"pk.eyJ1Ijoib21rYXJrYW1hbGUwMDEiLCJhIjoiY2tydGlsN3YzMWdqajJ1cGZ0b3BrYTJrMSJ9.VzUJw-oFBbvvyZ-XmuOWyA";
 export const mapBoxUrl = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
+
+export const mapBoxDirectionUrl =
+	"https://api.mapbox.com/directions/v5/mapbox/driving/";
