@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { LocationServiceContainer } from "../../styles/loactionService.styles";
-import { useRef, useEffect, useState } from "react";
 import { ModalBody } from "../../styles/loactionService.styles.js";
 import Container from "@material-ui/core/Container";
 import { LocationOnOutlined } from "@material-ui/icons";
@@ -14,6 +13,10 @@ import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import { SearchByLocation } from "../../styles/serachBar.styles";
+import { searchLocationApi } from "../../api/location/locationSearchApi";
+import { useSelector, useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { locationSearchAction } from "../../state";
 mapboxgl.accessToken =
 	"pk.eyJ1Ijoib21rYXJrYW1hbGUwMDEiLCJhIjoiY2tydGlsN3YzMWdqajJ1cGZ0b3BrYTJrMSJ9.VzUJw-oFBbvvyZ-XmuOWyA";
 
@@ -24,9 +27,18 @@ function LocationService(props) {
 	const [lng, setLng] = useState(null);
 	const [lat, setLat] = useState(null);
 	const [zoom, setZoom] = useState(12);
+	const [mapObject, setMapObject] = useState();
+	const [mapMarker, setMapMarker] = useState();
 	const [calculatedDis, setCalculatedDis] = useState(0);
+	const [showLocSearch, setShowLocSearch] = useState(false);
+	const [inputValue, setInputValue] = useState();
 	const theme = useTheme();
 	const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+	const { locations, userSelectedLocation, userLatLong, isLoading } =
+		useSelector((state) => state.searchedLocation);
+	const dispatch = useDispatch();
+	const { locationSearch, setUserLatLong, setUserLocation } =
+		bindActionCreators(locationSearchAction, dispatch);
 	// const [map, setMap] = useState(null);
 	const mapAPIKey = "AIzaSyCIvL2H0HuV2Id1daEwNkgGkAJybAui6Ho";
 	const handleOpen = () => {
@@ -56,7 +68,8 @@ function LocationService(props) {
 			})
 				.setLngLat([lng, lat])
 				.addTo(map.current);
-
+			setMapMarker(marker);
+			console.log("updated lat long", lat, lng);
 			function onDragEnd() {
 				var lngLat = marker.getLngLat();
 				coordinates.style.display = "block";
@@ -107,11 +120,40 @@ function LocationService(props) {
 			geocoder.on("geocoder", function (e) {
 				console.log("A geocoder event has occurred.", e);
 			});
+
+			setMapObject(map.current);
 		}
 	}, [mapContainer, map, lat, lng]);
 
+	useEffect(() => {
+		//console.log("locations", locations);
+		console.log("userSelectedLocation", userSelectedLocation);
+		setShowLocSearch(false);
+		if (userSelectedLocation.center) {
+			setLat(userSelectedLocation.center[0]);
+			setLng(userSelectedLocation.center[1]);
+			console.log(lat, lng);
+		}
+	}, [userSelectedLocation]);
+
 	const searchLocation = (e) => {
-		console.log(e.target.value);
+		// console.log(e.target.value);
+		locationSearch({ query: e.target.value });
+		setInputValue(e.target.value);
+	};
+
+	const setMapCenter = (coords) => {
+		if (mapObject) {
+			mapObject.setCenter(coords);
+		}
+	};
+
+	const selectUserLocation = (loc) => {
+		console.log("loc", loc);
+		setUserLocation(loc);
+		setMapCenter(loc.center);
+		setMapMarker(mapMarker.setLngLat(loc.center));
+		setInputValue(loc.place_name);
 	};
 
 	return (
@@ -141,8 +183,33 @@ function LocationService(props) {
 									type="text"
 									placeholder="Search Location"
 									onChange={(e) => searchLocation(e)}
+									onFocus={() => setShowLocSearch(true)}
+									value={inputValue}
 								/>
+								{showLocSearch &&
+									locations &&
+									locations.features &&
+									locations.features.length > 0 && (
+										<div className="search-results">
+											<ul>
+												{locations.features.map(
+													(loc) => (
+														<li
+															onClick={() =>
+																selectUserLocation(
+																	loc
+																)
+															}
+														>
+															{loc.place_name}
+														</li>
+													)
+												)}
+											</ul>
+										</div>
+									)}
 							</div>
+
 							<pre id="coordinates" class="coordinates"></pre>
 						</div>
 					</ModalBody>

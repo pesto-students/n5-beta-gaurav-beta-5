@@ -15,7 +15,7 @@ export const LocationServiceContainer = styled.div`
 export const ModalBody = styled.div`
 	display: block;
 	width: ${(props) => (props.isSmall ? "80%" : "30%")};
-	min-height: 400px;
+
 	background-color: #fff;
 	margin: 0 auto;
 	position: relative;
@@ -39,5 +39,44 @@ export const ModalBody = styled.div`
 	}
 	.search-location {
 		text-align: center;
+		display: inline-block;
+		width: 100%;
+		margin-bottom: 30px;
+		position: relative;
+		input {
+			padding: 10px;
+			font-family: inherit;
+			width: 80%;
+			:focus-visible {
+				outline: none;
+			}
+		}
+		.search-results {
+			position: absolute;
+			top: 40px;
+			left: 57px;
+			width: 80%;
+			margin: 0 auto;
+			ul {
+				padding: 0;
+				margin: 0;
+				overflow-y: scroll;
+				max-height: 100px;
+				background-color: white;
+				color: black;
+				text-align: left;
+				li {
+					list-style: none;
+					display: inline-block;
+					width: 100%;
+					padding: 15px;
+					cursor: pointer;
+					border-bottom: 1px solid #ddd;
+					:hover {
+						background-color: #ddd;
+					}
+				}
+			}
+		}
 	}
 `;
