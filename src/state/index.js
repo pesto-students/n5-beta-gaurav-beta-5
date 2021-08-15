@@ -4,3 +4,5 @@ export * as categoriesActions from "./actions/categoriesAction";
 export * as productsAction from "./actions/getProductsAction";
 export * as addToCartActions from "./actions/addToCartActions";
 export * as locationSearchAction from "./actions/locationSearchAction";
+export * as localGlobalAction from "./actions/localGlobalAction";
+export * as uvDistanceAction from "./actions/getDistanceAction";

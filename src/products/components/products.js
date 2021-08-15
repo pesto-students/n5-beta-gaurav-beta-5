@@ -1,30 +1,44 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ProductsContainer } from "../../styles/products.styles";
 import { Container, Grid, Hidden, Modal, Box } from "@material-ui/core";
-import Skeleton from "@material-ui/lab/Skeleton";
+
 import { useHistory } from "react-router-dom";
 import CloseIcon from "@material-ui/icons/Close";
 import { CategoryBtn, ModalClose } from "../../styles/category.styles";
-import { ProductCardSkeleton } from "../../styles/productCard.styles";
+
 import ProductCard from "../../shared/components/productCard";
 import LocalGlobalSwitch from "../../shared/components/localGlobalSwitch";
 import CategorySelection from "../../shared/components/categorySelection";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { productsAction } from "../../state";
+import {
+	productsAction,
+	uvDistanceAction,
+	localGlobalAction,
+} from "../../state";
 import { useLocation } from "react-router-dom";
 
+import { isEmpty } from "lodash";
+import ProductSkeleton from "./productSkeleton";
+
 function Products() {
-	const history = useHistory();
 	const [open, setOpen] = React.useState(false);
 	const [productListState, setProductListState] = useState([]);
+	const [orgProductListState, setOrgProductListState] = useState([]);
 	const search = useLocation().search;
 	const dispatch = useDispatch();
 	const subCatId = new URLSearchParams(search).get("subCat");
 	const { getProducts } = bindActionCreators(productsAction, dispatch);
+	const { getDistance } = bindActionCreators(uvDistanceAction, dispatch);
+
 	const { productList, product, isLoading } = useSelector(
 		(state) => state.products
 	);
+	const { uvDistance } = useSelector((state) => state.userVendorDistance);
+	const { userSelectedLocation } = useSelector(
+		(state) => state.searchedLocation
+	);
+	const { isGlobal } = useSelector((state) => state.localGlobal);
 
 	useEffect(() => {
 		if (subCatId && subCatId !== null)
@@ -35,20 +49,83 @@ function Products() {
 	}, []);
 
 	useEffect(() => {
-		console.log("products", productList);
-		if (productList.result) setProductListState(productList.result);
-		console.log("productListStateProducts", productListState);
+		let arry = [...orgProductListState];
+
+		arry.forEach((item) => {
+			if (item.vendorRef.objectId == uvDistance.vendor) {
+				item.distance = uvDistance.data.waypoints[0].distance.toFixed();
+				item.vendorRef.distance =
+					uvDistance.data.waypoints[0].distance.toFixed();
+			}
+		});
+		if (isGlobal == false) {
+			let arr = arry.filter((item) => {
+				return item.vendorRef.distance < 30;
+			});
+			setProductListState(arr);
+		} else {
+			setProductListState(arry);
+		}
+	}, [uvDistance]);
+
+	useEffect(() => {
+		if (productList.result) {
+			setOrgProductListState(productList.result);
+			setProductListState(productList.result);
+			if (isEmpty(userSelectedLocation) == false) {
+				setProductDistance(productList.result);
+			}
+		}
+
+		console.log("update....productListStateProducts", productListState);
 	}, [productList]);
 
-	const handleClick = (route) => {
-		history.push(route);
-	};
+	useEffect(() => {
+		if (isEmpty(userSelectedLocation) == false)
+			setProductDistance(productList.result);
+	}, [userSelectedLocation]);
+
+	useEffect(() => {
+		console.log("isGlobal", isGlobal, productList.result);
+		let list = [...productListState];
+		if (isGlobal == false) {
+			let arr = list.filter((item) => {
+				return item.vendorRef.distance < 30;
+			});
+			setProductListState(arr);
+		} else {
+			setProductListState(orgProductListState);
+		}
+	}, [isGlobal]);
+
+	useEffect(() => {
+		console.log("update prodliststate", productListState);
+	}, [productListState]);
+
 	const handleOpen = () => {
 		setOpen(true);
 	};
 	const handleClose = () => {
 		setOpen(false);
 	};
+
+	const setProductDistance = (productsArray) => {
+		if (userSelectedLocation.center == undefined)
+			setProductListState(productsArray);
+
+		productsArray.forEach((item) => {
+			calculateDistance(item);
+		});
+	};
+
+	const calculateDistance = (item) => {
+		let vendorGeo = `${item.vendorRef.geoLocation.long},${item.vendorRef.geoLocation.lat}`;
+
+		let userGeo = `${userSelectedLocation.center[0]},${userSelectedLocation.center[1]}`;
+		let query = `${vendorGeo};${userGeo}`;
+		getDistance({ vendor: item.vendorRef.objectId, query: query });
+	};
+
 	return (
 		<ProductsContainer>
 			<Container maxWidth={false} className="category-content">
@@ -95,41 +172,9 @@ function Products() {
 											className="product-card"
 										>
 											{isLoading ? (
-												<ProductCardSkeleton>
-													<Skeleton
-														animation="wave"
-														variant="rect"
-														height={100}
-														width={100}
-														style={{
-															margin: "6px auto",
-														}}
-													/>
-													<Skeleton
-														animation="wave"
-														variant="text"
-														style={{
-															marginBottom: 6,
-														}}
-													/>
-													<Skeleton
-														animation="wave"
-														variant="text"
-														style={{
-															marginBottom: 6,
-														}}
-													/>
-													<Skeleton
-														animation="wave"
-														variant="text"
-														style={{
-															marginBottom: 6,
-														}}
-													/>
-												</ProductCardSkeleton>
+												<ProductSkeleton />
 											) : (
 												<ProductCard
-													handleClick={handleClick}
 													product={product}
 												/>
 											)}

@@ -43,8 +43,8 @@ function LocationService(props) {
 	const mapAPIKey = "AIzaSyCIvL2H0HuV2Id1daEwNkgGkAJybAui6Ho";
 	const handleOpen = () => {
 		setOpen(true);
-		setLat(props.coords ? props.coords.latitude : 19.0295309);
-		setLng(props.coords ? props.coords.longitude : 73.0206934);
+		setLat(props.coords ? props.coords.latitude : 22.1991660760527);
+		setLng(props.coords ? props.coords.longitude : 78.476681027237);
 	};
 
 	const handleClose = () => {

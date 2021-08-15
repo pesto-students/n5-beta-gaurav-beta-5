@@ -17,7 +17,7 @@ export const ProductCardContainer = styled.div`
 	}
 `;
 
-export const ProductCardSkeleton = styled.div`
+export const ProductCardSkeletonDiv = styled.div`
 	box-shadow: 0px 2px 5px rgb(0 0 0 / 20%);
 	display: inline-block;
 	background: white;
