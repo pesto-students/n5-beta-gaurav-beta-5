@@ -38,6 +38,7 @@ import { isEmpty } from "lodash";
 function ProductDetails() {
 	const { product, isLoading } = useSelector((state) => state.products);
 	const { cart } = useSelector((state) => state.myCart);
+	const [qty, setQty] = useState(1);
 	const [imageIndex, setImageIndex] = useState(0);
 	const search = useLocation().search;
 	const dispatch = useDispatch();
@@ -59,16 +60,22 @@ function ProductDetails() {
 	const images = [img1, img2, img3, img4, img5, img6];
 
 	useEffect(() => {
-		console.log("images", images);
+		//console.log("images", images);
 	}, []);
 
 	useEffect(() => {
-		console.log("cart", cart);
+		console.log(" addedd cart", cart);
 	}, [cart]);
 
 	const handleAddToCart = () => {
-		console.log("product to add", product);
-		addToCart(product);
+		console.log("product to add", product, qty);
+		product.qty = qty;
+		const addProductItem = { ...product };
+		addToCart(addProductItem);
+	};
+
+	const handleQtyChange = (event) => {
+		setQty(event.target.value);
 	};
 
 	return (
@@ -159,19 +166,14 @@ function ProductDetails() {
 											className="qty-dropdown"
 										>
 											<Select
-												value={1}
 												className="select-menu"
+												value={qty}
+												onChange={handleQtyChange}
 											>
 												<MenuItem value={1}>1</MenuItem>
-												<MenuItem value={10}>
-													2
-												</MenuItem>
-												<MenuItem value={20}>
-													3
-												</MenuItem>
-												<MenuItem value={30}>
-													4
-												</MenuItem>
+												<MenuItem value={2}>2</MenuItem>
+												<MenuItem value={3}>3</MenuItem>
+												<MenuItem value={4}>4</MenuItem>
 											</Select>
 										</FormControl>
 									</Box>
