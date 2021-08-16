@@ -6,6 +6,7 @@ import myCart from "./addToCartReducer";
 import searchedLocation from "./locationSearchReducer";
 import localGlobal from "./localGlobalReducer";
 import userVendorDistance from "./getDistanceReducer";
+import map from "./showMapReducer";
 
 const reducers = combineReducers({
 	products,
@@ -15,6 +16,7 @@ const reducers = combineReducers({
 	searchedLocation,
 	localGlobal,
 	userVendorDistance,
+	map,
 });
 
 export default reducers;

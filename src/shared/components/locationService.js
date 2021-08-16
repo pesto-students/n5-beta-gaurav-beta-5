@@ -15,18 +15,19 @@ import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { locationSearchAction } from "../../state";
+import { locationSearchAction, mapAction } from "../../state";
 import { mapBoxApiKey } from "../api/config";
 
 mapboxgl.accessToken = mapBoxApiKey;
 
 function LocationService(props) {
+	const { isMapView } = useSelector((state) => state.map);
 	const [open, setOpen] = React.useState(false);
 	const mapContainer = useRef(null);
 	const map = useRef(null);
-	const [lng, setLng] = useState(null);
-	const [lat, setLat] = useState(null);
-	const [zoom, setZoom] = useState(12);
+	const [lng, setLng] = useState(78.476681027237);
+	const [lat, setLat] = useState(22.1991660760527);
+	const [zoom, setZoom] = useState(3);
 	const [mapObject, setMapObject] = useState();
 	const [mapMarker, setMapMarker] = useState();
 	const [calculatedDis, setCalculatedDis] = useState(0);
@@ -36,50 +37,68 @@ function LocationService(props) {
 	const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 	const { locations, userSelectedLocation, userLatLong, isLoading } =
 		useSelector((state) => state.searchedLocation);
+
 	const dispatch = useDispatch();
 	const { locationSearch, setUserLatLong, setUserLocation } =
 		bindActionCreators(locationSearchAction, dispatch);
+	const { showMap } = bindActionCreators(mapAction, dispatch);
 	// const [map, setMap] = useState(null);
 	const mapAPIKey = "AIzaSyCIvL2H0HuV2Id1daEwNkgGkAJybAui6Ho";
 	const handleOpen = () => {
-		setOpen(true);
-		setLat(props.coords ? props.coords.latitude : 22.1991660760527);
-		setLng(props.coords ? props.coords.longitude : 78.476681027237);
+		// setOpen(true);
+		showMap(true);
+		setOpen(isMapView);
+		// setLat(props.coords ? props.coords.latitude : 22.1991660760527);
+		// setLng(props.coords ? props.coords.longitude : 78.476681027237);
 	};
 
 	const handleClose = () => {
-		setOpen(false);
+		// setOpen(false);
+		setOpen(isMapView);
+		showMap(false);
 	};
 
 	useEffect(() => {
+		console.log("props.coords", props.coords);
 		if (props.coords !== null) {
-			if (map.current) return; // initialize map only once
-			map.current = new mapboxgl.Map({
-				container: mapContainer.current,
-				style: "mapbox://styles/mapbox/streets-v11",
-				center: [lng, lat],
-				zoom: zoom,
-			});
-			var marker = new mapboxgl.Marker({
-				color: "red",
-				draggable: true,
-			})
-				.setLngLat([lng, lat])
-				.addTo(map.current);
-			setMapMarker(marker);
-			console.log("updated lat long", lat, lng);
-			function onDragEnd() {
-				const lngLat = marker.getLngLat();
-				setLat(lngLat.lat);
-				setLng(lngLat.lng);
-				console.log("lngLat", lngLat);
-				locationSearch({ query: `${lngLat.lng},${lngLat.lat}` });
-				setShowLocSearch(true);
-			}
-			marker.on("dragend", onDragEnd);
-			setMapObject(map.current);
+			setLat(props.coords.latitude);
+			setLng(props.coords.longitude);
+			setZoom(12);
 		}
-	}, [mapContainer, map, lat, lng]);
+		// setLat(
+		// 	props.coords !== null ? props.coords.latitude : 22.1991660760527
+		// );
+		// setLng(
+		// 	props.coords !== null ? props.coords.longitude : 78.476681027237
+		// );
+		console.log("lat lng", [lng, lat]);
+
+		if (map.current) return; // initialize map only once
+		map.current = new mapboxgl.Map({
+			container: mapContainer.current,
+			style: "mapbox://styles/mapbox/streets-v11",
+			center: [lng, lat],
+			zoom: zoom,
+		});
+		var marker = new mapboxgl.Marker({
+			color: "red",
+			draggable: true,
+		})
+			.setLngLat([lng, lat])
+			.addTo(map.current);
+		setMapMarker(marker);
+		console.log("updated lat long", lat, lng);
+		function onDragEnd() {
+			const lngLat = marker.getLngLat();
+			setLat(lngLat.lat);
+			setLng(lngLat.lng);
+			console.log("lngLat", lngLat);
+			locationSearch({ query: `${lngLat.lng},${lngLat.lat}` });
+			setShowLocSearch(true);
+		}
+		marker.on("dragend", onDragEnd);
+		setMapObject(map.current);
+	}, []);
 
 	useEffect(() => {
 		//console.log("locations", locations);
@@ -125,7 +144,7 @@ function LocationService(props) {
 						: "Stores all around"}
 				</div>
 				<Modal
-					open={open}
+					open={isMapView}
 					onClose={handleClose}
 					disablePortal={true}
 					keepMounted={true}
@@ -136,9 +155,9 @@ function LocationService(props) {
 								ref={mapContainer}
 								className="map-container"
 							></div>
-							<div className="distance-text">
+							{/* <div className="distance-text">
 								{calculatedDis} KM
-							</div>
+							</div> */}
 							<div className="search-location">
 								<input
 									type="text"

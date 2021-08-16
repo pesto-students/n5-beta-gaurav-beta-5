@@ -16,20 +16,29 @@ import {
 import { CartContainer } from "../../styles/cart.styles";
 import clockImage from "../../assets/images/clock.jpg";
 import craftImage from "../../assets/images/craft.jpg";
+import { useSelector, useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
 import { useHistory } from "react-router-dom";
-
+import { mapAction } from "../../state";
+import { isEmpty } from "lodash";
 function MakePayment() {
 	const [state, setState] = React.useState({
 		checkedB: true,
 	});
-
+	const { userSelectedLocation } = useSelector(
+		(state) => state.searchedLocation
+	);
+	const dispatch = useDispatch();
 	const handleChange = (event) => {
 		setState({ ...state, [event.target.name]: event.target.checked });
 	};
+
+	const { showMap } = bindActionCreators(mapAction, dispatch);
 	const preventDefault = (event) => event.preventDefault();
 	const history = useHistory();
 	const handleClick = (route) => {
 		history.push(route);
+		if (isEmpty(userSelectedLocation)) showMap(true);
 	};
 
 	return (

@@ -6,3 +6,4 @@ export * as addToCartActions from "./actions/addToCartActions";
 export * as locationSearchAction from "./actions/locationSearchAction";
 export * as localGlobalAction from "./actions/localGlobalAction";
 export * as uvDistanceAction from "./actions/getDistanceAction";
+export * as mapAction from "./actions/showMapAction";
