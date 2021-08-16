@@ -11,7 +11,7 @@ function* locationSearchSaga(payload) {
 	try {
 		const data = yield call(searchLocationApi, payload);
 		console.log("location searched", data);
-		localStorage.setItem("session", JSON.stringify(data));
+
 		yield put(locationSearchSuccess(data));
 	} catch (error) {
 		yield put(locationSearchFailed(error.message));

@@ -43,13 +43,8 @@ Parse.Cloud.define("getProductsByCategoryApi", async (request) => {
 Parse.Cloud.define("getAddressesByUserIdApi", async (request) => {
 	const userId = request.params.userId;
 	const queryAddresses = new Parse.Query("Addresses");
-	const userPointer = {
-		__type: "Pointer",
-		className: "User",
-		objectId: userId,
-	};
-	queryAddresses.equalTo("userRef", userPointer);
-	queryAddresses.include("userRef");
+
+	queryAddresses.equalTo("userId", userId);
 
 	const resultsAddresses = await queryAddresses.find();
 	return resultsAddresses;

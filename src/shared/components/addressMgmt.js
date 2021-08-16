@@ -9,7 +9,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { mapAction } from "../../state";
+import { addressAction, mapAction } from "../../state";
 import { isEmpty } from "lodash";
 
 function AddressMgmt() {
@@ -26,26 +26,86 @@ function AddressMgmt() {
 		city: "",
 		state: "",
 		country: "India",
+		addressId: "",
 	});
 
 	const { userSelectedLocation } = useSelector(
 		(state) => state.searchedLocation
 	);
+
+	const userSession = JSON.parse(localStorage.getItem("session"));
+
+	const { userAddresses, addedAddress, updatedAddress } = useSelector(
+		(state) => state.addressState
+	);
 	const dispatch = useDispatch();
 	const { showMap } = bindActionCreators(mapAction, dispatch);
+	const { getAddresses, updateAddress, addAddress } = bindActionCreators(
+		addressAction,
+		dispatch
+	);
 	const [showAddAddress, setShowAddAddress] = useState(false);
 
 	const addNewAddress = () => {
 		setShowAddAddress(true);
-		if (isEmpty(userSelectedLocation)) showMap(true);
+		showMap(true);
+	};
+
+	useEffect(() => {
+		setAddressFromUserLocation();
+	}, []);
+
+	useEffect(() => {
+		setAddressFromUserLocation();
+	}, [userSelectedLocation]);
+
+	const setAddressFromUserLocation = () => {
+		if (isEmpty(userSelectedLocation)) return;
+		let context = userSelectedLocation.context;
+		let street = userSelectedLocation.place_name;
+		let city = context.filter((i) => i.id.includes("place"))[0].text;
+		let state = context.filter((i) => i.id.includes("region"))[0].text;
+		setAddressFields({ ...addressFields, street, city, state });
 	};
 
 	const addEditAddress = (e) => {
-		console.log(e);
-		if (e.target.id == "name") {
-			setAddressFields({ ...addressFields, fname: e.target.value });
+		let addressCopy = { ...addressFields };
+		switch (e.target.id) {
+			case "fname":
+				addressCopy.fname = e.target.value;
+				setAddressFields(addressCopy);
+				break;
+			case "lname":
+				addressCopy.lname = e.target.value;
+				setAddressFields(addressCopy);
+				break;
+			case "street":
+				addressCopy.street = e.target.value;
+				setAddressFields(addressCopy);
+				break;
+			case "city":
+				addressCopy.city = e.target.value;
+				setAddressFields(addressCopy);
+				break;
+			case "state":
+				addressCopy.state = e.target.value;
+				setAddressFields(addressCopy);
+				break;
+			case "pincode":
+				addressCopy.pincode = e.target.value;
+				setAddressFields(addressCopy);
+				break;
+			default:
+				setAddressFields({ ...addressFields });
+				break;
 		}
-		console.log(addressFields.fname);
+
+		//console.log({ ...addressFields });
+	};
+
+	const onFormSubmit = (e) => {
+		e.preventDefault();
+		console.log("on submit", addressFields);
 	};
 
 	return (
@@ -126,26 +186,51 @@ function AddressMgmt() {
 									noValidate
 									autoComplete="off"
 									onChange={(e) => addEditAddress(e)}
+									onSubmit={(e) => onFormSubmit(e)}
 								>
 									<Grid container item spacing="3">
 										<Grid item lg="6" xs="12">
-											<TextField
-												className="text-field"
-												label="Full Name (First & Last name)"
-												type="text"
-												id="name"
-												// value={`${addressFields.fname} ${addressFields.lname}`}
-												required
-												InputLabelProps={{
-													shrink: true,
-												}}
-												variant="outlined"
-											/>
+											<Grid item container spacing="3">
+												<Grid item lg="6" xs="12">
+													<TextField
+														className="text-field"
+														label="First name"
+														type="text"
+														id="fname"
+														value={
+															addressFields.fname
+														}
+														required
+														InputLabelProps={{
+															shrink: true,
+														}}
+														variant="outlined"
+													/>
+												</Grid>
+												<Grid item lg="6" xs="12">
+													<TextField
+														className="text-field"
+														label="Last name"
+														type="text"
+														id="lname"
+														value={
+															addressFields.lname
+														}
+														required
+														InputLabelProps={{
+															shrink: true,
+														}}
+														variant="outlined"
+													/>
+												</Grid>
+											</Grid>
+
 											<TextField
 												className="text-field"
 												label="Street Address"
 												id="street"
 												type="text"
+												value={addressFields.street}
 												required
 												InputLabelProps={{
 													shrink: true,
@@ -193,13 +278,14 @@ function AddressMgmt() {
 											<TextField
 												className="text-field"
 												label="PIN Code"
-												type="text"
+												type="number"
 												id="pincode"
 												value={addressFields.pincode}
 												required
 												InputLabelProps={{
 													shrink: true,
 												}}
+												error={false}
 												variant="outlined"
 											/>
 										</Grid>

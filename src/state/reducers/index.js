@@ -7,6 +7,7 @@ import searchedLocation from "./locationSearchReducer";
 import localGlobal from "./localGlobalReducer";
 import userVendorDistance from "./getDistanceReducer";
 import map from "./showMapReducer";
+import addressState from "./addressReducer";
 
 const reducers = combineReducers({
 	products,
@@ -17,6 +18,7 @@ const reducers = combineReducers({
 	localGlobal,
 	userVendorDistance,
 	map,
+	addressState,
 });
 
 export default reducers;

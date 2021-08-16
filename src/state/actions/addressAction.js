@@ -1,20 +1,56 @@
 import {
-	GET_DISTANCE,
-	GET_DISTANCE_SUCCESS,
-	GET_DISTANCE_FAILED,
+	GET_ADDRESSES,
+	GET_ADDRESSES_SUCCESS,
+	GET_ADDRESSES_FAILED,
+	ADD_ADDRESS,
+	ADD_ADDRESS_SUCCESS,
+	ADD_ADDRESS_FAILED,
+	UPDATE_ADDRESS,
+	UPDATE_ADDRESS_SUCCESS,
+	UPDATE_ADDRESS_FAILED,
 } from "../../constants/actionType";
 
-export const getDistance = (payload) => ({
-	type: GET_DISTANCE,
+export const getAddresses = (payload) => ({
+	type: GET_ADDRESSES,
 	payload,
 });
 
-export const getDistanceSuccess = (payload) => ({
-	type: GET_DISTANCE_SUCCESS,
+export const getAddressesSuccess = (payload) => ({
+	type: GET_ADDRESSES_SUCCESS,
 	payload,
 });
 
-export const getDistanceFailed = (payload) => ({
-	type: GET_DISTANCE_FAILED,
+export const getAddressesFailed = (payload) => ({
+	type: GET_ADDRESSES_FAILED,
+	payload,
+});
+
+export const addAddress = (payload) => ({
+	type: ADD_ADDRESS,
+	payload,
+});
+
+export const addAddressSuccess = (payload) => ({
+	type: ADD_ADDRESS_SUCCESS,
+	payload,
+});
+
+export const addAddressFailed = (payload) => ({
+	type: ADD_ADDRESS_FAILED,
+	payload,
+});
+
+export const updateAddress = (payload) => ({
+	type: UPDATE_ADDRESS,
+	payload,
+});
+
+export const updateAddressSuccess = (payload) => ({
+	type: UPDATE_ADDRESS_SUCCESS,
+	payload,
+});
+
+export const updateAddressFailed = (payload) => ({
+	type: UPDATE_ADDRESS_FAILED,
 	payload,
 });
