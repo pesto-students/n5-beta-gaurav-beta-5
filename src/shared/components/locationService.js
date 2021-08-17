@@ -151,8 +151,8 @@ function LocationService(props) {
 					keepMounted={true}
 				>
 					<ModalBody isSmall={isSmall}>
-						<div onClick={handleClose} className="modal-body-div">
-							<div className="close">
+						<div className="modal-body-div">
+							<div className="close" onClick={handleClose}>
 								<CloseIcon className="close-icon" />
 							</div>
 							<div

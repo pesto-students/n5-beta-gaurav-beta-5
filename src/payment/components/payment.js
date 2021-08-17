@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
 	Grid,
 	Button,
@@ -34,6 +34,11 @@ function MakePayment() {
 	const handleChange = (event) => {
 		setState({ ...state, [event.target.name]: event.target.checked });
 	};
+	const { currentAddress } = useSelector((state) => state.addressState);
+	const userSession = JSON.parse(localStorage.getItem("session"));
+	useEffect(() => {
+		console.log("currentAddress", currentAddress);
+	}, [currentAddress]);
 
 	const { showMap } = bindActionCreators(mapAction, dispatch);
 	const preventDefault = (event) => event.preventDefault();
@@ -45,7 +50,11 @@ function MakePayment() {
 
 	return (
 		<CartContainer>
-			<Cart type="payment" spacing="1" />
+			<Cart
+				currentAddress={isEmpty(currentAddress) ? null : currentAddress}
+				type="payment"
+				spacing="1"
+			/>
 			<Container spacing={8}>
 				<Grid container spacing={3} className="addressSection">
 					<Grid item xs={12} md={12}>
@@ -56,9 +65,29 @@ function MakePayment() {
 								</h3>
 								<hr />
 								<Typography className="default-font address">
-									Omkar Kamale 506 Abc CHS, Plot 123, Sector
-									19, Nerul Navi, Mumbai Maharashtra 400706
-									India
+									{isEmpty(currentAddress) == false && (
+										<>
+											<b>
+												{currentAddress.firstName}{" "}
+												{currentAddress.lastName}
+											</b>
+											<br />
+											{currentAddress.streetAddress},{" "}
+											{currentAddress.city}
+											<br />
+											{currentAddress.state}
+											<br />
+											{currentAddress.country}
+											<br />
+											Phone:{" "}
+											{userSession !== null
+												? userSession.phone
+												: ""}
+											<br />
+											Pin: {currentAddress.pincode}
+											<br />
+										</>
+									)}
 								</Typography>
 								<Box pb={4}>
 									<Button

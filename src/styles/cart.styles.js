@@ -103,6 +103,11 @@ export const CartContainer = styled.div`
 	.deletelink {
 		margin-left: 10px;
 	}
+	.border-bottom {
+		border-bottom: 1px solid #ddd;
+		padding-top: 10px;
+		margin-bottom: 15px;
+	}
 
 	.submit-change {
 		background-color: #ffd814;
