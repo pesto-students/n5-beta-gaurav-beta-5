@@ -4,25 +4,74 @@ import {
 	all,
 	call,
 	put,
+	select,
 	takeLeading,
 } from "redux-saga/effects";
-import { ADD_TO_CART } from "../../constants/actionType";
+import { ADD_TO_CART, DELETE_TO_CART } from "../../constants/actionType";
 
-import { addToCartSuccess, addToCartFailed } from "../actions/addToCartActions";
+import {
+	addToCartSuccess,
+	addToCartFailed,
+	updateToCartSuccess,
+	deleteToCartSuccess,
+} from "../actions/addToCartActions";
+
+export const getCart = (state) => state.myCart.cart;
 
 function* addToCartSaga(data) {
-	console.log("addto cart saga", data.payload);
 	try {
-		yield put(addToCartSuccess(data.payload));
+		const cartItems = yield select(getCart);
+		const productIndex = cartItems.findIndex(
+			(product) => product.objectId === data.payload.objectId
+		);
+		//console.log("productIndex", productIndex);
+		if (productIndex >= 0) {
+			const qty = cartItems[productIndex].qty;
+			data.payload.qty = data.payload.qty + qty;
+			data.payload.price = data.payload.price * data.payload.qty;
+			yield put(updateToCartSuccess(data.payload));
+		} else {
+			yield put(addToCartSuccess(data.payload));
+		}
 	} catch (error) {
 		yield put(addToCartFailed(error.message));
 	}
+}
+
+function* deleteToCartSaga(data) {
+	try {
+		//console.log("data type", data.payload.type);
+		const cartItems = yield select(getCart);
+		switch (data.payload.type) {
+			case "REMOVE_ALL":
+				cartItems.length = 0;
+				yield put(deleteToCartSuccess(cartItems));
+				break;
+			default:
+				const removeProdIndex = cartItems.findIndex(
+					(product) => product.objectId === data.payload.id
+				);
+				console.log(
+					"removeProdIndex",
+					removeProdIndex,
+					data.payload.id
+				);
+				cartItems.splice(removeProdIndex, 1);
+				yield put(deleteToCartSuccess(cartItems));
+
+				break;
+		}
+	} catch (error) {}
 }
 
 function* addToCartWatcher() {
 	yield takeLatest(ADD_TO_CART, addToCartSaga);
 }
 
+function* deleteToCartWatcher() {
+	yield takeLatest(DELETE_TO_CART, deleteToCartSaga);
+}
+
 export default function* addToCartRootSaga() {
-	yield all([addToCartWatcher()]);
+	yield all([addToCartWatcher(), deleteToCartWatcher()]);
 }
