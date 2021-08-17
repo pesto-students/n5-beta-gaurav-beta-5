@@ -14,6 +14,7 @@ import getAddressesRootSaga from "./getAddressesSaga";
 import updateAddressRootSaga from "./updateAddressSaga";
 import addAddressRootSaga from "./addAddressSaga";
 import deleteAddressRootSaga from "./deleteAddressSaga";
+import createOrderRootSaga from "./createOrderSaga";
 
 export default function* () {
 	yield all([
@@ -31,5 +32,6 @@ export default function* () {
 		updateAddressRootSaga(),
 		addAddressRootSaga(),
 		deleteAddressRootSaga(),
+		createOrderRootSaga(),
 	]);
 }

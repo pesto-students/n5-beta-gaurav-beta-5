@@ -73,7 +73,7 @@ function CartSubtotal(props) {
 					<Button
 						variant="contained"
 						className="submit-change"
-						onClick={() => handleClick("/orders")}
+						onClick={props?.handlePayment}
 					>
 						MAKE PAYMENT
 					</Button>
