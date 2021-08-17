@@ -2,7 +2,7 @@ import { appId, restKey, serverUrl } from "../../shared/api/config";
 
 export async function updateAddressApi({ payload }) {
 	try {
-		const url = `${serverUrl}functions/updateAddressesByUserIdApi`;
+		const url = `${serverUrl}functions/updateAddressByUserIdApi`;
 		const body = payload;
 		const updateAddressesResponse = await fetch(url, {
 			method: "POST",

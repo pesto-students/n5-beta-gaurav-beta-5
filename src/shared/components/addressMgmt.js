@@ -17,7 +17,7 @@ function AddressMgmt() {
 	const handleClick = (route) => {
 		history.push(route);
 	};
-
+	const userSession = JSON.parse(localStorage.getItem("session"));
 	const [addressFields, setAddressFields] = useState({
 		fname: "",
 		lname: "",
@@ -27,13 +27,12 @@ function AddressMgmt() {
 		state: "",
 		country: "India",
 		addressId: "",
+		userId: userSession && userSession !== null ? userSession.objectId : "",
 	});
 
 	const { userSelectedLocation } = useSelector(
 		(state) => state.searchedLocation
 	);
-
-	const userSession = JSON.parse(localStorage.getItem("session"));
 
 	const { userAddresses, addedAddress, updatedAddress } = useSelector(
 		(state) => state.addressState
@@ -47,13 +46,25 @@ function AddressMgmt() {
 	const [showAddAddress, setShowAddAddress] = useState(false);
 
 	const addNewAddress = () => {
+		setAddressFields({ ...addressFields, addressId: "" });
 		setShowAddAddress(true);
 		showMap(true);
 	};
 
 	useEffect(() => {
 		setAddressFromUserLocation();
+		if (userSession && userSession !== null)
+			getAddresses({ userId: userSession.objectId });
 	}, []);
+
+	useEffect(() => {
+		setShowAddAddress(false);
+	}, [addedAddress, updatedAddress]);
+
+	useEffect(() => {
+		// setAddressFromUserLocation();
+		console.log("userAddresses", userAddresses);
+	}, [userAddresses]);
 
 	useEffect(() => {
 		setAddressFromUserLocation();
@@ -103,9 +114,40 @@ function AddressMgmt() {
 		//console.log({ ...addressFields });
 	};
 
+	const editAddress = (address) => {
+		const {
+			objectId,
+			city,
+			country,
+			firstName,
+			lastName,
+			pincode,
+			state,
+			streetAddress,
+		} = address;
+		setShowAddAddress(true);
+		setAddressFields({
+			...addressFields,
+			fname: firstName,
+			lname: lastName,
+			street: streetAddress,
+			pincode: pincode,
+			city: city,
+			state: state,
+			country: country,
+			addressId: objectId,
+		});
+	};
+
 	const onFormSubmit = (e) => {
 		e.preventDefault();
-		console.log("on submit", addressFields);
+		if (addressFields.addressId !== "") {
+			console.log("edit", JSON.stringify(addressFields));
+			updateAddress(addressFields);
+			return;
+		}
+		addAddress(addressFields);
+		console.log("on submit add", addressFields);
 	};
 
 	return (
@@ -123,36 +165,40 @@ function AddressMgmt() {
 					</div>
 					<Grid container spacing="3">
 						<Grid container spacing="3" item lg="8" xs="12">
-							<Grid item xs="4">
-								<h4>Omkar Kamale</h4>
-								<p>
-									506 Abc CHS, Plot 123, Sector 19, Nerul,
-									Navi Mumbai Maharashtra, 400706 India
-								</p>
-								<button
-									className="delivery-address-btn"
-									onClick={() => handleClick("/makepayment")}
-								>
-									Deliver to this address
-								</button>
-								<button className="sub-btn first">Edit</button>
-								<button className="sub-btn">Delete</button>
-							</Grid>
-							<Grid item xs="4">
-								<h4>Omkar Kamale</h4>
-								<p>
-									506 Abc CHS, Plot 123, Sector 19, Nerul,
-									Navi Mumbai Maharashtra, 400706 India
-								</p>
-								<button
-									className="delivery-address-btn"
-									onClick={() => handleClick("/makepayment")}
-								>
-									Deliver to this address
-								</button>
-								<button className="sub-btn first">Edit</button>
-								<button className="sub-btn">Delete</button>
-							</Grid>
+							{userAddresses.result &&
+								userAddresses.result.length > 0 &&
+								userAddresses.result.map((address) => (
+									<Grid item lg="4" xs="12">
+										<h4>
+											{address.firstName}{" "}
+											{address.lastName}
+										</h4>
+										<p>
+											{address.streetAddress}, <br />
+											{address.city}, {address.state},
+											<br />
+											{address.country},<br />
+											{address.pincode}
+										</p>
+										<button
+											className="delivery-address-btn"
+											onClick={() =>
+												handleClick("/makepayment")
+											}
+										>
+											Deliver to this address
+										</button>
+										<button
+											onClick={() => editAddress(address)}
+											className="sub-btn first"
+										>
+											Edit
+										</button>
+										<button className="sub-btn">
+											Delete
+										</button>
+									</Grid>
+								))}
 						</Grid>
 						<Grid
 							container

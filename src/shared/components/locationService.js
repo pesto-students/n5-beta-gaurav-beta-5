@@ -60,7 +60,7 @@ function LocationService(props) {
 
 	useEffect(() => {
 		console.log("props.coords", props.coords);
-		if (props.coords !== null) {
+		if (props.coords && props.coords !== null) {
 			setLat(props.coords.latitude);
 			setLng(props.coords.longitude);
 			setZoom(12);
