@@ -8,6 +8,10 @@ import {
 	UPDATE_ADDRESS,
 	UPDATE_ADDRESS_SUCCESS,
 	UPDATE_ADDRESS_FAILED,
+	DELETE_ADDRESS,
+	DELETE_ADDRESS_FAILED,
+	DELETE_ADDRESS_SUCCESS,
+	SET_CURRENT_ADDRESS,
 } from "../../constants/actionType";
 
 export const getAddresses = (payload) => ({
@@ -52,5 +56,25 @@ export const updateAddressSuccess = (payload) => ({
 
 export const updateAddressFailed = (payload) => ({
 	type: UPDATE_ADDRESS_FAILED,
+	payload,
+});
+
+export const deleteAddress = (payload) => ({
+	type: DELETE_ADDRESS,
+	payload,
+});
+
+export const deleteAddressSuccess = (payload) => ({
+	type: DELETE_ADDRESS_SUCCESS,
+	payload,
+});
+
+export const deleteAddressFailed = (payload) => ({
+	type: DELETE_ADDRESS_FAILED,
+	payload,
+});
+
+export const setCurrentAddress = (payload) => ({
+	type: SET_CURRENT_ADDRESS,
 	payload,
 });

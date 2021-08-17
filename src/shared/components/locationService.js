@@ -12,11 +12,12 @@ import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
-
+import CloseIcon from "@material-ui/icons/Close";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { locationSearchAction, mapAction } from "../../state";
 import { mapBoxApiKey } from "../api/config";
+import { isEmpty } from "lodash";
 
 mapboxgl.accessToken = mapBoxApiKey;
 
@@ -150,7 +151,10 @@ function LocationService(props) {
 					keepMounted={true}
 				>
 					<ModalBody isSmall={isSmall}>
-						<div className="modal-body-div">
+						<div onClick={handleClose} className="modal-body-div">
+							<div className="close">
+								<CloseIcon className="close-icon" />
+							</div>
 							<div
 								ref={mapContainer}
 								className="map-container"
@@ -166,6 +170,13 @@ function LocationService(props) {
 									onFocus={() => setShowLocSearch(true)}
 									value={inputValue}
 								/>
+								<button
+									disabled={isEmpty(userSelectedLocation)}
+									onClick={handleClose}
+									className="select"
+								>
+									Select
+								</button>
 								{showLocSearch &&
 									locations &&
 									locations.features &&

@@ -36,11 +36,46 @@ export const ModalBody = styled.div`
 	.modal-body-div {
 		background-color: black;
 		color: white;
+		position: relative;
+		.select {
+			padding: 10px;
+			text-align: center;
+			font-family: inherit;
+			background-color: #ffd814;
+			color: black;
+			display: inline-block;
+			width: 30%;
+			margin: 10px auto;
+			border: none;
+			:disabled {
+				background-color: #ddd;
+				color: #333;
+				cursor: no-drop;
+			}
+		}
+		.close {
+			position: absolute;
+			width: 40px;
+			height: 40px;
+			background-color: white;
+			color: black;
+			z-index: 10;
+			right: -7px;
+			top: -6px;
+			border-radius: 50%;
+			padding: 10px;
+			cursor: pointer;
+			.close-icon {
+				font-size: 18px;
+				text-align: center;
+			}
+		}
 	}
 	.search-location {
 		text-align: center;
 		display: inline-block;
 		width: 100%;
+		margin-top: 15px;
 		margin-bottom: 30px;
 		position: relative;
 		input {
@@ -51,6 +86,7 @@ export const ModalBody = styled.div`
 				outline: none;
 			}
 		}
+
 		.search-results {
 			position: absolute;
 			top: 40px;

@@ -13,6 +13,7 @@ import getDistanceRootSaga from "./getDistanceSaga";
 import getAddressesRootSaga from "./getAddressesSaga";
 import updateAddressRootSaga from "./updateAddressSaga";
 import addAddressRootSaga from "./addAddressSaga";
+import deleteAddressRootSaga from "./deleteAddressSaga";
 
 export default function* () {
 	yield all([
@@ -29,5 +30,6 @@ export default function* () {
 		getAddressesRootSaga(),
 		updateAddressRootSaga(),
 		addAddressRootSaga(),
+		deleteAddressRootSaga(),
 	]);
 }

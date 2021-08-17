@@ -8,6 +8,10 @@ import {
 	UPDATE_ADDRESS,
 	UPDATE_ADDRESS_SUCCESS,
 	UPDATE_ADDRESS_FAILED,
+	DELETE_ADDRESS,
+	DELETE_ADDRESS_SUCCESS,
+	DELETE_ADDRESS_FAILED,
+	SET_CURRENT_ADDRESS,
 } from "../../constants/actionType";
 
 let initialState = {
@@ -15,6 +19,8 @@ let initialState = {
 	userAddresses: [],
 	addedAddress: {},
 	updatedAddress: {},
+	deletedAddress: {},
+	currentAddress: {},
 	error: null,
 };
 
@@ -58,6 +64,26 @@ const reducer = (state = initialState, action) => {
 			break;
 		case UPDATE_ADDRESS_FAILED:
 			return { ...state, error: action.payload, isLoading: false };
+			break;
+		case DELETE_ADDRESS:
+			return { ...state, isLoading: true };
+			break;
+		case DELETE_ADDRESS_SUCCESS:
+			return {
+				...state,
+				deletedAddress: action.payload,
+				isLoading: false,
+			};
+			break;
+		case DELETE_ADDRESS_FAILED:
+			return { ...state, error: action.payload, isLoading: false };
+			break;
+		case SET_CURRENT_ADDRESS:
+			return {
+				...state,
+				currentAddress: action.payload,
+				isLoading: false,
+			};
 			break;
 		default:
 			return state;

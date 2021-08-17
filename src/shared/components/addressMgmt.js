@@ -11,11 +11,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { addressAction, mapAction } from "../../state";
 import { isEmpty } from "lodash";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 function AddressMgmt() {
 	const history = useHistory();
-	const handleClick = (route) => {
+	const handleCurrentAddress = (route, address) => {
 		history.push(route);
+		setCurrentAddress(address);
 	};
 	const userSession = JSON.parse(localStorage.getItem("session"));
 	const [addressFields, setAddressFields] = useState({
@@ -30,19 +32,37 @@ function AddressMgmt() {
 		userId: userSession && userSession !== null ? userSession.objectId : "",
 	});
 
+	const [error, setError] = useState({
+		fnameError: false,
+		lnameError: false,
+		streetError: false,
+		pincodeError: false,
+		cityError: false,
+		stateError: false,
+		countryError: false,
+	});
+
 	const { userSelectedLocation } = useSelector(
 		(state) => state.searchedLocation
 	);
 
-	const { userAddresses, addedAddress, updatedAddress } = useSelector(
-		(state) => state.addressState
-	);
+	const {
+		userAddresses,
+		addedAddress,
+		updatedAddress,
+		deletedAddress,
+		currentAddress,
+		isLoading,
+	} = useSelector((state) => state.addressState);
 	const dispatch = useDispatch();
 	const { showMap } = bindActionCreators(mapAction, dispatch);
-	const { getAddresses, updateAddress, addAddress } = bindActionCreators(
-		addressAction,
-		dispatch
-	);
+	const {
+		getAddresses,
+		updateAddress,
+		addAddress,
+		deleteAddress,
+		setCurrentAddress,
+	} = bindActionCreators(addressAction, dispatch);
 	const [showAddAddress, setShowAddAddress] = useState(false);
 
 	const addNewAddress = () => {
@@ -59,7 +79,9 @@ function AddressMgmt() {
 
 	useEffect(() => {
 		setShowAddAddress(false);
-	}, [addedAddress, updatedAddress]);
+		if (userSession && userSession !== null)
+			getAddresses({ userId: userSession.objectId });
+	}, [addedAddress, updatedAddress, deletedAddress]);
 
 	useEffect(() => {
 		// setAddressFromUserLocation();
@@ -74,8 +96,12 @@ function AddressMgmt() {
 		if (isEmpty(userSelectedLocation)) return;
 		let context = userSelectedLocation.context;
 		let street = userSelectedLocation.place_name;
-		let city = context.filter((i) => i.id.includes("place"))[0].text;
-		let state = context.filter((i) => i.id.includes("region"))[0].text;
+		let city = context.filter((i) => i.id.includes("place"))[0]
+			? context.filter((i) => i.id.includes("place"))[0].text
+			: "";
+		let state = context.filter((i) => i.id.includes("region"))[0]
+			? context.filter((i) => i.id.includes("region"))[0].text
+			: "";
 		setAddressFields({ ...addressFields, street, city, state });
 	};
 
@@ -139,6 +165,10 @@ function AddressMgmt() {
 		});
 	};
 
+	const deleteThisAddress = (address) => {
+		deleteAddress({ addressId: address.objectId });
+	};
+
 	const onFormSubmit = (e) => {
 		e.preventDefault();
 		if (addressFields.addressId !== "") {
@@ -165,7 +195,32 @@ function AddressMgmt() {
 					</div>
 					<Grid container spacing="3">
 						<Grid container spacing="3" item lg="8" xs="12">
+							{isLoading && (
+								<Grid item lg="4" xs="12">
+									<Skeleton
+										variant="text"
+										style={{ marginBottom: "10px" }}
+									/>
+									<Skeleton
+										variant="rect"
+										width={210}
+										height={100}
+										style={{ marginBottom: "10px" }}
+									/>
+									<Skeleton
+										variant="rect"
+										height={30}
+										style={{ marginBottom: "10px" }}
+									/>
+									<Skeleton
+										variant="rect"
+										height={30}
+										style={{ marginBottom: "10px" }}
+									/>
+								</Grid>
+							)}
 							{userAddresses.result &&
+								isLoading == false &&
 								userAddresses.result.length > 0 &&
 								userAddresses.result.map((address) => (
 									<Grid item lg="4" xs="12">
@@ -183,7 +238,10 @@ function AddressMgmt() {
 										<button
 											className="delivery-address-btn"
 											onClick={() =>
-												handleClick("/makepayment")
+												handleCurrentAddress(
+													"/makepayment",
+													address
+												)
 											}
 										>
 											Deliver to this address
@@ -194,7 +252,13 @@ function AddressMgmt() {
 										>
 											Edit
 										</button>
-										<button className="sub-btn">
+										<button
+											disabled={isLoading}
+											onClick={() =>
+												deleteThisAddress(address)
+											}
+											className="sub-btn"
+										>
 											Delete
 										</button>
 									</Grid>
@@ -337,6 +401,7 @@ function AddressMgmt() {
 										</Grid>
 										<Grid item lg="6" xs="12">
 											<button
+												disabled={isLoading}
 												type="submit"
 												className="save-address-btn"
 											>
