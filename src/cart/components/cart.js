@@ -24,6 +24,7 @@ import { addToCartActions, authActions } from "../../state";
 import { useLocation } from "react-router-dom";
 import ConfirmDialog from "../../shared/components/confirmDialog";
 import CartSubtotal from "./cartSubtotal";
+
 function Cart(props) {
 	const [state, setState] = React.useState({
 		checkedB: true,

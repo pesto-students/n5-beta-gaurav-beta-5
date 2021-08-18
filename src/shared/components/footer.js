@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
 	FooterContainer,
 	FooterTitle,
@@ -16,17 +16,63 @@ import { Container, Grid } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Facebook, Instagram, Twitter } from "@material-ui/icons";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { productsAction } from "../../state";
+
 function Footer() {
+	const history = useHistory();
 	const theme = useTheme();
+	const dispatch = useDispatch();
 	const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+	const [subEmail, setSubEmail] = useState(null);
+	const homeDecorId = "Btffw23eE4";
+	const furnitureId = "y4b5xqVFzM";
+	const applianceId = "djrtQawPPX";
+	const { getProducts, setProduct } = bindActionCreators(
+		productsAction,
+		dispatch
+	);
+	const subscribe = () => {
+		if (subEmail == null || subEmail == "") {
+			toast.error("Please provide email.");
+			return;
+		}
+		if (validateEmail(subEmail)) {
+			toast.success("You are now Subscribed to our Newsletters.");
+			return;
+		}
+
+		toast.error("Please Enter Valid email.");
+	};
+
+	const handleClick = (route, id) => {
+		window.scrollTo(0, 0);
+		history.push(route);
+		//id ?  : null;
+		if (id) {
+			getProducts({ body: { categoryId: id }, type: "category" });
+		}
+	};
+
+	const validateEmail = (email) => {
+		const re =
+			/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		return re.test(String(email).toLowerCase());
+	};
 
 	return (
 		<FooterContainer>
 			<Container>
 				<FooterTitle>Want updates from stores near you?</FooterTitle>
 				<FooterSubscribeContainer>
-					<FooterSubscribeInput isSmall={isSmall} />
-					<FooterSubscribeBtn isSmall={isSmall}>
+					<FooterSubscribeInput
+						onChange={(e) => setSubEmail(e.target.value)}
+						isSmall={isSmall}
+					/>
+					<FooterSubscribeBtn onClick={subscribe} isSmall={isSmall}>
 						Subscribe
 					</FooterSubscribeBtn>
 				</FooterSubscribeContainer>
@@ -62,9 +108,35 @@ function Footer() {
 					<Grid item lg xs="6">
 						<FooterLinksTitle>Shop</FooterLinksTitle>
 						<FooterLinksUl>
-							<FooterLink>Furniture Shopping</FooterLink>
-							<FooterLink>Appliances Shopping</FooterLink>
-							<FooterLink>Mobiles Shopping</FooterLink>
+							<FooterLink
+								onClick={() =>
+									handleClick(
+										`/categories?id=${furnitureId}`,
+										furnitureId
+									)
+								}
+							>
+								Furniture Shopping
+							</FooterLink>
+							<FooterLink
+								onClick={() =>
+									handleClick(
+										`/categories?id=${applianceId}`,
+										applianceId
+									)
+								}
+							>
+								Appliances Shopping
+							</FooterLink>
+							<FooterLink
+								onClick={() =>
+									handleClick(
+										"/categories/products?subCat=ngZL0AkYAz"
+									)
+								}
+							>
+								Mobiles Shopping
+							</FooterLink>
 						</FooterLinksUl>
 					</Grid>
 					<Grid item lg xs="6">

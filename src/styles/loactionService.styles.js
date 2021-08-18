@@ -14,18 +14,19 @@ export const LocationServiceContainer = styled.div`
 
 export const ModalBody = styled.div`
 	display: block;
-	width: ${(props) => (props.isSmall ? "80%" : "30%")};
+	width: ${(props) => (props.isSmall ? "80%" : "80%")};
+	height: 80%;
 
-	background-color: #fff;
+	background-color: #000;
 	margin: 0 auto;
 	position: relative;
-	top: 20%;
+	top: 8%;
 	border: none;
 	color: black;
 	border-radius: 0;
 	.map-container {
 		width: 100%;
-		min-height: 400px;
+		min-height: ${(props) => (props.isSmall ? "300px" : "600px")};
 		color: black;
 	}
 	.distance-text {
@@ -73,15 +74,16 @@ export const ModalBody = styled.div`
 	}
 	.search-location {
 		text-align: center;
-		display: inline-block;
-		width: 100%;
+		display: block;
+		width: 70%;
 		margin-top: 15px;
 		margin-bottom: 30px;
 		position: relative;
+		margin: 20px auto;
 		input {
 			padding: 10px;
 			font-family: inherit;
-			width: 80%;
+			width: 100%;
 			:focus-visible {
 				outline: none;
 			}
@@ -90,8 +92,8 @@ export const ModalBody = styled.div`
 		.search-results {
 			position: absolute;
 			top: 40px;
-			left: 57px;
-			width: 80%;
+			left: 0;
+			width: 100%;
 			margin: 0 auto;
 			ul {
 				padding: 0;

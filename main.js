@@ -183,3 +183,13 @@ Parse.Cloud.define("updateUserInfo", async (request) => {
 		console.error("Error while retrieving user", error);
 	}
 });
+
+Parse.Cloud.define("searchProductsApi", async (request) => {
+	const query = request.params.query;
+	const queryProducts = new Parse.Query("Products");
+
+	queryProducts.contains("name", query);
+
+	const resultsProducts = await queryProducts.find();
+	return resultsProducts;
+});

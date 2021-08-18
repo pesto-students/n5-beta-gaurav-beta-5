@@ -95,11 +95,19 @@ function LocationService(props) {
 			setLng(lngLat.lng);
 			console.log("lngLat", lngLat);
 			locationSearch({ query: `${lngLat.lng},${lngLat.lat}` });
+			setLat(lngLat.lat);
+			setLng(lngLat.lng);
 			setShowLocSearch(true);
+
+			setZoom(12);
 		}
 		marker.on("dragend", onDragEnd);
 		setMapObject(map.current);
 	}, []);
+
+	useEffect(() => {
+		map.current.flyTo({ center: [lng, lat], zoom: zoom });
+	}, [zoom]);
 
 	useEffect(() => {
 		//console.log("locations", locations);

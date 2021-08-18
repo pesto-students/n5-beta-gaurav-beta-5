@@ -30,13 +30,15 @@ function CartSubtotal(props) {
 
 			{!props.type ? (
 				<Box mx={3} pb={4}>
-					<Button
-						variant="contained"
-						className="submit-change"
-						onClick={() => handleClick("/makepayment")}
-					>
-						PROCEED TO BUY
-					</Button>
+					{cart.length > 0 && (
+						<Button
+							variant="contained"
+							className="submit-change"
+							onClick={() => handleClick("/makepayment")}
+						>
+							PROCEED TO BUY
+						</Button>
+					)}
 					<Button
 						variant="contained"
 						className="submit-change ctn-shopping-btn"

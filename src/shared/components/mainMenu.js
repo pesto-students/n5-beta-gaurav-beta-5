@@ -21,8 +21,6 @@ import { bindActionCreators } from "redux";
 import { authActions } from "../../state";
 import LocationService from "./locationService";
 import { useSelector, useDispatch } from "react-redux";
-import { addToCartActions } from "../../state";
-import { useLocation } from "react-router-dom";
 
 function MainMenu() {
 	const theme = useTheme();
@@ -67,21 +65,23 @@ function MainMenu() {
 				<Logo onClick={() => handleClick("/")} isSmall={isSmall}>
 					E-Life.
 				</Logo>
-				<Hidden smDown>
-					<Menu>
-						<MenuItem onClick={() => handleClick("/")}>
-							Home
-						</MenuItem>
-						<MenuItem onClick={() => handleClick("/categories")}>
-							Categories
-						</MenuItem>
-						<MenuItem onClick={() => handleClick("/orders")}>
-							Orders
-						</MenuItem>
-					</Menu>
-				</Hidden>
 
 				<IconsMenuDiv isSmall={isSmall}>
+					<Hidden smDown>
+						<Menu>
+							<MenuItem onClick={() => handleClick("/")}>
+								Home
+							</MenuItem>
+							<MenuItem
+								onClick={() => handleClick("/categories")}
+							>
+								Categories
+							</MenuItem>
+							<MenuItem onClick={() => handleClick("/orders")}>
+								Orders
+							</MenuItem>
+						</Menu>
+					</Hidden>
 					<Hidden smDown>
 						<Tooltip title="User Profile">
 							<IconMenuItem onClick={() => handleUserIconClick()}>
@@ -111,7 +111,7 @@ function MainMenu() {
 							</Box>
 						</Tooltip>
 					</IconMenuItem>
-					{session !== null && (
+					{/* {session !== null && (
 						<IconMenuItem>
 							<Tooltip title="Log Out">
 								<ExitToAppOutlined
@@ -120,7 +120,7 @@ function MainMenu() {
 								/>
 							</Tooltip>
 						</IconMenuItem>
-					)}
+					)} */}
 				</IconsMenuDiv>
 			</Container>
 		</MainMenuContainer>

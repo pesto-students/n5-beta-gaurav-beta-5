@@ -37,6 +37,7 @@ import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { productsAction } from "../../state";
+import BreadCrumb from "../../shared/components/breadCrumb";
 
 function Category() {
 	const themeMat = useTheme();
@@ -210,6 +211,9 @@ function Category() {
 				</CategoryBanner>
 				<Container maxWidth={false} className="category-content">
 					<Grid container spacing="5" alignItems="stretch">
+						<Grid item xs="12">
+							<BreadCrumb />
+						</Grid>
 						<Hidden smDown>
 							<Grid item lg="3">
 								<CategorySelection />

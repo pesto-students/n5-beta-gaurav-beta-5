@@ -34,7 +34,7 @@ import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { isEmpty } from "lodash";
-
+import BreadCrumb from "../../shared/components/breadCrumb";
 function ProductDetails() {
 	const { product, isLoading } = useSelector((state) => state.products);
 	const { cart } = useSelector((state) => state.myCart);
@@ -83,6 +83,9 @@ function ProductDetails() {
 		<ProductDetailsContainer>
 			<Container>
 				<Grid container className="products-content">
+					{/* <Grid item xs="12">
+						<BreadCrumb />
+					</Grid> */}
 					<Grid item lg="6" xs="12">
 						<Box className="image-list">
 							<ProductImage url={images[imageIndex].url} />
@@ -110,7 +113,7 @@ function ProductDetails() {
 						<ProductTitleContainer>
 							<ProductTitle>{product.name}</ProductTitle>
 							<ProductVendorInfo>
-								Vendor: The Clocks Store
+								Vendor: {product.vendorRef.name}
 							</ProductVendorInfo>
 						</ProductTitleContainer>
 						<Grid
@@ -149,14 +152,16 @@ function ProductDetails() {
 											Inclusive of all taxes
 										</ProductPriceValue>
 									</Box>
-									<Box className="price-box">
-										<ProductPriceKey>
-											Free Delivery:
-										</ProductPriceKey>
-										<ProductPriceValue fontWeight="bold">
-											Tomorrow
-										</ProductPriceValue>
-									</Box>
+									{product.distance && product.distance < 30 && (
+										<Box className="price-box">
+											<ProductPriceKey>
+												Free Delivery:
+											</ProductPriceKey>
+											<ProductPriceValue fontWeight="bold">
+												Tomorrow
+											</ProductPriceValue>
+										</Box>
+									)}
 								</ProductPriceContainer>
 							</Grid>
 							<Grid item lg="4" xs="12">

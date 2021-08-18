@@ -28,7 +28,7 @@ export const FooterSubscribeContainer = styled.div`
 `;
 
 export const FooterSubscribeInput = styled.input.attrs((props) => ({
-	type: "text",
+	type: "email",
 	placeholder: "Enter Email*",
 }))`
 	display: inline-block;

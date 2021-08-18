@@ -45,11 +45,13 @@ function UserProfile() {
 	useEffect(() => {
 		console.log("user userUpdated", userUpdated);
 		setFormReadOnly(true);
-		if (userUpdated.result.code == 206) {
+		if (userUpdated?.result?.code == 206) {
 			toast.error("Some Error occurred!");
 			return;
 		}
-		toast.success("User Updated successfully");
+		if (userUpdated?.result?.code == 200) {
+			toast.success("User Updated successfully");
+		}
 	}, [userUpdated]);
 
 	const handleRoute = () => {

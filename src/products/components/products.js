@@ -20,7 +20,7 @@ import { useLocation } from "react-router-dom";
 
 import { isEmpty, orderBy } from "lodash";
 import ProductSkeleton from "./productSkeleton";
-
+import BreadCrumb from "../../shared/components/breadCrumb";
 function Products() {
 	const [open, setOpen] = React.useState(false);
 	const [productListState, setProductListState] = useState([]);
@@ -136,6 +136,9 @@ function Products() {
 		<ProductsContainer>
 			<Container maxWidth={false} className="category-content">
 				<Grid container spacing="5" alignItems="stretch">
+					<Grid item xs="12">
+						<BreadCrumb />
+					</Grid>
 					<Hidden smDown>
 						<Grid item lg="3">
 							<CategorySelection />

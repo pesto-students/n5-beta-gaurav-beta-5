@@ -14,13 +14,13 @@ export const MainMenuContainer = styled.div`
 export const Logo = styled.div`
 	font-size: 24px;
 	font-family: Futura-Bold;
-	width: ${(props) => (props.isSmall ? "40%" : "60%")};
+	width: ${(props) => (props.isSmall ? "40%" : "40%")};
 	display: inline-block;
 	cursor: pointer;
 `;
 
 export const Menu = styled.div`
-	width: 20%;
+	width: 40%;
 	display: inline-block;
 	text-align: right;
 `;
@@ -40,7 +40,7 @@ export const MenuItem = styled.a`
 `;
 
 export const IconsMenuDiv = styled.div`
-	width: ${(props) => (props.isSmall ? "60%" : "20%")};
+	width: ${(props) => (props.isSmall ? "60%" : "60%")};
 	display: inline-block;
 	text-align: right;
 `;
