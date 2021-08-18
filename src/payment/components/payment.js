@@ -4,17 +4,11 @@ import {
 	Button,
 	Container,
 	Paper,
-	ButtonBase,
 	Typography,
-	Checkbox,
 	Box,
-	MenuItem,
-	Select,
-	FormControl,
-	Link,
 } from "@material-ui/core";
 import { CartContainer } from "../../styles/cart.styles";
-import clockImage from "../../assets/images/clock.jpg";
+
 import applogo from "../../assets/images/E-Life_logo.png";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -26,16 +20,8 @@ import { toast } from "react-toastify";
 import useScript from "../../shared/hook/useScript";
 
 function MakePayment() {
-	const [state, setState] = React.useState({
-		checkedB: true,
-	});
-	const { userSelectedLocation } = useSelector(
-		(state) => state.searchedLocation
-	);
 	const dispatch = useDispatch();
-	const handleChange = (event) => {
-		setState({ ...state, [event.target.name]: event.target.checked });
-	};
+
 	const { currentAddress } = useSelector((state) => state.addressState);
 	const userSession = JSON.parse(localStorage.getItem("session"));
 	useEffect(() => {
@@ -44,15 +30,12 @@ function MakePayment() {
 
 	const { cart } = useSelector((state) => state.myCart);
 
-	const { showMap } = bindActionCreators(mapAction, dispatch);
-
 	const { makeOrder } = bindActionCreators(ordersAction, dispatch);
 	const { deleteToCart } = bindActionCreators(addToCartActions, dispatch);
 	const preventDefault = (event) => event.preventDefault();
 	const history = useHistory();
 	const handleClick = (route) => {
 		history.push(route);
-		if (isEmpty(userSelectedLocation)) showMap(true);
 	};
 
 	const calculate = () => {
@@ -130,8 +113,6 @@ function MakePayment() {
 		handler: function (response) {
 			//intgrate order api
 			const body = orderBody("success", response);
-
-			setState({ ...state, currentOrder: body });
 
 			makeOrder(body);
 			//alert(response.razorpay_payment_id);

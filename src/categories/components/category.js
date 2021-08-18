@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import homeDecorBannerImg from "../../assets/images/homeDecorBanner.jpg";
 import carpetBannerImg from "../../assets/images/carpet.jpg";
 import wallHangingBannerImg from "../../assets/images/wallhanging.jpg";
@@ -15,11 +15,8 @@ import {
 	CategoryBannerLinksContainer,
 	CategoryBannerTitle,
 	CategoryContainer,
-	CategoryList,
-	CategoryListTitle,
 	CategoryMainTitle,
 	CategoryProductSlider,
-	CategorySelectContainer,
 	CategoryBannerText,
 	CategoryBtn,
 	ModalClose,
@@ -55,20 +52,15 @@ function Category() {
 	const smallAppliaceId = "lrXfhGCEt1";
 
 	const [open, setOpen] = React.useState(false);
-	const [objId, setObjId] = React.useState(homeDecorId);
+
 	const [productListState, setProductListState] = useState([]);
 	const [currentCategory, setCurrentCategory] = useState(homeDecorId);
 	const search = useLocation().search;
 	const id = new URLSearchParams(search).get("id");
 
-	const { productList, product, isLoading } = useSelector(
-		(state) => state.products
-	);
+	const { productList } = useSelector((state) => state.products);
 	const dispatch = useDispatch();
-	const { getProducts, setProduct } = bindActionCreators(
-		productsAction,
-		dispatch
-	);
+	const { getProducts } = bindActionCreators(productsAction, dispatch);
 
 	const banners = {
 		homeDecor: [
@@ -171,21 +163,21 @@ function Category() {
 		<ThemeProvider theme={theme}>
 			<CategoryContainer>
 				<CategoryBanner banner={showBanner()[0].mainImg} repeat={true}>
-					{currentCategory == applianceId && (
+					{currentCategory === applianceId && (
 						<CategoryBannerTitle>
 							Home Appliances
 						</CategoryBannerTitle>
 					)}
-					{currentCategory == furnitureId && (
+					{currentCategory === furnitureId && (
 						<CategoryBannerTitle>Furniture</CategoryBannerTitle>
 					)}
-					{currentCategory == homeDecorId && (
+					{currentCategory === homeDecorId && (
 						<CategoryBannerTitle>Home Decor</CategoryBannerTitle>
 					)}
 					<CategoryBannerLinksContainer>
 						<CategoryBannerLink
 							className={
-								currentCategory == applianceId ? "active" : ""
+								currentCategory === applianceId ? "active" : ""
 							}
 							onClick={() => selectCategory(applianceId)}
 						>
@@ -193,7 +185,7 @@ function Category() {
 						</CategoryBannerLink>
 						<CategoryBannerLink
 							className={
-								currentCategory == furnitureId ? "active" : ""
+								currentCategory === furnitureId ? "active" : ""
 							}
 							onClick={() => selectCategory(furnitureId)}
 						>
@@ -201,7 +193,7 @@ function Category() {
 						</CategoryBannerLink>
 						<CategoryBannerLink
 							className={
-								currentCategory == homeDecorId ? "active" : ""
+								currentCategory === homeDecorId ? "active" : ""
 							}
 							onClick={() => selectCategory(homeDecorId)}
 						>

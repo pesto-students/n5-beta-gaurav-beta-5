@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const CategoryContainer = styled.div`
 	width: 100%;
 	min-height: 530px;
-	.category-content {
+	&.category-content {
 		min-height: 1000px;
 		margin-top: 20px;
 		/* .category-selector-container {

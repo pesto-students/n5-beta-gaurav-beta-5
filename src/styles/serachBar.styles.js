@@ -74,6 +74,27 @@ export const SearchBox = styled.div`
 	display: inline-block;
 	width: 80%;
 	position: relative;
+	ul.search-result {
+		position: absolute;
+		top: 57px;
+		right: 20px;
+		width: 96%;
+		background-color: white;
+		max-height: 300px;
+		overflow-y: scroll;
+		box-shadow: 0px 10px 10px #ddd;
+		li {
+			list-style: none;
+			padding: 10px;
+			border-bottom: 1px solid #ddd;
+			color: #555;
+			cursor: pointer;
+			:hover {
+				color: black;
+				background-color: #ddd;
+			}
+		}
+	}
 	.search-icon {
 		position: absolute;
 		top: 16px;

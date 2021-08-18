@@ -13,6 +13,7 @@ import {
 	FormControl,
 	Link,
 } from "@material-ui/core";
+
 import { ThankYouContainer } from "../../styles/thankyou.styles";
 import ThankYouImage from "../../assets/images/thankyou.jpg";
 import SorryImage from "../../assets/images/sorryimg.png";

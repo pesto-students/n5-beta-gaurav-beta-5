@@ -133,7 +133,7 @@ function Products() {
 	};
 
 	return (
-		<ProductsContainer>
+		<ProductsContainer className="category-content">
 			<Container maxWidth={false} className="category-content">
 				<Grid container spacing="5" alignItems="stretch">
 					<Grid item xs="12">

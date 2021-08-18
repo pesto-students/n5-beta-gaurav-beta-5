@@ -1,12 +1,11 @@
 import { appId, restKey, serverUrl } from "../../shared/api/config";
 
-export async function getProductsApi({ payload }) {
+export async function searchProductsApi(payload) {
 	try {
-		const url1 = `${serverUrl}/functions/getProductsByCategoryApi`;
-		const url2 = `${serverUrl}/functions/getProductsBySubCategoryApi`;
-		const body = payload.body;
-		const type = payload.type;
-		let url = type === "category" ? url1 : url2;
+		const url = `${serverUrl}/functions/searchProductsApi`;
+
+		const body = payload;
+
 		const getProductsResponse = await fetch(url, {
 			method: "POST",
 			headers: {

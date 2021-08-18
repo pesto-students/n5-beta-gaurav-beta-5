@@ -71,7 +71,7 @@ function ProductDetails() {
 	const handleAddToCart = (type = "add") => {
 		console.log("product to add", product, qty);
 		product.qty = qty;
-		product.subTotal = 0;
+		product.sumTotal = 0;
 		const addProductItem = { ...product };
 		addToCart(addProductItem);
 		if (type === "buy") {

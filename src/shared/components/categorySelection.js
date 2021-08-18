@@ -3,7 +3,6 @@ import {
 	CategoryList,
 	CategoryListTitle,
 	CategorySelectContainer,
-	CategorySkeletonLoader,
 } from "../../styles/category.styles";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
