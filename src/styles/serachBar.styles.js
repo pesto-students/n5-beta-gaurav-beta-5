@@ -82,6 +82,7 @@ export const SearchBox = styled.div`
 		background-color: white;
 		max-height: 300px;
 		overflow-y: scroll;
+		box-shadow: 0px 10px 10px #ddd;
 		li {
 			list-style: none;
 			padding: 10px;

@@ -20,12 +20,6 @@ import Cart from "../../cart/components/cart";
 import useScript from "../../shared/hook/useScript";
 
 function MakePayment() {
-	const [state, setState] = React.useState({
-		checkedB: true,
-	});
-	const { userSelectedLocation } = useSelector(
-		(state) => state.searchedLocation
-	);
 	const dispatch = useDispatch();
 
 	const { currentAddress } = useSelector((state) => state.addressState);
@@ -115,8 +109,6 @@ function MakePayment() {
 			makeOrder(body);
 			//alert(response.razorpay_payment_id);
 			handleClick("thankYou");
-			//alert(response.razorpay_order_id);
-			//alert(response.razorpay_signature);
 		},
 		prefill: {
 			name: userSession?.name,
@@ -141,14 +133,6 @@ function MakePayment() {
 			//order api
 			const body = orderBody("failed", response);
 			makeOrder(body);
-
-			// alert(response.error.code);
-			// alert(response.error.description);
-			// alert(response.error.source);
-			// alert(response.error.step);
-			// alert(response.error.reason);
-			// alert(response.error.metadata.order_id);
-			// alert(response.error.metadata.payment_id);
 		});
 		rzp1.open();
 		e.preventDefault();

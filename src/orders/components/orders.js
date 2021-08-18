@@ -6,30 +6,21 @@ import {
 	Paper,
 	ButtonBase,
 	Typography,
-	Checkbox,
 	Box,
-	MenuItem,
-	Select,
-	FormControl,
-	Link,
 } from "@material-ui/core";
 import { OrderContainer } from "../../styles/orders.styles";
-import clockImage from "../../assets/images/clock.jpg";
-import craftImage from "../../assets/images/craft.jpg";
+
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { ordersAction } from "../../state";
-import { isEmpty } from "lodash";
+
 import { getOrdersApi } from "../../api/order/ordersApi";
 import OrdersSkeleton from "./ordersSkeleton";
-
+import moment from "moment";
 function Orders() {
 	const dispatch = useDispatch();
-	const { orderList, orderListSuccess } = bindActionCreators(
-		ordersAction,
-		dispatch
-	);
+	const { orderListSuccess } = bindActionCreators(ordersAction, dispatch);
 	const { orderListArry } = useSelector((state) => state.orderState);
 	const userSession = JSON.parse(localStorage.getItem("session"));
 	const [isLoading, setIsLoading] = useState(false);
@@ -89,7 +80,10 @@ function Orders() {
 												<Grid item xs="6">
 													Order ID: {order.orderId}
 													<br />
-													Date: {order.createdAt}
+													Date:{" "}
+													{moment(
+														order.createdAt
+													).format("DD-MMM-YYYY")}
 												</Grid>
 												<Grid item xs="6">
 													<Box textAlign="right">
@@ -173,7 +167,10 @@ function Orders() {
 						</Paper>
 					</Grid>
 					<Grid item xs={12} md={4}>
-						<Paper elevation={0} className="bg-white flex-height">
+						<Paper
+							elevation={0}
+							className="bg-white flex-height continue-shopping-paper"
+						>
 							<Box
 								mx={3}
 								pb={4}

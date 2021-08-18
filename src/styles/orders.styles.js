@@ -116,6 +116,10 @@ export const OrderContainer = styled.div`
 		font-family: inherit;
 		border-radius: 0;
 	}
+	.continue-shopping-paper {
+		position: sticky;
+		top: 150px;
+	}
 	.ctn-shopping-btn {
 		background-color: #ffa41c;
 		font-family: inherit;

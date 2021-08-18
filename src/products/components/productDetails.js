@@ -29,32 +29,35 @@ import {
 import imgClock from "../../assets/images/clock.jpg";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { addToCartActions } from "../../state";
+import { addToCartActions, productsAction } from "../../state";
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import Skeleton from "@material-ui/lab/Skeleton";
+// import Skeleton from "@material-ui/lab/Skeleton";
 import { isEmpty } from "lodash";
-import BreadCrumb from "../../shared/components/breadCrumb";
+// import BreadCrumb from "../../shared/components/breadCrumb";
+import { getProductByIdApi } from "../../api/products/getProductByIdApi";
 function ProductDetails() {
 	const { product, isLoading } = useSelector((state) => state.products);
+	const [loading, setLoading] = useState(false);
 	const { cart } = useSelector((state) => state.myCart);
 	const [qty, setQty] = useState(1);
 	const [imageIndex, setImageIndex] = useState(0);
 	const search = useLocation().search;
 	const dispatch = useDispatch();
 	const { addToCart } = bindActionCreators(addToCartActions, dispatch);
+	const { setProduct } = bindActionCreators(productsAction, dispatch);
 	const productId = new URLSearchParams(search).get("productId");
 	const history = useHistory();
-	const img1 = { ...product["image1"] };
-	const img2 = { ...product["image2"] };
-	const img3 = { ...product["image3"] };
-	const img4 = { ...product["image4"] };
-	const img5 = { ...product["image5"] };
-	const img6 = { ...product["image6"] };
-	let about = product.specification.split("$$");
-	about.shift();
-	let longDescription = product.longDescription
-		.split("\n")
+	const img1 = { ...product?.["image1"] };
+	const img2 = { ...product?.["image2"] };
+	const img3 = { ...product?.["image3"] };
+	const img4 = { ...product?.["image4"] };
+	const img5 = { ...product?.["image5"] };
+	const img6 = { ...product?.["image6"] };
+	let about = product?.specification?.split("$$");
+	about?.shift();
+	let longDescription = product?.longDescription
+		?.split("\n")
 		.filter((s) => s !== "");
 
 	const images = [img1, img2, img3, img4, img5, img6];
@@ -62,7 +65,23 @@ function ProductDetails() {
 	useEffect(() => {
 		//console.log("images", images);
 		window.scrollTo(0, 0);
+		if (isEmpty(product) && productId) {
+			setLoading(true);
+			getProductByIdApi({ productId: productId }).then((data) => {
+				setProduct(data.result[0]);
+				setLoading(false);
+				console.log("about", about);
+			});
+		}
 	}, []);
+
+	useEffect(() => {
+		let about = product?.specification?.split("$$");
+		console.log(
+			"about",
+			about?.filter((i) => i !== "" || i !== "\n")
+		);
+	}, [product]);
 
 	useEffect(() => {
 		console.log(" addedd cart", cart);
@@ -81,150 +100,181 @@ function ProductDetails() {
 
 	return (
 		<ProductDetailsContainer>
-			<Container>
-				<Grid container className="products-content">
-					{/* <Grid item xs="12">
+			{product !== undefined &&
+				isEmpty(product) == false &&
+				loading == false && (
+					<Container>
+						<Grid container className="products-content">
+							{/* <Grid item xs="12">
 						<BreadCrumb />
 					</Grid> */}
-					<Grid item lg="6" xs="12">
-						<Box className="image-list">
-							<ProductImage url={images[imageIndex].url} />
-							<ProductImageUl>
-								{images.map(
-									(image, index) =>
-										isEmpty(image) == false && (
-											<ProductImageList
+							<Grid item lg="6" xs="12">
+								<Box className="image-list">
+									<ProductImage
+										url={images[imageIndex].url}
+									/>
+									<ProductImageUl>
+										{images.map(
+											(image, index) =>
+												isEmpty(image) == false && (
+													<ProductImageList
+														onClick={() =>
+															setImageIndex(index)
+														}
+														src={image.url}
+														className={
+															index == imageIndex
+																? "active"
+																: "not-active"
+														}
+													/>
+												)
+										)}
+									</ProductImageUl>
+								</Box>
+							</Grid>
+							<Grid item lg="6" xs="12">
+								<ProductTitleContainer>
+									<ProductTitle>{product.name}</ProductTitle>
+									<ProductVendorInfo>
+										Vendor: {product.vendorRef.name}
+									</ProductVendorInfo>
+								</ProductTitleContainer>
+								<Grid
+									container
+									item
+									xs="12"
+									className="price-container"
+								>
+									<Grid item lg="8" xs="12">
+										<ProductPriceContainer>
+											<Box className="price-box">
+												<ProductPriceKey>
+													MRP:
+												</ProductPriceKey>
+												<ProductPriceValue lineThru>
+													₹{product.mrp}
+												</ProductPriceValue>
+											</Box>
+											<Box className="price-box">
+												<ProductPriceKey>
+													PRICE:
+												</ProductPriceKey>
+												<ProductPriceValue color="#B12704">
+													₹{product.price}
+												</ProductPriceValue>
+											</Box>
+											<Box className="price-box">
+												<ProductPriceKey>
+													You Save:
+												</ProductPriceKey>
+												<ProductPriceValue color="#B12704">
+													₹
+													{product.mrp -
+														product.price}
+												</ProductPriceValue>
+											</Box>
+											<Box className="price-box">
+												<ProductPriceKey>
+													{" "}
+												</ProductPriceKey>
+												<ProductPriceValue>
+													Inclusive of all taxes
+												</ProductPriceValue>
+											</Box>
+											{product.distance &&
+												product.distance < 30 && (
+													<Box className="price-box">
+														<ProductPriceKey>
+															Free Delivery:
+														</ProductPriceKey>
+														<ProductPriceValue fontWeight="bold">
+															Tomorrow
+														</ProductPriceValue>
+													</Box>
+												)}
+										</ProductPriceContainer>
+									</Grid>
+									<Grid item lg="4" xs="12">
+										<ProductAddContainer>
+											<Box>
+												<ProductQtyLabel>
+													Qty:
+												</ProductQtyLabel>
+												<FormControl
+													variant="outlined"
+													className="qty-dropdown"
+												>
+													<Select
+														className="select-menu"
+														value={qty}
+														onChange={
+															handleQtyChange
+														}
+													>
+														<MenuItem value={1}>
+															1
+														</MenuItem>
+														<MenuItem value={2}>
+															2
+														</MenuItem>
+														<MenuItem value={3}>
+															3
+														</MenuItem>
+														<MenuItem value={4}>
+															4
+														</MenuItem>
+													</Select>
+												</FormControl>
+											</Box>
+											<ProductBtn
 												onClick={() =>
-													setImageIndex(index)
+													handleAddToCart()
 												}
-												src={image.url}
-												className={
-													index == imageIndex
-														? "active"
-														: "not-active"
-												}
-											/>
-										)
-								)}
-							</ProductImageUl>
-						</Box>
-					</Grid>
-					<Grid item lg="6" xs="12">
-						<ProductTitleContainer>
-							<ProductTitle>{product.name}</ProductTitle>
-							<ProductVendorInfo>
-								Vendor: {product.vendorRef.name}
-							</ProductVendorInfo>
-						</ProductTitleContainer>
-						<Grid
-							container
-							item
-							xs="12"
-							className="price-container"
-						>
-							<Grid item lg="8" xs="12">
-								<ProductPriceContainer>
-									<Box className="price-box">
-										<ProductPriceKey>MRP:</ProductPriceKey>
-										<ProductPriceValue lineThru>
-											₹{product.mrp}
-										</ProductPriceValue>
-									</Box>
-									<Box className="price-box">
-										<ProductPriceKey>
-											PRICE:
-										</ProductPriceKey>
-										<ProductPriceValue color="#B12704">
-											₹{product.price}
-										</ProductPriceValue>
-									</Box>
-									<Box className="price-box">
-										<ProductPriceKey>
-											You Save:
-										</ProductPriceKey>
-										<ProductPriceValue color="#B12704">
-											₹{product.mrp - product.price}
-										</ProductPriceValue>
-									</Box>
-									<Box className="price-box">
-										<ProductPriceKey> </ProductPriceKey>
-										<ProductPriceValue>
-											Inclusive of all taxes
-										</ProductPriceValue>
-									</Box>
-									{product.distance && product.distance < 30 && (
-										<Box className="price-box">
-											<ProductPriceKey>
-												Free Delivery:
-											</ProductPriceKey>
-											<ProductPriceValue fontWeight="bold">
-												Tomorrow
-											</ProductPriceValue>
-										</Box>
-									)}
-								</ProductPriceContainer>
-							</Grid>
-							<Grid item lg="4" xs="12">
-								<ProductAddContainer>
-									<Box>
-										<ProductQtyLabel>Qty:</ProductQtyLabel>
-										<FormControl
-											variant="outlined"
-											className="qty-dropdown"
-										>
-											<Select
-												className="select-menu"
-												value={qty}
-												onChange={handleQtyChange}
 											>
-												<MenuItem value={1}>1</MenuItem>
-												<MenuItem value={2}>2</MenuItem>
-												<MenuItem value={3}>3</MenuItem>
-												<MenuItem value={4}>4</MenuItem>
-											</Select>
-										</FormControl>
-									</Box>
-									<ProductBtn
-										onClick={() => handleAddToCart()}
-									>
-										Add to cart
-									</ProductBtn>
-									<ProductBtn bg="#FFA41C">
-										Buy now
-									</ProductBtn>
-								</ProductAddContainer>
-							</Grid>
-						</Grid>
-						<Grid container item xs="12">
-							<ProductInStock>
-								{product.stock > 0
-									? "In Stock"
-									: "Out Of Stock"}
-							</ProductInStock>
-							{/* <ProductType>
+												Add to cart
+											</ProductBtn>
+											<ProductBtn bg="#FFA41C">
+												Buy now
+											</ProductBtn>
+										</ProductAddContainer>
+									</Grid>
+								</Grid>
+								<Grid container item xs="12">
+									<ProductInStock>
+										{product.stock > 0
+											? "In Stock"
+											: "Out Of Stock"}
+									</ProductInStock>
+									{/* <ProductType>
 								Type: <b>Wall Clock</b>
 							</ProductType> */}
-							<ProductAboutTitle>
-								<b>About this item</b>
-							</ProductAboutTitle>
-							<ProductAboutUl>
-								{about.map((item) => (
-									<ProductAboutList>{item}</ProductAboutList>
-								))}
-							</ProductAboutUl>
+									<ProductAboutTitle>
+										<b>About this item</b>
+									</ProductAboutTitle>
+									<ProductAboutUl>
+										{about.map((item) => (
+											<ProductAboutList>
+												{item.trim() !== "" &&
+													item.trim() !== "\n" &&
+													item}
+											</ProductAboutList>
+										))}
+									</ProductAboutUl>
+								</Grid>
+							</Grid>
 						</Grid>
-					</Grid>
-				</Grid>
-				<Grid container>
-					<Grid item xs="12">
-						<ProductDescription>
-							{longDescription.map((para) => (
-								<p>{para}</p>
-							))}
-						</ProductDescription>
-					</Grid>
-				</Grid>
-			</Container>
+						<Grid container>
+							<Grid item xs="12">
+								<ProductDescription>
+									{longDescription.map((para) => (
+										<p>{para}</p>
+									))}
+								</ProductDescription>
+							</Grid>
+						</Grid>
+					</Container>
+				)}
 		</ProductDetailsContainer>
 	);
 }

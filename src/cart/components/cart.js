@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
 	Grid,
-	Button,
 	Container,
 	Paper,
 	ButtonBase,
@@ -14,14 +13,12 @@ import {
 	Link,
 } from "@material-ui/core";
 import { CartContainer } from "../../styles/cart.styles";
-import clockImage from "../../assets/images/clock.jpg";
-import craftImage from "../../assets/images/craft.jpg";
 
 import { useHistory } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCartActions, authActions } from "../../state";
-import { useLocation } from "react-router-dom";
+
 import ConfirmDialog from "../../shared/components/confirmDialog";
 import CartSubtotal from "./cartSubtotal";
 
@@ -34,18 +31,12 @@ function Cart(props) {
 	};
 	const [confirmOpen, setConfirmOpen] = React.useState(false);
 	const [confirmProps, setConfirmProps] = useState({});
-	//const [allconfirmOpen, setAllConfirmOpen] = React.useState(false);
-	const preventDefault = (event) => event.preventDefault();
+
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const { deleteToCart } = bindActionCreators(addToCartActions, dispatch);
-	const { clearSession } = bindActionCreators(authActions, dispatch);
-	const [userSession, setUserSession] = useState();
-	const { session } = useSelector((state) => state.auth);
+
 	const { cart } = useSelector((state) => state.myCart);
-	const handleClick = (route) => {
-		history.push(route);
-	};
 
 	useEffect(() => {
 		console.log("incart", cart);

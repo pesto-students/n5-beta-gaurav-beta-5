@@ -15,15 +15,13 @@ import {
 import imgMobile from "../../assets/images/mobile.jpg";
 import imgLaptop from "../../assets/images/laptop.jpg";
 import imgsubHomeAppliance from "../../assets/images/applianceHome.jpg";
-import imgSwingChair from "../../assets/images/swingChair.jpg";
-import imgCurtain from "../../assets/images/curtain.jpg";
-import imgFan from "../../assets/images/Fan.jpg";
+
 import imgsubHomeDecor from "../../assets/images/decorHome.jpg";
 import { ShopButton } from "../../styles/shopButton.styles";
 import { ArrowForwardOutlined } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import { getFeaturedProductsApi } from "../../api/products/getFeaturedProductsApi";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { productsAction } from "../../state";
 
@@ -35,7 +33,6 @@ function ProductCategories() {
 
 	const [featuredProducts, setFeaturedProducts] = useState([]);
 	const dispatch = useDispatch();
-	const { isGlobal } = useSelector((state) => state.localGlobal);
 	const { setProduct } = bindActionCreators(productsAction, dispatch);
 	useEffect(() => {
 		getFeaturedProductsApi().then((data) => {

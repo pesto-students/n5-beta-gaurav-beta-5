@@ -6,7 +6,7 @@ export async function getProductsApi({ payload }) {
 		const url2 = `${serverUrl}/functions/getProductsBySubCategoryApi`;
 		const body = payload.body;
 		const type = payload.type;
-		let url = type == "category" ? url1 : url2;
+		let url = type === "category" ? url1 : url2;
 		const getProductsResponse = await fetch(url, {
 			method: "POST",
 			headers: {

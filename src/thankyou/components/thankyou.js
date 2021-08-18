@@ -1,31 +1,10 @@
 import React from "react";
-import {
-	Grid,
-	Button,
-	Container,
-	Paper,
-	ButtonBase,
-	Typography,
-	Checkbox,
-	Box,
-	MenuItem,
-	Select,
-	FormControl,
-	Link,
-} from "@material-ui/core";
+import { Grid, Button, Container, Box } from "@material-ui/core";
 import { ThankYouContainer } from "../../styles/thankyou.styles";
 import ThankYouImage from "../../assets/images/thankyou.jpg";
 
 import { useHistory } from "react-router-dom";
 function Thankyou() {
-	const [state, setState] = React.useState({
-		checkedB: true,
-	});
-
-	const handleChange = (event) => {
-		setState({ ...state, [event.target.name]: event.target.checked });
-	};
-	const preventDefault = (event) => event.preventDefault();
 	const history = useHistory();
 	const handleClick = (route) => {
 		history.push(route);

@@ -107,30 +107,55 @@ function AddressMgmt() {
 
 	const addEditAddress = (e) => {
 		let addressCopy = { ...addressFields };
+		let errorCopy = { ...error };
 		switch (e.target.id) {
 			case "fname":
 				addressCopy.fname = e.target.value;
+				e.target.value === ""
+					? (errorCopy.fnameError = true)
+					: (errorCopy.fnameError = false);
 				setAddressFields(addressCopy);
+				setError(errorCopy);
 				break;
 			case "lname":
 				addressCopy.lname = e.target.value;
+				e.target.value === ""
+					? (errorCopy.lnameError = true)
+					: (errorCopy.lnameError = false);
 				setAddressFields(addressCopy);
+				setError(errorCopy);
 				break;
 			case "street":
 				addressCopy.street = e.target.value;
+				e.target.value === ""
+					? (errorCopy.streetError = true)
+					: (errorCopy.streetError = false);
 				setAddressFields(addressCopy);
+				setError(errorCopy);
 				break;
 			case "city":
 				addressCopy.city = e.target.value;
+				e.target.value === ""
+					? (errorCopy.cityError = true)
+					: (errorCopy.cityError = false);
 				setAddressFields(addressCopy);
+				setError(errorCopy);
 				break;
 			case "state":
 				addressCopy.state = e.target.value;
+				e.target.value === ""
+					? (errorCopy.stateError = true)
+					: (errorCopy.stateError = false);
 				setAddressFields(addressCopy);
+				setError(errorCopy);
 				break;
 			case "pincode":
 				addressCopy.pincode = e.target.value;
+				e.target.value === ""
+					? (errorCopy.pincodeError = true)
+					: (errorCopy.pincodeError = false);
 				setAddressFields(addressCopy);
+				setError(errorCopy);
 				break;
 			default:
 				setAddressFields({ ...addressFields });
@@ -171,6 +196,11 @@ function AddressMgmt() {
 
 	const onFormSubmit = (e) => {
 		e.preventDefault();
+		var errorTrue = Object.keys(error).some((k) => error[k] === true);
+		var valueBlank = Object.keys(addressFields).some(
+			(k) => k !== "addressId" && addressFields[k] === ""
+		);
+		if (errorTrue || valueBlank) return;
 		if (addressFields.addressId !== "") {
 			console.log("edit", JSON.stringify(addressFields));
 			updateAddress(addressFields);
@@ -307,6 +337,7 @@ function AddressMgmt() {
 														label="First name"
 														type="text"
 														id="fname"
+														error={error.fnameError}
 														value={
 															addressFields.fname
 														}
@@ -323,6 +354,7 @@ function AddressMgmt() {
 														label="Last name"
 														type="text"
 														id="lname"
+														error={error.lnameError}
 														value={
 															addressFields.lname
 														}
@@ -341,6 +373,7 @@ function AddressMgmt() {
 												id="street"
 												type="text"
 												value={addressFields.street}
+												error={error.streetError}
 												required
 												InputLabelProps={{
 													shrink: true,
@@ -353,6 +386,7 @@ function AddressMgmt() {
 												type="text"
 												id="city"
 												value={addressFields.city}
+												error={error.cityError}
 												required
 												InputLabelProps={{
 													shrink: true,
@@ -367,6 +401,7 @@ function AddressMgmt() {
 												type="text"
 												id="state"
 												value={addressFields.state}
+												error={error.stateError}
 												required
 												InputLabelProps={{
 													shrink: true,
@@ -379,6 +414,7 @@ function AddressMgmt() {
 												type="text"
 												id="country"
 												value={addressFields.country}
+												error={error.countryError}
 												required
 												InputLabelProps={{
 													shrink: true,
@@ -391,6 +427,7 @@ function AddressMgmt() {
 												type="number"
 												id="pincode"
 												value={addressFields.pincode}
+												error={error.pincodeError}
 												required
 												InputLabelProps={{
 													shrink: true,

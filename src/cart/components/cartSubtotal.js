@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Button, Paper, Typography, Box } from "@material-ui/core";
 
 import { useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { isEmpty } from "lodash";
 function CartSubtotal(props) {
 	const history = useHistory();
-	const dispatch = useDispatch();
+
 	const { cart } = useSelector((state) => state.myCart);
 	const userSession = JSON.parse(localStorage.getItem("session"));
 	const handleClick = (route) => {
@@ -50,7 +50,7 @@ function CartSubtotal(props) {
 			) : (
 				<Box mx={3} pb={4}>
 					<Typography className="default-font address">
-						{isEmpty(currentAddress) == false && (
+						{isEmpty(currentAddress) === false && (
 							<>
 								<b>
 									{currentAddress.firstName}{" "}
