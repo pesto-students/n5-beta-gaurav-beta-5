@@ -4,6 +4,7 @@ export const CategoryContainer = styled.div`
 	width: 100%;
 	min-height: 530px;
 	.category-content {
+		min-height: 1000px;
 		margin-top: 20px;
 		/* .category-selector-container {
 			background-color: #f4f2f2;
@@ -24,6 +25,7 @@ export const CategoryBanner = styled.div`
 	position: relative;
 	background-repeat: ${(props) => (props.repeat ? "repeat" : "no-repeat")};
 	background-size: cover;
+	cursor: pointer;
 	&.category-sub-banner {
 		margin: 20px 0;
 	}

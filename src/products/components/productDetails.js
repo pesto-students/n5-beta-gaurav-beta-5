@@ -61,6 +61,7 @@ function ProductDetails() {
 
 	useEffect(() => {
 		//console.log("images", images);
+		window.scrollTo(0, 0);
 	}, []);
 
 	useEffect(() => {
@@ -83,26 +84,27 @@ function ProductDetails() {
 			<Container>
 				<Grid container className="products-content">
 					<Grid item lg="6" xs="12">
-						<ProductImage src={images[imageIndex].url} />
-						<ProductImageUl>
-							{images.map(
-								(image, index) =>
-									isEmpty(image) == false && (
-										<ProductImageList
-											onClick={() => setImageIndex(index)}
-											src={image.url}
-											className={
-												index == imageIndex
-													? "active"
-													: "not-active"
-											}
-										/>
-									)
-							)}
-							{/* <ProductImageList src={imgClock} />
-							<ProductImageList src={imgClock} />
-							<ProductImageList src={imgClock} /> */}
-						</ProductImageUl>
+						<Box className="image-list">
+							<ProductImage url={images[imageIndex].url} />
+							<ProductImageUl>
+								{images.map(
+									(image, index) =>
+										isEmpty(image) == false && (
+											<ProductImageList
+												onClick={() =>
+													setImageIndex(index)
+												}
+												src={image.url}
+												className={
+													index == imageIndex
+														? "active"
+														: "not-active"
+												}
+											/>
+										)
+								)}
+							</ProductImageUl>
+						</Box>
 					</Grid>
 					<Grid item lg="6" xs="12">
 						<ProductTitleContainer>

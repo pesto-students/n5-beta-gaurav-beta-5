@@ -51,7 +51,7 @@ function AddressMgmt() {
 		addedAddress,
 		updatedAddress,
 		deletedAddress,
-		currentAddress,
+
 		isLoading,
 	} = useSelector((state) => state.addressState);
 	const dispatch = useDispatch();

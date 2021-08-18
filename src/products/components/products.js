@@ -18,7 +18,7 @@ import {
 } from "../../state";
 import { useLocation } from "react-router-dom";
 
-import { isEmpty } from "lodash";
+import { isEmpty, orderBy } from "lodash";
 import ProductSkeleton from "./productSkeleton";
 
 function Products() {
@@ -41,6 +41,7 @@ function Products() {
 	const { isGlobal } = useSelector((state) => state.localGlobal);
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		if (subCatId && subCatId !== null)
 			getProducts({
 				body: { subCategoryId: subCatId },
@@ -53,16 +54,21 @@ function Products() {
 
 		arry.forEach((item) => {
 			if (item.vendorRef.objectId == uvDistance.vendor) {
-				item.distance = uvDistance.data.waypoints[0].distance.toFixed();
-				item.vendorRef.distance =
-					uvDistance.data.waypoints[0].distance.toFixed();
+				item.distance = Number(
+					uvDistance.data.waypoints[0].distance.toFixed()
+				);
+				item.vendorRef.distance = Number(
+					uvDistance.data.waypoints[0].distance.toFixed()
+				);
 			}
 		});
 		if (isGlobal == false) {
 			let arr = arry.filter((item) => {
 				return item.vendorRef.distance < 30;
 			});
-			setProductListState(arr);
+			let sortedArry = orderBy(arr, ["distance", ["asc"]]);
+
+			setProductListState(sortedArry);
 		} else {
 			setProductListState(arry);
 		}
@@ -162,7 +168,11 @@ function Products() {
 							<Grid container spacing="4">
 								{productListState &&
 									productListState.length > 0 &&
-									productListState.map((product) => (
+									orderBy(
+										productListState,
+										["distance"],
+										["asc"]
+									).map((product) => (
 										<Grid
 											item
 											xl="3"

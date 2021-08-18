@@ -11,17 +11,17 @@ import {
 	ProductCardPrice,
 	ProductCardAddToCart,
 } from "../../styles/productCard.styles";
-import imgClock from "../../assets/images/clock.jpg";
+
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { productsAction } from "../../state";
-import { useLocation } from "react-router-dom";
+
 import { useHistory } from "react-router-dom";
-import { distanceApi } from "../../api/location/distanceApi";
+
 import { isEmpty } from "lodash";
 function ProductCard({ handleClick, product }) {
 	// const { url } = product.image1;
-	const [vendorDistance, setVendorDistance] = useState(undefined);
+
 	const image = { ...product["image1"] };
 	const history = useHistory();
 	const dispatch = useDispatch();

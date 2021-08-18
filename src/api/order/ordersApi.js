@@ -20,3 +20,24 @@ export async function createOrderApi({ payload }) {
 		return errors;
 	}
 }
+
+export async function getOrdersApi(payload) {
+	try {
+		const url = `${serverUrl}functions/getOrdersByUserIdApi`;
+
+		const body = payload;
+
+		const getOrdersResponse = await fetch(url, {
+			method: "POST",
+			headers: {
+				"X-Parse-Application-Id": appId,
+				"X-Parse-REST-API-Key": restKey,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(body),
+		});
+		return await getOrdersResponse.json();
+	} catch (errors) {
+		return errors;
+	}
+}

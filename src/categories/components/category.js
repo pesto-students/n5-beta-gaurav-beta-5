@@ -2,6 +2,13 @@ import React, { useRef, useEffect, useState } from "react";
 import homeDecorBannerImg from "../../assets/images/homeDecorBanner.jpg";
 import carpetBannerImg from "../../assets/images/carpet.jpg";
 import wallHangingBannerImg from "../../assets/images/wallhanging.jpg";
+
+import sofaImg from "../../assets/images/sofaBanner.jpg";
+import diningImg from "../../assets/images/diningTable.jpg";
+
+import largeApplianceImg from "../../assets/images/largeApplianceBanner.jpg";
+import smallApplianceImg from "../../assets/images/smallAppliance.jpg";
+
 import {
 	CategoryBanner,
 	CategoryBannerLink,
@@ -35,9 +42,21 @@ function Category() {
 	const themeMat = useTheme();
 	const isSmall = useMediaQuery(themeMat.breakpoints.down("sm"));
 	const history = useHistory();
+	const homeDecorId = "Btffw23eE4";
+	const furnitureId = "y4b5xqVFzM";
+	const applianceId = "djrtQawPPX";
+
+	const showPiecesId = "sRdGKe0Btl";
+	const carpetsId = "TDldZghvIU";
+	const sofaId = "tvlGJt2LgJ";
+	const diningId = "BMJcwoSDWq";
+	const largeApplianceId = "m5DG81CFXj";
+	const smallAppliaceId = "lrXfhGCEt1";
+
 	const [open, setOpen] = React.useState(false);
-	const [objId, setObjId] = React.useState("Btffw23eE4");
+	const [objId, setObjId] = React.useState(homeDecorId);
 	const [productListState, setProductListState] = useState([]);
+	const [currentCategory, setCurrentCategory] = useState(homeDecorId);
 	const search = useLocation().search;
 	const id = new URLSearchParams(search).get("id");
 
@@ -50,11 +69,60 @@ function Category() {
 		dispatch
 	);
 
+	const banners = {
+		homeDecor: [
+			{
+				text: "Wallpapers & Show Pieces",
+				img: wallHangingBannerImg,
+				mainImg: homeDecorBannerImg,
+				link: `/categories/products?subCat=${showPiecesId}`,
+			},
+			{
+				text: "Carpets and Coverings",
+				img: carpetBannerImg,
+				link: `/categories/products?subCat=${carpetsId}`,
+			},
+		],
+		furniture: [
+			{
+				text: "Sofa",
+				img: sofaImg,
+				mainImg: sofaImg,
+				link: `/categories/products?subCat=${sofaId}`,
+			},
+			{
+				text: "Dining Tables",
+				img: diningImg,
+				link: `/categories/products?subCat=${diningId}`,
+			},
+		],
+		appliances: [
+			{
+				text: "Large Appliances",
+				img: largeApplianceImg,
+				mainImg: largeApplianceImg,
+				link: `/categories/products?subCat=${largeApplianceId}`,
+			},
+			{
+				text: "Small Appliances",
+				img: smallApplianceImg,
+				link: `/categories/products?subCat=${smallAppliaceId}`,
+			},
+		],
+	};
+
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		if (id && id !== null) {
 			getProducts({ body: { categoryId: id }, type: "category" });
+			setCurrentCategory(id);
+			return;
 		}
-		getProducts({ body: { categoryId: objId }, type: "category" });
+		getProducts({
+			body: { categoryId: currentCategory },
+			type: "category",
+		});
+		setCurrentCategory(currentCategory);
 	}, []);
 
 	useEffect(() => {
@@ -62,6 +130,28 @@ function Category() {
 		if (productList.result) setProductListState(productList.result);
 		console.log("productListState", productListState);
 	}, [productList]);
+
+	const selectCategory = (catId) => {
+		setCurrentCategory(catId);
+		getProducts({ body: { categoryId: catId }, type: "category" });
+		history.push({
+			pathname: "/categories",
+			search: `?id=${catId}`,
+		});
+	};
+
+	const showBanner = () => {
+		switch (currentCategory) {
+			case homeDecorId:
+				return banners.homeDecor;
+			case furnitureId:
+				return banners.furniture;
+			case applianceId:
+				return banners.appliances;
+			default:
+				return banners.homeDecor;
+		}
+	};
 
 	const handleClick = (route) => {
 		history.push(route);
@@ -75,15 +165,45 @@ function Category() {
 	const theme = {
 		isSmall: isSmall,
 	};
+
 	return (
 		<ThemeProvider theme={theme}>
 			<CategoryContainer>
-				<CategoryBanner banner={homeDecorBannerImg} repeat={true}>
-					<CategoryBannerTitle>Home Decor</CategoryBannerTitle>
+				<CategoryBanner banner={showBanner()[0].mainImg} repeat={true}>
+					{currentCategory == applianceId && (
+						<CategoryBannerTitle>
+							Home Appliances
+						</CategoryBannerTitle>
+					)}
+					{currentCategory == furnitureId && (
+						<CategoryBannerTitle>Furniture</CategoryBannerTitle>
+					)}
+					{currentCategory == homeDecorId && (
+						<CategoryBannerTitle>Home Decor</CategoryBannerTitle>
+					)}
 					<CategoryBannerLinksContainer>
-						<CategoryBannerLink>Home Appliances</CategoryBannerLink>
-						<CategoryBannerLink>Furniture</CategoryBannerLink>
-						<CategoryBannerLink className="active">
+						<CategoryBannerLink
+							className={
+								currentCategory == applianceId ? "active" : ""
+							}
+							onClick={() => selectCategory(applianceId)}
+						>
+							Home Appliances
+						</CategoryBannerLink>
+						<CategoryBannerLink
+							className={
+								currentCategory == furnitureId ? "active" : ""
+							}
+							onClick={() => selectCategory(furnitureId)}
+						>
+							Furniture
+						</CategoryBannerLink>
+						<CategoryBannerLink
+							className={
+								currentCategory == homeDecorId ? "active" : ""
+							}
+							onClick={() => selectCategory(homeDecorId)}
+						>
 							Home Decor
 						</CategoryBannerLink>
 					</CategoryBannerLinksContainer>
@@ -147,36 +267,23 @@ function Category() {
 											))}
 								</Grid>
 							</CategoryProductSlider>
-							<Grid lg="12">
-								<CategoryBanner
-									banner={wallHangingBannerImg}
-									className="category-sub-banner"
-								>
-									<CategoryBannerText
-										top="70%"
-										left="6%"
-										color="black"
+							{showBanner().map((banner) => (
+								<Grid lg="12">
+									<CategoryBanner
+										banner={banner.img}
+										className="category-sub-banner"
+										onClick={() => handleClick(banner.link)}
 									>
-										WALL HANGINGS & SHOW <br />
-										PIECES
-									</CategoryBannerText>
-								</CategoryBanner>
-							</Grid>
-							<Grid lg="12">
-								<CategoryBanner
-									banner={carpetBannerImg}
-									className="category-sub-banner"
-								>
-									<CategoryBannerText
-										top="55%"
-										left="10%"
-										color="white"
-										size="48px"
-									>
-										CARPETS
-									</CategoryBannerText>
-								</CategoryBanner>
-							</Grid>
+										<CategoryBannerText
+											top="70%"
+											left="6%"
+											color="black"
+										>
+											{banner.text}
+										</CategoryBannerText>
+									</CategoryBanner>
+								</Grid>
+							))}
 						</Grid>
 					</Grid>
 				</Container>

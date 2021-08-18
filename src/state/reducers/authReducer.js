@@ -25,7 +25,7 @@ let initialState = {
 			? JSON.parse(localStorage.getItem("signUpSession"))
 			: null,
 	resetPasswordState: null,
-	userUpdate: null,
+	userUpdated: null,
 	error: null,
 };
 
@@ -72,7 +72,7 @@ const reducer = (state = initialState, action) => {
 		case UPDATE_USER_INFO_SUCCESS:
 			return {
 				...state,
-				userUpdate: action.payload,
+				userUpdated: action.payload,
 				isLoading: false,
 			};
 			break;

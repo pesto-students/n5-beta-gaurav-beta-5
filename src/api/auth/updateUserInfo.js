@@ -2,11 +2,12 @@ import { appId, restKey, serverUrl } from "../../shared/api/config";
 
 export async function updateUserInfoApi({ payload }) {
 	try {
-		const url = `${serverUrl}users/${payload.objectId}`;
+		const url = `${serverUrl}functions/updateUserInfo`;
 		const body = {
-			username: payload.username,
+			name: payload.name,
 			email: payload.email,
 			phone: payload.phone,
+			userId: payload.objectId,
 		};
 
 		const updateUserInfoDataResponse = await fetch(url, {

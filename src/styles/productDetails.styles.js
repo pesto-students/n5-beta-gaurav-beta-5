@@ -11,14 +11,20 @@ export const ProductDetailsContainer = styled.div`
 		padding-bottom: 20px;
 		margin-bottom: 30px;
 	}
+	.image-list {
+		position: sticky;
+		top: 100px;
+	}
 `;
 
 export const ProductImage = styled.img`
 	width: 70%;
+	min-height: 450px;
+	max-height: 500px;
 	display: block;
 	margin: 0 auto;
 	text-align: center;
-	background-image: url(${(props) => props.src});
+	background-image: url(${(props) => props.url});
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;

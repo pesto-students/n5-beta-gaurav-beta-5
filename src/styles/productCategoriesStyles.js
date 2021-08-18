@@ -13,6 +13,11 @@ export const WhatsNewSmallText = styled.div`
 	color: #b4afaf;
 `;
 
+export const FeaturedProducts = styled.div`
+	width: 100%;
+	margin-bottom: 20px;
+`;
+
 export const WhatsNewTitle = styled.div`
 	width: 100%;
 	min-height: 50px;

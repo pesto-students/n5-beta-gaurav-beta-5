@@ -4,6 +4,10 @@ import { Container, Grid, TextField, Box } from "@material-ui/core";
 import avatarImg from "../../assets/images/avatar-main.jpg";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import { addressAction } from "../../state";
+import { authActions } from "../../state";
+import { toast } from "react-toastify";
 function UserProfile() {
 	const [formReadOnly, setFormReadOnly] = useState(true);
 	const [userInfo, setUserInfo] = useState({
@@ -11,18 +15,74 @@ function UserProfile() {
 		phone: "",
 		email: "",
 	});
+
+	const [userAddressState, setUserAddressState] = useState({});
 	const history = useHistory();
+	const dispatch = useDispatch();
 	const editForm = () => {
 		setFormReadOnly(!formReadOnly);
 	};
 	const { session } = useSelector((state) => state.auth);
+	const { userAddresses } = useSelector((state) => state.addressState);
+	const { userUpdated, isLoading } = useSelector((state) => state.auth);
+	const { getAddresses } = bindActionCreators(addressAction, dispatch);
+	const { updateUserInfo } = bindActionCreators(authActions, dispatch);
 	useEffect(() => {
 		console.log("user profile", session);
 		if (session == null || session == undefined) {
 			history.push("/signin");
+			return;
 		}
 		setUserInfo(session);
+		getAddresses({ userId: session.objectId });
 	}, []);
+
+	useEffect(() => {
+		console.log("user profile", userAddresses);
+		setUserAddressState(userAddresses.result?.[0]);
+	}, [userAddresses]);
+
+	useEffect(() => {
+		console.log("user userUpdated", userUpdated);
+		setFormReadOnly(true);
+		if (userUpdated.result.code == 206) {
+			toast.error("Some Error occurred!");
+			return;
+		}
+		toast.success("User Updated successfully");
+	}, [userUpdated]);
+
+	const handleRoute = () => {
+		history.push("/address-management");
+	};
+
+	const handleOnChange = (e) => {
+		let info = { ...userInfo };
+		switch (e.target.id) {
+			case "name":
+				info.name = e.target.value;
+				setUserInfo({ ...info });
+				break;
+			case "phone":
+				info.phone = e.target.value;
+				setUserInfo({ ...info });
+				break;
+			case "email":
+				info.email = e.target.value;
+				setUserInfo({ ...info });
+				break;
+			default:
+				setUserInfo({ ...userInfo });
+				break;
+		}
+	};
+
+	const handleFormSubmit = (e) => {
+		e.preventDefault();
+		updateUserInfo(userInfo);
+		console.log("userInfo", userInfo);
+	};
+
 	return (
 		<UserProfileContainer avatar={avatarImg}>
 			<Container className="bg-white">
@@ -37,16 +97,15 @@ function UserProfile() {
 							</Grid>
 							<Grid item lg="6" xs="12">
 								<h3 className="details">{userInfo.name}</h3>
-								<p>
-									Lorem ipsum dolor sit amet consectetur
-									adipisicing elit. Aliquam vero soluta beatae
-									nostrum labore harum exercitationem nam quo
-									ab nulla, minima quos, a modi fuga. Fugiat a
-									quos porro beatae!
-								</p>
+
 								<p>Phone: {userInfo.phone}</p>
 								<p>Email: {userInfo.email}</p>
-								<form noValidate autoComplete="off">
+								<form
+									noValidate
+									autoComplete="off"
+									onSubmit={(e) => handleFormSubmit(e)}
+									onChange={(e) => handleOnChange(e)}
+								>
 									<Grid container item spacing="3">
 										<Box
 											display={formReadOnly ? "none" : ""}
@@ -56,6 +115,7 @@ function UserProfile() {
 													className="text-field"
 													label="Full Name (First & Last name)"
 													type="text"
+													id="name"
 													value={userInfo.name}
 													disabled={formReadOnly}
 													InputLabelProps={{
@@ -66,6 +126,7 @@ function UserProfile() {
 												<TextField
 													className="text-field"
 													label="Phone Number"
+													id="phone"
 													type="text"
 													value={userInfo.phone}
 													disabled={formReadOnly}
@@ -78,6 +139,7 @@ function UserProfile() {
 													className="text-field"
 													label="Email Address"
 													type="email"
+													id="email"
 													value={userInfo.email}
 													disabled={formReadOnly}
 													InputLabelProps={{
@@ -91,9 +153,9 @@ function UserProfile() {
 										<Grid item xs="12">
 											{formReadOnly == false && (
 												<button
+													disabled={isLoading}
 													type="submit"
 													className="submit-change"
-													onClick={editForm}
 												>
 													Save
 												</button>
@@ -106,6 +168,38 @@ function UserProfile() {
 													Edit
 												</button>
 											)}
+										</Grid>
+										<Grid item xs="12">
+											{userAddresses.result &&
+												userAddresses.result.length >
+													0 && (
+													<p>
+														{
+															userAddressState?.streetAddress
+														}
+														, <br />
+														{userAddressState?.city}
+														,{" "}
+														{
+															userAddressState?.state
+														}
+														,
+														<br />
+														{
+															userAddressState?.country
+														}
+														,<br />
+														{
+															userAddressState?.pincode
+														}
+													</p>
+												)}
+											<button
+												onClick={handleRoute}
+												className="submit-change"
+											>
+												Add/Edit Address
+											</button>
 										</Grid>
 									</Grid>
 								</form>

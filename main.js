@@ -139,3 +139,47 @@ Parse.Cloud.define("deleteAddressApi", async (request) => {
 		console.error("Error while retrieving ParseObject", error);
 	}
 });
+
+Parse.Cloud.define("getOrdersByUserIdApi", async (request) => {
+	const userId = request.params.userId;
+	const queryOrders = new Parse.Query("Orders");
+
+	queryOrders.equalTo("userId", userId);
+
+	const resultsOrders = await queryOrders.find();
+	return resultsOrders;
+});
+
+Parse.Cloud.define("getFeaturedProductsApi", async () => {
+	const queryProducts = new Parse.Query("Products");
+
+	queryProducts.equalTo("isFeatured", true);
+
+	const resultsProducts = await queryProducts.find();
+	return resultsProducts;
+});
+
+Parse.Cloud.define("updateUserInfo", async (request) => {
+	const query = new Parse.Query("User");
+	const { userId, email, name, phone } = request.params;
+	try {
+		// Finds the user by its ID
+		let user = await query.get(userId);
+		// Updates the data we want
+
+		user.set("email", email);
+		user.set("name", name);
+		user.set("phone", phone);
+		try {
+			// Saves the user with the updated data
+			let response = await user.save();
+			console.log("Updated user", response);
+			return response;
+		} catch (error) {
+			console.error("Error while updating user", error);
+			return error;
+		}
+	} catch (error) {
+		console.error("Error while retrieving user", error);
+	}
+});

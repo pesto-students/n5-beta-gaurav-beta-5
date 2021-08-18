@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
 	MainCategoryContainer,
 	MainCategoryCard,
@@ -26,18 +26,38 @@ function MainCategory() {
 	const handleClick = (route) => {
 		history.push(route);
 	};
+	const homeDecorId = "Btffw23eE4";
+	const furnitureId = "y4b5xqVFzM";
+	const applianceId = "djrtQawPPX";
+	const mobileId = "ngZL0AkYAz";
+	const laptopId = "HSn0XBmUFP";
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
+
 	return (
 		<MainCategoryContainer>
 			<MainCategoryCard image={imgAppliance}>
 				<CardTitle>Appliances</CardTitle>
-				<ShopButton className="category-btn" bg="white" width="60%">
+				<ShopButton
+					className="category-btn"
+					bg="white"
+					width="60%"
+					onClick={() => handleClick(`/categories?id=${applianceId}`)}
+				>
 					Shop Appliances
 					<ArrowForwardOutlined className="arrow-icon" />
 				</ShopButton>
 			</MainCategoryCard>
 			<MainCategoryCard image={imgFurniture}>
 				<CardTitle>Furniture</CardTitle>
-				<ShopButton className="category-btn" bg="white" width="60%">
+				<ShopButton
+					className="category-btn"
+					bg="white"
+					width="60%"
+					onClick={() => handleClick(`/categories?id=${furnitureId}`)}
+				>
 					Shop Furniture
 					<ArrowForwardOutlined className="arrow-icon" />
 				</ShopButton>
@@ -48,7 +68,7 @@ function MainCategory() {
 					className="category-btn"
 					bg="white"
 					width="60%"
-					onClick={() => handleClick("/categories")}
+					onClick={() => handleClick(`/categories?id=${homeDecorId}`)}
 				>
 					Shop Home Decor
 					<ArrowForwardOutlined className="arrow-icon" />

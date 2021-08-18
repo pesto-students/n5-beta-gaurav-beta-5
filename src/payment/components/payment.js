@@ -77,8 +77,8 @@ function MakePayment() {
 	};
 
 	const getShippingAddress = () => {
-		const shipingaddress = {
-			userId: currentAddress.userId || "",
+		const shippingAdd = {
+			userId: userSession.objectId || "",
 			firstName: currentAddress.firstName || "",
 			lastName: currentAddress.lastName || "",
 			mobileNo: currentAddress.mobileNo || "",
@@ -90,7 +90,7 @@ function MakePayment() {
 			streetAddress: currentAddress.streetAddress || "",
 		};
 
-		return shipingaddress;
+		return shippingAdd;
 	};
 
 	const orderBody = (transStatus = "success", response) => {
@@ -143,6 +143,10 @@ function MakePayment() {
 	};
 
 	const handlePayment = (e) => {
+		if (userSession == undefined || userSession == null) {
+			history.push("/login");
+			return;
+		}
 		var rzp1 = new window.Razorpay(options);
 		rzp1.on("payment.failed", function (response) {
 			//order api

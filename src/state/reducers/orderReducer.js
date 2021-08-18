@@ -2,13 +2,16 @@ import {
 	ORDERS,
 	ORDERS_SUCCESS,
 	ORDERS_FAILED,
+	ORDER_LIST,
+	ORDER_LIST_SUCCESS,
+	ORDER_LIST_FAILED,
 } from "../../constants/actionType";
 
 let initialState = {
 	isLoading: false,
 	orderSuccess: "",
 	orderFailed: "",
-	orderList: null,
+	orderListArry: [],
 	error: null,
 };
 
@@ -29,6 +32,23 @@ const reducer = (state = initialState, action) => {
 				...state,
 				error: action.payload,
 				orderFailed: action.payload,
+				isLoading: false,
+			};
+			break;
+		case ORDER_LIST:
+			return { ...state, isLoading: true };
+			break;
+		case ORDER_LIST_SUCCESS:
+			return {
+				...state,
+				orderListArry: action.payload,
+				isLoading: false,
+			};
+			break;
+		case ORDER_LIST_FAILED:
+			return {
+				...state,
+				error: action.payload,
 				isLoading: false,
 			};
 			break;

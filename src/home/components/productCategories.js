@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Container, Grid } from "@material-ui/core";
 import LocalGlobalSwitch from "../../shared/components/localGlobalSwitch";
 import {
+	FeaturedProducts,
 	PopularProductCard,
 	PopularProductOverlay,
 	PopularProductOverlayText,
@@ -21,11 +22,34 @@ import imgsubHomeDecor from "../../assets/images/decorHome.jpg";
 import { ShopButton } from "../../styles/shopButton.styles";
 import { ArrowForwardOutlined } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
+import { getFeaturedProductsApi } from "../../api/products/getFeaturedProductsApi";
+import { useSelector, useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { productsAction } from "../../state";
+
 function ProductCategories() {
 	const history = useHistory();
 	const handleClick = (route) => {
 		history.push(route);
 	};
+
+	const [featuredProducts, setFeaturedProducts] = useState([]);
+	const dispatch = useDispatch();
+	const { isGlobal } = useSelector((state) => state.localGlobal);
+	const { setProduct } = bindActionCreators(productsAction, dispatch);
+	useEffect(() => {
+		getFeaturedProductsApi().then((data) => {
+			setFeaturedProducts(data.result);
+		});
+	}, []);
+
+	const handleFeaturedProductClick = (product) => {
+		setProduct(product);
+		history.push(
+			`/categories/products/product-details?productId=${product.objectId}`
+		);
+	};
+
 	return (
 		<>
 			<Container>
@@ -34,7 +58,7 @@ function ProductCategories() {
 					<WhatsNewSmallText>WHAT’S NEW</WhatsNewSmallText>
 					<WhatsNewTitle>New Products</WhatsNewTitle>
 					<WhatsNewCategories>
-						Electronics, Clothing, Home Decore, Appliances
+						Electronics, Clothing, Home Decor, Appliances
 					</WhatsNewCategories>
 				</WhatsNewSection>
 				<Grid container spacing={4}>
@@ -47,6 +71,11 @@ function ProductCategories() {
 										className="category-btn"
 										bg="white"
 										width="230px"
+										onClick={() =>
+											handleClick(
+												"/categories/products?subCat=ngZL0AkYAz"
+											)
+										}
 									>
 										Shop Now
 										<ArrowForwardOutlined className="arrow-icon" />
@@ -64,6 +93,11 @@ function ProductCategories() {
 										className="category-btn"
 										bg="white"
 										width="230px"
+										onClick={() =>
+											handleClick(
+												"/categories/products?subCat=HSn0XBmUFP"
+											)
+										}
 									>
 										Shop Now
 										<ArrowForwardOutlined className="arrow-icon" />
@@ -81,6 +115,11 @@ function ProductCategories() {
 										className="category-btn"
 										bg="white"
 										width="230px"
+										onClick={() =>
+											handleClick(
+												"/categories?id=djrtQawPPX"
+											)
+										}
 									>
 										Shop Now
 										<ArrowForwardOutlined className="arrow-icon" />
@@ -99,7 +138,9 @@ function ProductCategories() {
 										bg="white"
 										width="230px"
 										onClick={() =>
-											handleClick("/categories")
+											handleClick(
+												"/categories?id=Btffw23eE4"
+											)
 										}
 									>
 										Shop Now
@@ -113,21 +154,26 @@ function ProductCategories() {
 				<WhatsNewSection>
 					<WhatsNewTitle>Featured Products</WhatsNewTitle>
 				</WhatsNewSection>
-				<Grid container spacing={4}>
-					<Grid item lg="4" xs="12">
-						<PopularProductCard
-							bgImg={imgSwingChair}
-						></PopularProductCard>
+				<FeaturedProducts>
+					<Grid
+						container
+						spacing={4}
+						mb={10}
+						className="featured-product"
+					>
+						{featuredProducts.length > 0 &&
+							featuredProducts.map((product) => (
+								<Grid item lg="4" xs="12">
+									<PopularProductCard
+										onClick={() =>
+											handleFeaturedProductClick(product)
+										}
+										bgImg={product.image1.url}
+									></PopularProductCard>
+								</Grid>
+							))}
 					</Grid>
-					<Grid item lg="4" xs="12">
-						<PopularProductCard
-							bgImg={imgCurtain}
-						></PopularProductCard>
-					</Grid>
-					<Grid item lg="4" xs="12">
-						<PopularProductCard bgImg={imgFan}></PopularProductCard>
-					</Grid>
-				</Grid>
+				</FeaturedProducts>
 			</Container>
 		</>
 	);
