@@ -64,6 +64,9 @@ function SearchBar(props) {
 					<SearchInput
 						id="search-bar"
 						onFocus={() => setShowSearchResult(true)}
+						onBlur={() =>
+							setTimeout(() => setShowSearchResult(), 200)
+						}
 						onChange={(e) => search(e)}
 					/>
 					<SearchOutlined className="search-icon" />
