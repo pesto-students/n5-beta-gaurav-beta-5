@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const AddressMgmtContainer = styled.div`
 	width: 100%;
 	background-color: #f5f5f5;
+	padding: 30px 0;
 `;
 
 export const SelectAddressContainer = styled.div`

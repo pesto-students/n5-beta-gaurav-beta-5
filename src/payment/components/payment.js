@@ -4,22 +4,16 @@ import {
 	Button,
 	Container,
 	Paper,
-	ButtonBase,
 	Typography,
-	Checkbox,
 	Box,
-	MenuItem,
-	Select,
-	FormControl,
-	Link,
 } from "@material-ui/core";
 import { CartContainer } from "../../styles/cart.styles";
-import clockImage from "../../assets/images/clock.jpg";
+
 import applogo from "../../assets/images/E-Life_logo.png";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { useHistory } from "react-router-dom";
-import { mapAction, ordersAction } from "../../state";
+import { ordersAction } from "../../state";
 import { isEmpty } from "lodash";
 import Cart from "../../cart/components/cart";
 
@@ -33,9 +27,7 @@ function MakePayment() {
 		(state) => state.searchedLocation
 	);
 	const dispatch = useDispatch();
-	const handleChange = (event) => {
-		setState({ ...state, [event.target.name]: event.target.checked });
-	};
+
 	const { currentAddress } = useSelector((state) => state.addressState);
 	const userSession = JSON.parse(localStorage.getItem("session"));
 	useEffect(() => {
@@ -44,14 +36,11 @@ function MakePayment() {
 
 	const { cart } = useSelector((state) => state.myCart);
 
-	const { showMap } = bindActionCreators(mapAction, dispatch);
-
 	const { makeOrder } = bindActionCreators(ordersAction, dispatch);
-	const preventDefault = (event) => event.preventDefault();
+
 	const history = useHistory();
 	const handleClick = (route) => {
 		history.push(route);
-		if (isEmpty(userSelectedLocation)) showMap(true);
 	};
 
 	const calculate = () => {
