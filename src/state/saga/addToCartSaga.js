@@ -27,10 +27,20 @@ function* addToCartSaga(data) {
 		//console.log("productIndex", productIndex);
 		if (productIndex >= 0) {
 			const qty = cartItems[productIndex].qty;
-			data.payload.qty = data.payload.qty + qty;
-			data.payload.price = data.payload.price * data.payload.qty;
+
+			if (data.payload?.type === "UPDATE_ONLY_QTY") {
+				data.payload.qty = data.payload.qty;
+				//console.log(" Before payload", data.payload);
+				delete data.payload.type;
+			} else {
+				data.payload.qty = data.payload.qty + qty;
+			}
+			data.payload.subTotal = data.payload.price * data.payload.qty;
+			//console.log("After payload", data.payload);
+
 			yield put(updateToCartSuccess(data.payload));
 		} else {
+			data.payload.subTotal = data.payload.price * data.payload.qty;
 			yield put(addToCartSuccess(data.payload));
 		}
 	} catch (error) {

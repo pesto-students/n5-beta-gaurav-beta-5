@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
 	Grid,
 	Button,
@@ -15,6 +15,8 @@ import {
 } from "@material-ui/core";
 import { ThankYouContainer } from "../../styles/thankyou.styles";
 import ThankYouImage from "../../assets/images/thankyou.jpg";
+import SorryImage from "../../assets/images/sorryimg.png";
+import { useSelector, useDispatch } from "react-redux";
 
 import { useHistory } from "react-router-dom";
 function Thankyou() {
@@ -26,6 +28,10 @@ function Thankyou() {
 		setState({ ...state, [event.target.name]: event.target.checked });
 	};
 	const preventDefault = (event) => event.preventDefault();
+	const { orderSuccess } = useSelector((state) => state.orderState);
+
+	console.log("orderSuccess", orderSuccess);
+
 	const history = useHistory();
 	const handleClick = (route) => {
 		history.push(route);
@@ -41,13 +47,30 @@ function Thankyou() {
 					alignItems="center"
 				>
 					<Grid item xs={6} md={6} className="main">
-						<Box m={3}>
-							<img src={ThankYouImage} />
-						</Box>
-						<Box m={3}>
-							<span>THANK YOU</span>
-						</Box>
-						<Box m={3}>Order Placed Successfully!</Box>
+						{orderSuccess?.transactionStatus === "success" ? (
+							<div class="customBold">
+								<Box m={3}>
+									<img src={ThankYouImage} />
+								</Box>
+								<Box m={3}>
+									<span>THANK YOU</span>
+								</Box>
+								<Box m={3}>
+									Order Placed Successfully! Your Order ID :
+									{orderSuccess?.orderId}
+								</Box>
+							</div>
+						) : (
+							<div class="customBold error">
+								<Box m={3}>
+									<img src={SorryImage} />
+								</Box>
+								<Box m={3}>
+									<span>SORRY</span>
+								</Box>
+								<Box m={3}>You Order Failed.</Box>
+							</div>
+						)}
 					</Grid>
 					<Grid
 						container

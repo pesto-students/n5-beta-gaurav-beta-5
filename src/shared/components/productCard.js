@@ -14,7 +14,7 @@ import {
 
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { productsAction } from "../../state";
+import { productsAction, addToCartActions } from "../../state";
 
 import { useHistory } from "react-router-dom";
 
@@ -22,11 +22,13 @@ import { isEmpty } from "lodash";
 function ProductCard({ handleClick, product }) {
 	// const { url } = product.image1;
 
+	const [qty, setQty] = useState(1);
 	const image = { ...product["image1"] };
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const { isGlobal } = useSelector((state) => state.localGlobal);
 	const { setProduct } = bindActionCreators(productsAction, dispatch);
+	const { addToCart } = bindActionCreators(addToCartActions, dispatch);
 	const { userSelectedLocation } = useSelector(
 		(state) => state.searchedLocation
 	);
@@ -55,7 +57,13 @@ function ProductCard({ handleClick, product }) {
 		);
 	};
 
-	const handleAddToCart = () => {};
+	const handleAddToCart = () => {
+		//console.log("product", product);
+		product.qty = qty;
+		product.subTotal = 0;
+		const addProductItem = { ...product };
+		addToCart(addProductItem);
+	};
 
 	const truncate = (input, length) =>
 		input.length > length ? `${input.substring(0, length)}...` : input;
@@ -63,27 +71,32 @@ function ProductCard({ handleClick, product }) {
 	return (
 		product &&
 		product.name && (
-			<ProductCardContainer onClick={() => showProductDetails()}>
-				<ProductCardImg src={image.url} title={product.name} />
-				<ProductCardTitle>
-					{truncate(product.name, 50)}
-				</ProductCardTitle>
-				{product.vendorRef && (
-					<ProductCardVendorSection>
-						<ProductCardVendorName>Vendor:</ProductCardVendorName>
-						<ProductCardVendorLocation>
-							{product.vendorRef.name}
-							{isEmpty(userSelectedLocation) == false &&
-								isGlobal == false &&
-								product.distance &&
-								`(${product.distance} km)`}
-						</ProductCardVendorLocation>
-					</ProductCardVendorSection>
-				)}
-				<ProductCardPriceSection>
-					<ProductCardMrp>₹{product.mrp}</ProductCardMrp>
-					<ProductCardPrice> ₹{product.price}</ProductCardPrice>
-				</ProductCardPriceSection>
+			<ProductCardContainer>
+				<div onClick={() => showProductDetails()}>
+					<ProductCardImg src={image.url} title={product.name} />
+					<ProductCardTitle>
+						{truncate(product.name, 50)}
+					</ProductCardTitle>
+
+					{product.vendorRef && (
+						<ProductCardVendorSection>
+							<ProductCardVendorName>
+								Vendor:
+							</ProductCardVendorName>
+							<ProductCardVendorLocation>
+								{product.vendorRef.name}
+								{isEmpty(userSelectedLocation) == false &&
+									isGlobal == false &&
+									product.distance &&
+									`(${product.distance} km)`}
+							</ProductCardVendorLocation>
+						</ProductCardVendorSection>
+					)}
+					<ProductCardPriceSection>
+						<ProductCardMrp>₹{product.mrp}</ProductCardMrp>
+						<ProductCardPrice> ₹{product.price}</ProductCardPrice>
+					</ProductCardPriceSection>
+				</div>
 				<ProductCardAddToCart onClick={handleAddToCart}>
 					Add to cart
 				</ProductCardAddToCart>

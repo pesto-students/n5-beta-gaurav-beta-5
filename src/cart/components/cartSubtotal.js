@@ -20,11 +20,14 @@ function CartSubtotal(props) {
 		>
 			<Typography className="semiBold border-bottom">
 				<Box mx={3} my={1} pt={4}>
-					Subtotal ({cart.length} items):&nbsp;&nbsp;&nbsp;
+					Subtotal ({cart.reduce((acc, item) => acc + item.qty, 0)}{" "}
+					items):&nbsp;&nbsp;&nbsp;
 					<span className="total-price">
 						&#8377;{" "}
-						{cart.reduce((acc, item) => acc + item.price, 0)}
+						{cart.reduce((acc, item) => acc + item.subTotal, 0)}
 					</span>
+					<br />
+					<br />( &#8377;10 Shipping Charges Applicable )
 				</Box>
 			</Typography>
 
@@ -49,36 +52,52 @@ function CartSubtotal(props) {
 				</Box>
 			) : (
 				<Box mx={3} pb={4}>
-					<Typography className="default-font address">
-						{isEmpty(currentAddress) == false && (
-							<>
-								<b>
-									{currentAddress.firstName}{" "}
-									{currentAddress.lastName}
-								</b>
-								<br />
-								{currentAddress.streetAddress},{" "}
-								{currentAddress.city}
-								<br />
-								{currentAddress.state}
-								<br />
-								{currentAddress.country}
-								<br />
-								Phone:{" "}
-								{userSession !== null ? userSession.phone : ""}
-								<br />
-								Pin: {currentAddress.pincode}
-								<br />
-							</>
-						)}
-					</Typography>
-					<Button
-						variant="contained"
-						className="submit-change"
-						onClick={props?.handlePayment}
-					>
-						MAKE PAYMENT
-					</Button>
+					{cart.length > 0 && (
+						<div>
+							<Typography className="default-font address">
+								{isEmpty(currentAddress) == false && (
+									<>
+										<b>
+											{currentAddress.firstName}{" "}
+											{currentAddress.lastName}
+										</b>
+										<br />
+										{currentAddress.streetAddress},{" "}
+										{currentAddress.city}
+										<br />
+										{currentAddress.state}
+										<br />
+										{currentAddress.country}
+										<br />
+										Phone:{" "}
+										{userSession !== null
+											? userSession.phone
+											: ""}
+										<br />
+										Pin: {currentAddress.pincode}
+										<br />
+									</>
+								)}
+							</Typography>
+							<Button
+								variant="contained"
+								className="submit-change"
+								onClick={props?.handlePayment}
+							>
+								MAKE PAYMENT
+							</Button>
+						</div>
+					)}
+
+					{cart.length === 0 && (
+						<Button
+							variant="contained"
+							className="submit-change ctn-shopping-btn"
+							onClick={() => handleClick("/categories")}
+						>
+							CONTINUE SHOPPING
+						</Button>
+					)}
 				</Box>
 			)}
 		</Paper>

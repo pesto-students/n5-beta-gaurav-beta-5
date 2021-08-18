@@ -43,6 +43,8 @@ function Cart(props) {
 	const [userSession, setUserSession] = useState();
 	const { session } = useSelector((state) => state.auth);
 	const { cart } = useSelector((state) => state.myCart);
+	const [qty, setQty] = useState(1);
+	const { addToCart } = bindActionCreators(addToCartActions, dispatch);
 	const handleClick = (route) => {
 		history.push(route);
 	};
@@ -79,6 +81,16 @@ function Cart(props) {
 		setConfirmOpen(true);
 	};
 
+	const increaseCattQty = (event, product) => {
+		const cProduct = Object.assign({}, product);
+		setQty(event.target.value);
+		cProduct.qty = event.target.value;
+		cProduct.type = "UPDATE_ONLY_QTY";
+		const addProductItem = { ...cProduct };
+		//console.log("cart", cart);
+		addToCart(addProductItem);
+	};
+
 	return (
 		<CartContainer>
 			<Container
@@ -109,7 +121,7 @@ function Cart(props) {
 									<h4>Your E-Life Cart is empty.</h4>
 								</Box>
 							) : (
-								cart.map((item) => (
+								cart.map((item, index) => (
 									<Box mx={2} pt={1}>
 										<Box textAlign="right">Price</Box>
 										<Grid
@@ -160,24 +172,36 @@ function Cart(props) {
 															<Select
 																labelId="qty"
 																id="qty"
+																data-value={
+																	index
+																}
 																value={item.qty}
 																className="qtyDropdow"
+																onChange={(
+																	event
+																) =>
+																	increaseCattQty(
+																		event,
+																		item
+																	)
+																}
 															>
-																<MenuItem
-																	value={1}
-																>
-																	1
-																</MenuItem>
-																<MenuItem
-																	value={2}
-																>
-																	2
-																</MenuItem>
-																<MenuItem
-																	value={3}
-																>
-																	3
-																</MenuItem>
+																{Array.from(
+																	Array(10),
+																	(e, i) => {
+																		return (
+																			<MenuItem
+																				value={
+																					i +
+																					1
+																				}
+																			>
+																				{i +
+																					1}
+																			</MenuItem>
+																		);
+																	}
+																)}
 															</Select>
 														</FormControl>
 														<Link

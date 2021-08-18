@@ -105,7 +105,10 @@ function MainMenu() {
 								/>
 								{cart && cart.length > 0 && (
 									<div className="cart-count">
-										{cart.length}
+										{cart.reduce(
+											(acc, item) => acc + item.qty,
+											0
+										)}
 									</div>
 								)}
 							</Box>

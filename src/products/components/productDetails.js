@@ -68,11 +68,15 @@ function ProductDetails() {
 		console.log(" addedd cart", cart);
 	}, [cart]);
 
-	const handleAddToCart = () => {
+	const handleAddToCart = (type = "add") => {
 		console.log("product to add", product, qty);
 		product.qty = qty;
+		product.subTotal = 0;
 		const addProductItem = { ...product };
 		addToCart(addProductItem);
+		if (type === "buy") {
+			history.push("/cart");
+		}
 	};
 
 	const handleQtyChange = (event) => {
@@ -189,7 +193,10 @@ function ProductDetails() {
 									>
 										Add to cart
 									</ProductBtn>
-									<ProductBtn bg="#FFA41C">
+									<ProductBtn
+										bg="#FFA41C"
+										onClick={() => handleAddToCart("buy")}
+									>
 										Buy now
 									</ProductBtn>
 								</ProductAddContainer>

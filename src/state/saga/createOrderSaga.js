@@ -7,6 +7,11 @@ import { ORDERS } from "../../constants/actionType";
 function* createOrderSaga(payload) {
 	try {
 		const data = yield call(createOrderApi, payload);
+		data.orderId = payload.payload.orderId;
+		data.transactionStatus = payload.payload.transactionStatus;
+		data.reason = payload.payload.reason || "";
+
+		//	const orderData = [...data, ...payload];
 		console.log("orders", data);
 		yield put(makeOrderSuccess(data));
 	} catch (error) {

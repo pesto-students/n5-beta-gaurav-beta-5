@@ -19,10 +19,10 @@ import applogo from "../../assets/images/E-Life_logo.png";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { useHistory } from "react-router-dom";
-import { mapAction, ordersAction } from "../../state";
+import { mapAction, ordersAction, addToCartActions } from "../../state";
 import { isEmpty } from "lodash";
 import Cart from "../../cart/components/cart";
-
+import { toast } from "react-toastify";
 import useScript from "../../shared/hook/useScript";
 
 function MakePayment() {
@@ -47,6 +47,7 @@ function MakePayment() {
 	const { showMap } = bindActionCreators(mapAction, dispatch);
 
 	const { makeOrder } = bindActionCreators(ordersAction, dispatch);
+	const { deleteToCart } = bindActionCreators(addToCartActions, dispatch);
 	const preventDefault = (event) => event.preventDefault();
 	const history = useHistory();
 	const handleClick = (route) => {
@@ -55,7 +56,11 @@ function MakePayment() {
 	};
 
 	const calculate = () => {
-		return cart.reduce((acc, item) => acc + item.price, 0) * 100;
+		const shippingCharges = 10;
+		return (
+			cart.reduce((acc, item) => acc + item.subTotal, shippingCharges) *
+			100
+		);
 	};
 
 	const getProducts = () => {
@@ -95,6 +100,7 @@ function MakePayment() {
 
 	const orderBody = (transStatus = "success", response) => {
 		const orderId = Date.now().toString();
+		const shippingCharges = 10;
 		const body = {
 			transactionId: response.razorpay_payment_id,
 			orderId: orderId,
@@ -102,9 +108,10 @@ function MakePayment() {
 			transactionStatus: transStatus,
 			deliveryStatus: "pending",
 			shippingAddress: getShippingAddress(),
-			shippingCharges: 10,
+			shippingCharges: shippingCharges,
 			totalAmount: calculate(),
 			Products: getProducts(),
+			reason: response?.error?.reason || "",
 		};
 
 		return body;
@@ -123,9 +130,14 @@ function MakePayment() {
 		handler: function (response) {
 			//intgrate order api
 			const body = orderBody("success", response);
+
+			setState({ ...state, currentOrder: body });
+
 			makeOrder(body);
 			//alert(response.razorpay_payment_id);
 			handleClick("thankYou");
+			deleteToCart({ id: 0, type: "REMOVE_ALL" });
+
 			//alert(response.razorpay_order_id);
 			//alert(response.razorpay_signature);
 		},
@@ -147,11 +159,18 @@ function MakePayment() {
 			history.push("/login");
 			return;
 		}
+		if (isEmpty(currentAddress)) {
+			toast.error("Please Provide Delivery Address.");
+			return;
+		}
 		var rzp1 = new window.Razorpay(options);
 		rzp1.on("payment.failed", function (response) {
 			//order api
 			const body = orderBody("failed", response);
 			makeOrder(body);
+			rzp1.close();
+			handleClick("thankYou");
+			deleteToCart({ id: 0, type: "REMOVE_ALL" });
 
 			// alert(response.error.code);
 			// alert(response.error.description);

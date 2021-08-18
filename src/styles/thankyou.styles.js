@@ -29,4 +29,10 @@ export const ThankYouContainer = styled.div`
 			background-color: #f8dc4d;
 		}
 	}
+	.customBold {
+		font-weight: 800;
+	}
+	.error {
+		color: red;
+	}
 `;

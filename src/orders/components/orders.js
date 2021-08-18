@@ -96,10 +96,16 @@ function Orders() {
 														Delivery:{" "}
 														{order.deliveryStatus}
 														<br />
+														Item(s) Subtotal: ₹
+														{order.totalAmount /
+															100 -
+															order.shippingCharges}
+														<br /> Shipping: ₹
+														{order.shippingCharges}
+														<br />
 														Total: ₹
 														{order.totalAmount /
-															100 +
-															order.shippingCharges}
+															100}
 													</Box>
 												</Grid>
 											</Grid>
@@ -183,7 +189,7 @@ function Orders() {
 								<Button
 									variant="contained"
 									className="submit-change ctn-shopping-btn"
-									onClick={() => handleClick("/thankyou")}
+									onClick={() => handleClick("/categories")}
 								>
 									CONTINUE SHOPPING
 								</Button>
