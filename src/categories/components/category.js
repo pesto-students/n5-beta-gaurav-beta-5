@@ -33,8 +33,9 @@ import { ThemeProvider } from "styled-components";
 import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { productsAction } from "../../state";
+import { productsAction, uvDistanceAction } from "../../state";
 import BreadCrumb from "../../shared/components/breadCrumb";
+import { isEmpty, orderBy } from "lodash";
 
 function Category() {
 	const themeMat = useTheme();
@@ -52,7 +53,7 @@ function Category() {
 	const smallAppliaceId = "lrXfhGCEt1";
 
 	const [open, setOpen] = React.useState(false);
-
+	const [orgProductListState, setOrgProductListState] = useState([]);
 	const [productListState, setProductListState] = useState([]);
 	const [currentCategory, setCurrentCategory] = useState(homeDecorId);
 	const search = useLocation().search;
@@ -61,7 +62,12 @@ function Category() {
 	const { productList } = useSelector((state) => state.products);
 	const dispatch = useDispatch();
 	const { getProducts } = bindActionCreators(productsAction, dispatch);
-
+	const { getDistance } = bindActionCreators(uvDistanceAction, dispatch);
+	const { uvDistance } = useSelector((state) => state.userVendorDistance);
+	const { isGlobal } = useSelector((state) => state.localGlobal);
+	const { userSelectedLocation } = useSelector(
+		(state) => state.searchedLocation
+	);
 	const banners = {
 		homeDecor: [
 			{
@@ -119,9 +125,56 @@ function Category() {
 	}, []);
 
 	useEffect(() => {
-		console.log("products", productList);
-		if (productList.result) setProductListState(productList.result);
-		console.log("productListState", productListState);
+		let arry = [...orgProductListState];
+
+		arry.forEach((item) => {
+			if (item.vendorRef.objectId == uvDistance.vendor) {
+				item.distance = Number(
+					uvDistance.data.waypoints[0].distance.toFixed()
+				);
+				item.vendorRef.distance = Number(
+					uvDistance.data.waypoints[0].distance.toFixed()
+				);
+			}
+		});
+		if (isGlobal == false) {
+			let arr = arry.filter((item) => {
+				return item.vendorRef.distance < 30;
+			});
+			let sortedArry = orderBy(arr, ["distance", ["asc"]]);
+
+			setProductListState(sortedArry);
+		} else {
+			setProductListState(arry);
+		}
+	}, [uvDistance]);
+
+	useEffect(() => {
+		console.log("isGlobal", isGlobal, productList.result);
+		let list = [...productListState];
+		if (isGlobal == false) {
+			let arr = list.filter((item) => {
+				return item.vendorRef.distance < 30;
+			});
+			setProductListState(arr);
+		} else {
+			setProductListState(orgProductListState);
+		}
+	}, [isGlobal]);
+
+	useEffect(() => {
+		// console.log("products", productList);
+		// if (productList.result) setProductListState(productList.result);
+		// console.log("productListState", productListState);
+		if (productList.result) {
+			setOrgProductListState(productList.result);
+			setProductListState(productList.result);
+			if (isEmpty(userSelectedLocation) == false) {
+				setProductDistance(productList.result);
+			}
+		}
+
+		console.log("update....productListStateProducts", productListState);
 	}, [productList]);
 
 	const selectCategory = (catId) => {
@@ -131,6 +184,23 @@ function Category() {
 			pathname: "/categories",
 			search: `?id=${catId}`,
 		});
+	};
+
+	const setProductDistance = (productsArray) => {
+		if (userSelectedLocation.center == undefined)
+			setProductListState(productsArray);
+
+		productsArray.forEach((item) => {
+			calculateDistance(item);
+		});
+	};
+
+	const calculateDistance = (item) => {
+		let vendorGeo = `${item.vendorRef.geoLocation.long},${item.vendorRef.geoLocation.lat}`;
+
+		let userGeo = `${userSelectedLocation.center[0]},${userSelectedLocation.center[1]}`;
+		let query = `${vendorGeo};${userGeo}`;
+		getDistance({ vendor: item.vendorRef.objectId, query: query });
 	};
 
 	const showBanner = () => {
