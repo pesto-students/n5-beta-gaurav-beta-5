@@ -90,6 +90,7 @@ function UserProfile() {
 
 	const logout = () => {
 		clearSession();
+		history.push("/");
 	};
 
 	return (
