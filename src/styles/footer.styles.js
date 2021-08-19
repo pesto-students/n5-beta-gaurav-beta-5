@@ -71,6 +71,7 @@ export const FooterLogo = styled.div`
 	font-size: 24px;
 	font-family: Futura-Bold;
 	text-align: center;
+	cursor: pointer;
 `;
 
 export const FooterSMIcons = styled.ul`

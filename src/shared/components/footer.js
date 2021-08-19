@@ -18,7 +18,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Facebook, Instagram, Twitter } from "@material-ui/icons";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { productsAction } from "../../state";
 
@@ -28,13 +28,10 @@ function Footer() {
 	const dispatch = useDispatch();
 	const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 	const [subEmail, setSubEmail] = useState(null);
-	const homeDecorId = "Btffw23eE4";
+
 	const furnitureId = "y4b5xqVFzM";
 	const applianceId = "djrtQawPPX";
-	const { getProducts, setProduct } = bindActionCreators(
-		productsAction,
-		dispatch
-	);
+	const { getProducts } = bindActionCreators(productsAction, dispatch);
 	const subscribe = () => {
 		if (subEmail == null || subEmail == "") {
 			toast.error("Please provide email.");
@@ -85,7 +82,9 @@ function Footer() {
 					className="footer-links"
 				>
 					<Grid item lg xs="12">
-						<FooterLogo>E-Life.</FooterLogo>
+						<FooterLogo onClick={() => handleClick("/")}>
+							E-Life.
+						</FooterLogo>
 						<FooterSMIcons>
 							<FooterSMLink>
 								<Facebook className="footer-sm-icon" />
@@ -101,8 +100,16 @@ function Footer() {
 					<Grid item lg xs="6">
 						<FooterLinksTitle>SUPPORT</FooterLinksTitle>
 						<FooterLinksUl>
-							<FooterLink>Contact Us</FooterLink>
-							<FooterLink>FAQ</FooterLink>
+							<FooterLink
+								onClick={() => handleClick("/content#contact")}
+							>
+								Contact Us
+							</FooterLink>
+							<FooterLink
+								onClick={() => handleClick("/content#faq")}
+							>
+								FAQ
+							</FooterLink>
 						</FooterLinksUl>
 					</Grid>
 					<Grid item lg xs="6">
@@ -142,12 +149,26 @@ function Footer() {
 					<Grid item lg xs="6">
 						<FooterLinksTitle>COMPANY</FooterLinksTitle>
 						<FooterLinksUl>
-							<FooterLink>About Us</FooterLink>
-							<FooterLink>Terms & Conditions</FooterLink>
+							<FooterLink
+								onClick={() => handleClick("/content#about")}
+							>
+								About Us
+							</FooterLink>
+							<FooterLink
+								onClick={() =>
+									handleClick("/terms-and-conditions")
+								}
+							>
+								Terms & Conditions
+							</FooterLink>
 						</FooterLinksUl>
 					</Grid>
 					<Grid item lg xs="6">
-						<FooterLinksTitle>CONTACT</FooterLinksTitle>
+						<FooterLinksTitle
+							onClick={() => handleClick("/content#contact")}
+						>
+							CONTACT
+						</FooterLinksTitle>
 						<FooterLinksUl>
 							<FooterLink>1-999-555-6664</FooterLink>
 							<FooterLink>1-999-555-6665</FooterLink>
