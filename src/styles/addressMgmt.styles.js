@@ -83,10 +83,18 @@ export const AddAdressContainer = styled.div`
 		border: none;
 		width: 20%;
 		cursor: pointer;
+		@media only screen and (max-width: 768px) {
+			width: 100%;
+
+			margin-bottom: 15px;
+		}
 	}
 	.cancel-address-btn {
 		margin-left: 15px;
 		background-color: #ddd;
+		@media only screen and (max-width: 768px) {
+			margin-left: 0;
+		}
 	}
 	.text-field {
 		width: 100%;
