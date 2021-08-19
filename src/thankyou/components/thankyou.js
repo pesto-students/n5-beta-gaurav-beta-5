@@ -1,18 +1,5 @@
 import React, { useEffect } from "react";
-import {
-	Grid,
-	Button,
-	Container,
-	Paper,
-	ButtonBase,
-	Typography,
-	Checkbox,
-	Box,
-	MenuItem,
-	Select,
-	FormControl,
-	Link,
-} from "@material-ui/core";
+import { Grid, Button, Container, Box } from "@material-ui/core";
 
 import { ThankYouContainer } from "../../styles/thankyou.styles";
 import ThankYouImage from "../../assets/images/thankyou.jpg";
@@ -21,14 +8,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { useHistory } from "react-router-dom";
 function Thankyou() {
-	const [state, setState] = React.useState({
-		checkedB: true,
-	});
-
-	const handleChange = (event) => {
-		setState({ ...state, [event.target.name]: event.target.checked });
-	};
-	const preventDefault = (event) => event.preventDefault();
 	const { orderSuccess } = useSelector((state) => state.orderState);
 
 	console.log("orderSuccess", orderSuccess);
@@ -37,6 +16,10 @@ function Thankyou() {
 	const handleClick = (route) => {
 		history.push(route);
 	};
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
 
 	return (
 		<ThankYouContainer>
@@ -47,18 +30,19 @@ function Thankyou() {
 					justifyContent="center"
 					alignItems="center"
 				>
-					<Grid item xs={6} md={6} className="main">
-						{orderSuccess?.transactionStatus === "success" ? (
+					<Grid item xs={12} md={6} className="main">
+						{orderSuccess !== null &&
+						orderSuccess?.transactionStatus === "success" ? (
 							<div class="customBold">
 								<Box m={3}>
 									<img src={ThankYouImage} />
 								</Box>
-								<Box m={3}>
+								<Box variant="div" m={3}>
 									<span>THANK YOU</span>
 								</Box>
 								<Box m={3}>
-									Order Placed Successfully! Your Order ID :
-									{orderSuccess?.orderId}
+									Order Placed Successfully! <br /> Your Order
+									ID :{orderSuccess?.orderId}
 								</Box>
 							</div>
 						) : (

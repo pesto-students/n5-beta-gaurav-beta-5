@@ -9,7 +9,7 @@ import {
 
 let initialState = {
 	isLoading: false,
-	orderSuccess: "",
+	orderSuccess: null,
 	orderFailed: "",
 	orderListArry: [],
 	error: null,

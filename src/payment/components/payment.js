@@ -23,6 +23,7 @@ function MakePayment() {
 	const dispatch = useDispatch();
 
 	const { currentAddress } = useSelector((state) => state.addressState);
+	const { session } = useSelector((state) => state.auth);
 	const userSession = JSON.parse(localStorage.getItem("session"));
 	useEffect(() => {
 		console.log("currentAddress", currentAddress);
@@ -136,7 +137,7 @@ function MakePayment() {
 	};
 
 	const handlePayment = (e) => {
-		if (userSession === undefined || userSession === null) {
+		if (session === undefined || session === null) {
 			history.push("/signin");
 			return;
 		}
@@ -173,7 +174,7 @@ function MakePayment() {
 				spacing="1"
 				handlePayment={handlePayment}
 			/>
-			{(userSession === undefined || userSession === null) && (
+			{(session !== undefined || session !== null) && (
 				<Container spacing={8}>
 					<Grid container spacing={3} className="addressSection">
 						<Grid item xs={12} md={12}>
@@ -209,12 +210,12 @@ function MakePayment() {
 											</>
 										)}
 									</Typography>
-									{(userSession === undefined ||
-										userSession === null) && (
+									{(session !== undefined ||
+										session !== null) && (
 										<Box pb={4}>
 											<Button
 												variant="contained"
-												disabled={userSession === null}
+												disabled={session === null}
 												className="address-change"
 												onClick={() =>
 													handleClick(

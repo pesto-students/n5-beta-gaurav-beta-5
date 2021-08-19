@@ -48,7 +48,7 @@ export const UserProfileContainer = styled.div`
 		font-size: 13px;
 		padding: 10px;
 		border: none;
-		width: 20%;
+		width: 100%;
 		cursor: pointer;
 	}
 `;

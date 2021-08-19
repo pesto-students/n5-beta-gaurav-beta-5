@@ -26,7 +26,10 @@ function UserProfile() {
 	const { userAddresses } = useSelector((state) => state.addressState);
 	const { userUpdated, isLoading } = useSelector((state) => state.auth);
 	const { getAddresses } = bindActionCreators(addressAction, dispatch);
-	const { updateUserInfo } = bindActionCreators(authActions, dispatch);
+	const { updateUserInfo, clearSession } = bindActionCreators(
+		authActions,
+		dispatch
+	);
 	useEffect(() => {
 		console.log("user profile", session);
 		if (session == null || session == undefined) {
@@ -83,6 +86,10 @@ function UserProfile() {
 		e.preventDefault();
 		updateUserInfo(userInfo);
 		console.log("userInfo", userInfo);
+	};
+
+	const logout = () => {
+		clearSession();
 	};
 
 	return (
@@ -152,7 +159,7 @@ function UserProfile() {
 											</Grid>
 										</Box>
 
-										<Grid item xs="12">
+										<Grid item lg="3" xs="12">
 											{formReadOnly == false && (
 												<button
 													disabled={isLoading}
@@ -171,37 +178,51 @@ function UserProfile() {
 												</button>
 											)}
 										</Grid>
-										<Grid item xs="12">
-											{userAddresses.result &&
-												userAddresses.result.length >
-													0 && (
-													<p>
-														{
-															userAddressState?.streetAddress
-														}
-														, <br />
-														{userAddressState?.city}
-														,{" "}
-														{
-															userAddressState?.state
-														}
-														,
-														<br />
-														{
-															userAddressState?.country
-														}
-														,<br />
-														{
-															userAddressState?.pincode
-														}
-													</p>
-												)}
-											<button
-												onClick={handleRoute}
-												className="submit-change"
-											>
-												Add/Edit Address
-											</button>
+										<Grid item xs="12" lg="3">
+											{session !== null && (
+												<button
+													onClick={logout}
+													className="submit-change"
+												>
+													Logout
+												</button>
+											)}
+										</Grid>
+										<Grid container item lg="12" xs="12">
+											<Grid item lg="6" xs="12">
+												{userAddresses.result &&
+													userAddresses.result
+														.length > 0 && (
+														<p>
+															{
+																userAddressState?.streetAddress
+															}
+															, <br />
+															{
+																userAddressState?.city
+															}
+															,{" "}
+															{
+																userAddressState?.state
+															}
+															,
+															<br />
+															{
+																userAddressState?.country
+															}
+															,<br />
+															{
+																userAddressState?.pincode
+															}
+														</p>
+													)}
+												<button
+													onClick={handleRoute}
+													className="submit-change"
+												>
+													Add/Edit Address
+												</button>
+											</Grid>
 										</Grid>
 									</Grid>
 								</form>

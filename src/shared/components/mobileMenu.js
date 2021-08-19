@@ -23,17 +23,20 @@ function MobileMenu({ showMenu, closeMenu }) {
 
 	const handleLogout = () => {
 		clearSession();
-
 		closeMenu();
 	};
 
 	return (
 		<>
 			<MobileMenuContainer showMenu={showMenu}>
-				<MobileMenuAvatar onClick={() => handleRoute("/user-profile")}>
-					<AccountCircle className="avatar-icon" />
-					{session !== null && `Hello ${session.name}`}
-				</MobileMenuAvatar>
+				{session !== null && (
+					<MobileMenuAvatar
+						onClick={() => handleRoute("/user-profile")}
+					>
+						<AccountCircle className="avatar-icon" />
+						Hello {session.name}
+					</MobileMenuAvatar>
+				)}
 				<MobileMenuList>
 					<ul>
 						<li onClick={() => handleRoute("/")}>Home</li>
@@ -42,13 +45,21 @@ function MobileMenu({ showMenu, closeMenu }) {
 						</li>
 						<li onClick={() => handleRoute("/orders")}>Orders</li>
 						{session !== null && (
-							<li
-								onClick={() => handleLogout()}
-								className="logout"
-							>
-								<ExitToApp className="logout-icon" />
-								Logout
-							</li>
+							<>
+								<li
+									onClick={() => handleRoute("/user-profile")}
+									className="user-profile"
+								>
+									User Profile
+								</li>
+								<li
+									onClick={() => handleLogout()}
+									className="logout"
+								>
+									<ExitToApp className="logout-icon" />
+									Logout
+								</li>
+							</>
 						)}
 					</ul>
 				</MobileMenuList>
