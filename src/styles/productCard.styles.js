@@ -7,7 +7,12 @@ export const ProductCardContainer = styled.div`
 	background: white;
 	padding: 20px;
 	max-width: 265px;
+	min-width: 250px;
+	min-height: 345px;
 	cursor: pointer;
+	.card-content {
+		min-height: 240px;
+	}
 	.title {
 		cursor: pointer;
 	}
@@ -92,7 +97,7 @@ export const ProductCardAddToCart = styled.div`
 	font-size: 13px;
 	padding: 12px;
 	font-weight: bold;
-	width: 50%;
+	width: 60%;
 	text-align: center;
 	margin: 15px 20%;
 	margin-bottom: 0;

@@ -6,6 +6,19 @@ export const Static = styled.div`
 		border-radius: 0%;
 		padding: 20px;
 		margin-bottom: 15px;
+		h1 {
+			padding: 20px 0;
+		}
+		&.not-found {
+			a {
+				cursor: pointer;
+				text-decoration: none;
+				padding: 10px;
+				background-color: #f7ca00;
+				color: black;
+			}
+			min-height: 300px;
+		}
 	}
 	.heading {
 		border-bottom: 1px solid #ddd;

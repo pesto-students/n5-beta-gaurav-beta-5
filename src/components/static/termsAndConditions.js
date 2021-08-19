@@ -1,12 +1,5 @@
 import React from "react";
-import {
-	Grid,
-	Button,
-	Container,
-	Paper,
-	Typography,
-	Box,
-} from "@material-ui/core";
+import { Container, Paper, Box } from "@material-ui/core";
 import { Static } from "../../styles/static.styles";
 function Tnc() {
 	const listTxt = `Lorem ipsum dolor sit amet, consectetuer adipiscing elit.

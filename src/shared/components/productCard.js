@@ -72,7 +72,10 @@ function ProductCard({ handleClick, product }) {
 		product &&
 		product.name && (
 			<ProductCardContainer>
-				<div onClick={() => showProductDetails()}>
+				<div
+					onClick={() => showProductDetails()}
+					className="card-content"
+				>
 					<ProductCardImg src={image.url} title={product.name} />
 					<ProductCardTitle>
 						{truncate(product.name, 50)}
