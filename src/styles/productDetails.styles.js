@@ -29,7 +29,7 @@ export const ProductImage = styled.img`
 	background-repeat: no-repeat;
 	background-position: center;
 	@media only screen and (max-width: 768px) {
-		width: auto;
+		width: 100%;
 		min-height: 300px;
 	}
 `;

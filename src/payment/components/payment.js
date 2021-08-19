@@ -13,7 +13,7 @@ import applogo from "../../assets/images/E-Life_logo.png";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { useHistory } from "react-router-dom";
-import { mapAction, ordersAction, addToCartActions } from "../../state";
+import { ordersAction, addToCartActions } from "../../state";
 import { isEmpty } from "lodash";
 import Cart from "../../cart/components/cart";
 import { toast } from "react-toastify";
@@ -136,8 +136,8 @@ function MakePayment() {
 	};
 
 	const handlePayment = (e) => {
-		if (userSession == undefined || userSession == null) {
-			history.push("/login");
+		if (userSession === undefined || userSession === null) {
+			history.push("/signin");
 			return;
 		}
 		if (isEmpty(currentAddress)) {
@@ -173,56 +173,65 @@ function MakePayment() {
 				spacing="1"
 				handlePayment={handlePayment}
 			/>
-			<Container spacing={8}>
-				<Grid container spacing={3} className="addressSection">
-					<Grid item xs={12} md={12}>
-						<Paper elevation={0}>
-							<Box mx={4} py={2}>
-								<h3 pb={0} className="title cart-title">
-									DELIVERY ADDRESS
-								</h3>
-								<hr />
-								<Typography className="default-font address">
-									{isEmpty(currentAddress) == false && (
-										<>
-											<b>
-												{currentAddress.firstName}{" "}
-												{currentAddress.lastName}
-											</b>
-											<br />
-											{currentAddress.streetAddress},{" "}
-											{currentAddress.city}
-											<br />
-											{currentAddress.state}
-											<br />
-											{currentAddress.country}
-											<br />
-											Phone:{" "}
-											{userSession !== null
-												? userSession.phone
-												: ""}
-											<br />
-											Pin: {currentAddress.pincode}
-											<br />
-										</>
+			{(userSession === undefined || userSession === null) && (
+				<Container spacing={8}>
+					<Grid container spacing={3} className="addressSection">
+						<Grid item xs={12} md={12}>
+							<Paper elevation={0}>
+								<Box mx={4} py={2}>
+									<h3 pb={0} className="title cart-title">
+										DELIVERY ADDRESS
+									</h3>
+									<hr />
+									<Typography className="default-font address">
+										{isEmpty(currentAddress) == false && (
+											<>
+												<b>
+													{currentAddress.firstName}{" "}
+													{currentAddress.lastName}
+												</b>
+												<br />
+												{
+													currentAddress.streetAddress
+												}, {currentAddress.city}
+												<br />
+												{currentAddress.state}
+												<br />
+												{currentAddress.country}
+												<br />
+												Phone:{" "}
+												{userSession !== null
+													? userSession.phone
+													: ""}
+												<br />
+												Pin: {currentAddress.pincode}
+												<br />
+											</>
+										)}
+									</Typography>
+									{(userSession === undefined ||
+										userSession === null) && (
+										<Box pb={4}>
+											<Button
+												variant="contained"
+												disabled={userSession === null}
+												className="address-change"
+												onClick={() =>
+													handleClick(
+														"/address-management"
+													)
+												}
+											>
+												ADD/EDIT ADDRESS
+											</Button>
+										</Box>
 									)}
-								</Typography>
-								<Box pb={4}>
-									<Button
-										variant="contained"
-										className="address-change"
-										onClick={() =>
-											handleClick("/address-management")
-										}
-									>
-										ADD/EDIT ADDRESS
-									</Button>
 								</Box>
-							</Box>
-						</Paper>
+							</Paper>
+						</Grid>
 					</Grid>
-				</Grid>
-			</Container>
+				</Container>
+			)}
 		</CartContainer>
 	);
 }

@@ -10,12 +10,15 @@ export const LocationServiceContainer = styled.div`
 		left: ${(props) => (props.isSmall ? "-4px" : null)};
 		top: ${(props) => (props.isSmall ? "2px" : null)};
 	}
+	.map-view-modal {
+		z-index: 4;
+	}
 `;
 
 export const ModalBody = styled.div`
 	display: block;
 	width: ${(props) => (props.isSmall ? "80%" : "80%")};
-	height: 80%;
+	height: ${(props) => (props.isSmall ? "60%" : "80%")};
 
 	background-color: #000;
 	margin: 0 auto;
@@ -26,7 +29,7 @@ export const ModalBody = styled.div`
 	border-radius: 0;
 	.map-container {
 		width: 100%;
-		min-height: ${(props) => (props.isSmall ? "300px" : "600px")};
+		min-height: ${(props) => (props.isSmall ? "400px" : "600px")};
 		color: black;
 	}
 	.distance-text {

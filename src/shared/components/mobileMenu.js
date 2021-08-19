@@ -7,17 +7,23 @@ import {
 } from "../../styles/mobileMenu.styles";
 import { useHistory } from "react-router-dom";
 import { AccountCircle, ExitToApp } from "@material-ui/icons";
-
+import { bindActionCreators } from "redux";
+import { authActions } from "../../state";
+import { useSelector, useDispatch } from "react-redux";
 function MobileMenu({ showMenu, closeMenu }) {
 	const history = useHistory();
+	const dispatch = useDispatch();
+	const { clearSession } = bindActionCreators(authActions, dispatch);
 
+	const { session } = useSelector((state) => state.auth);
 	const handleRoute = (route) => {
 		history.push(route);
 		closeMenu();
 	};
 
 	const handleLogout = () => {
-		history.push("/logout");
+		clearSession();
+
 		closeMenu();
 	};
 
@@ -26,7 +32,7 @@ function MobileMenu({ showMenu, closeMenu }) {
 			<MobileMenuContainer showMenu={showMenu}>
 				<MobileMenuAvatar onClick={() => handleRoute("/user-profile")}>
 					<AccountCircle className="avatar-icon" />
-					Hello Omkar
+					{session !== null && `Hello ${session.name}`}
 				</MobileMenuAvatar>
 				<MobileMenuList>
 					<ul>
@@ -35,10 +41,15 @@ function MobileMenu({ showMenu, closeMenu }) {
 							Categories
 						</li>
 						<li onClick={() => handleRoute("/orders")}>Orders</li>
-						<li onClick={() => handleLogout()} className="logout">
-							<ExitToApp className="logout-icon" />
-							Logout
-						</li>
+						{session !== null && (
+							<li
+								onClick={() => handleLogout()}
+								className="logout"
+							>
+								<ExitToApp className="logout-icon" />
+								Logout
+							</li>
+						)}
 					</ul>
 				</MobileMenuList>
 			</MobileMenuContainer>

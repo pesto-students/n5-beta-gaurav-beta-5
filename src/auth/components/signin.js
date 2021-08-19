@@ -7,7 +7,7 @@ import { Loader } from "../../styles/loader.styles";
 import { Grid, TextField, Button, Container } from "@material-ui/core";
 import { AuthContainer } from "../../styles/auth.styles";
 import { useHistory } from "react-router-dom";
-
+import { toast } from "react-toastify";
 function Signin() {
 	const history = useHistory();
 	const [username, setUsername] = useState("");
@@ -18,7 +18,9 @@ function Signin() {
 	const { session, isLoading } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 	const { signIn } = bindActionCreators(authActions, dispatch);
-	useEffect(() => {}, []);
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
 
 	useEffect(() => {
 		console.log("session", session);
@@ -28,7 +30,13 @@ function Signin() {
 
 	const userLogin = () => {
 		console.log(username, password, "login details");
+		if (username === "" || password === "") {
+			toast.error("Please provide username and password");
+			return;
+		}
+
 		signIn({ username, password });
+		toast.success("Signed In Successfully!");
 		if (session !== null && session.sessionToken && isLoading == false)
 			history.push("/");
 	};
@@ -47,6 +55,7 @@ function Signin() {
 							className="text-field"
 							label="Email or Mobile number"
 							type="text"
+							required
 							onChange={(e) => setUsername(e.target.value)}
 							InputLabelProps={{
 								shrink: true,
@@ -61,6 +70,7 @@ function Signin() {
 							className="text-field"
 							label="Password"
 							type="password"
+							required
 							onChange={(e) => setPassword(e.target.value)}
 							InputLabelProps={{
 								shrink: true,

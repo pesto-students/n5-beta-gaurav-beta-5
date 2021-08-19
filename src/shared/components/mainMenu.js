@@ -34,6 +34,7 @@ function MainMenu() {
 	const [userSession, setUserSession] = useState();
 	const { session } = useSelector((state) => state.auth);
 	const { cart } = useSelector((state) => state.myCart);
+	const { isMapView } = useSelector((state) => state.map);
 
 	useEffect(() => {
 		if (
@@ -60,7 +61,7 @@ function MainMenu() {
 	};
 
 	return (
-		<MainMenuContainer isSmall={isSmall}>
+		<MainMenuContainer isSmall={isSmall} isMapView={isMapView}>
 			<Container>
 				<Logo onClick={() => handleClick("/")} isSmall={isSmall}>
 					E-Life.

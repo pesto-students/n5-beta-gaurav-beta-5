@@ -31,20 +31,23 @@ function LocationService(props) {
 	const [zoom, setZoom] = useState(3);
 	const [mapObject, setMapObject] = useState();
 	const [mapMarker, setMapMarker] = useState();
-	const [calculatedDis, setCalculatedDis] = useState(0);
+
 	const [showLocSearch, setShowLocSearch] = useState(false);
 	const [inputValue, setInputValue] = useState();
 	const theme = useTheme();
 	const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
-	const { locations, userSelectedLocation, userLatLong, isLoading } =
-		useSelector((state) => state.searchedLocation);
+	const { locations, userSelectedLocation } = useSelector(
+		(state) => state.searchedLocation
+	);
 
 	const dispatch = useDispatch();
-	const { locationSearch, setUserLatLong, setUserLocation } =
-		bindActionCreators(locationSearchAction, dispatch);
+	const { locationSearch, setUserLocation } = bindActionCreators(
+		locationSearchAction,
+		dispatch
+	);
 	const { showMap } = bindActionCreators(mapAction, dispatch);
 	// const [map, setMap] = useState(null);
-	const mapAPIKey = "AIzaSyCIvL2H0HuV2Id1daEwNkgGkAJybAui6Ho";
+
 	const handleOpen = () => {
 		// setOpen(true);
 		showMap(true);
@@ -146,10 +149,14 @@ function LocationService(props) {
 	return (
 		<>
 			<LocationServiceContainer isSmall={isSmall}>
-				<div onClick={handleOpen} className="location-text">
+				<div
+					onClick={handleOpen}
+					className="location-text"
+					title={userSelectedLocation.place_name}
+				>
 					<LocationOnOutlined className="location-icon" />
 					{userSelectedLocation.place_name
-						? truncate(userSelectedLocation.place_name, 20)
+						? truncate(userSelectedLocation.place_name, 15)
 						: "Stores all around"}
 				</div>
 				<Modal
@@ -157,6 +164,7 @@ function LocationService(props) {
 					onClose={handleClose}
 					disablePortal={true}
 					keepMounted={true}
+					className="map-view-modal"
 				>
 					<ModalBody isSmall={isSmall}>
 						<div className="modal-body-div">

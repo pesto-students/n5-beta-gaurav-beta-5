@@ -8,6 +8,9 @@ export const MainCategoryContainer = styled.div`
 	.elife-features {
 		border-bottom: 1px solid #ddd;
 	}
+	@media only screen and (max-width: 768px) {
+		margin: 0;
+	}
 `;
 
 export const MainCategoryCard = styled.div`
@@ -19,12 +22,11 @@ export const MainCategoryCard = styled.div`
 	background-size: cover;
 	display: inline-block;
 	margin: 0 20px;
-    @media only screen and (max-width: 768px) {
-        min-height: 300px;
-        width: 100%;
-        margin: 0;
-    
-    }
+	@media only screen and (max-width: 768px) {
+		min-height: 300px;
+		width: 100%;
+		margin: 0;
+	}
 	.category-btn {
 		margin: 130px auto;
 	}
@@ -53,9 +55,12 @@ export const FeatureDiv = styled.div`
 	position: relative;
 	padding-left: 115px;
 	.feature-icon-block {
-		top: 0px;
 		top: -19px;
 		position: relative;
+		@media only screen and (max-width: 768px) {
+			top: -18px;
+			left: -10px;
+		}
 	}
 `;
 

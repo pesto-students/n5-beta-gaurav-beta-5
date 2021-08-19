@@ -8,7 +8,7 @@ export const SearchBarDiv = styled.div`
 	text-align: left;
 	position: sticky;
 	top: 40px;
-	z-index: 3;
+	z-index: 2;
 	.modal-body {
 		width: 30%;
 		min-height: 200px;
@@ -83,6 +83,9 @@ export const SearchBox = styled.div`
 		max-height: 300px;
 		overflow-y: scroll;
 		box-shadow: 0px 10px 10px #ddd;
+		@media only screen and (max-width: 768px) {
+			right: 5%;
+		}
 		li {
 			list-style: none;
 			padding: 10px;

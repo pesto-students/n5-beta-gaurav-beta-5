@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Grid, Box } from "@material-ui/core";
-import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import {
@@ -20,13 +18,11 @@ import {
 	ProductQtyLabel,
 	ProductBtn,
 	ProductInStock,
-	ProductType,
 	ProductAboutTitle,
 	ProductAboutUl,
 	ProductAboutList,
 	ProductDescription,
 } from "../../styles/productDetails.styles";
-import imgClock from "../../assets/images/clock.jpg";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { addToCartActions } from "../../state";
@@ -34,7 +30,7 @@ import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { isEmpty } from "lodash";
-import BreadCrumb from "../../shared/components/breadCrumb";
+// import BreadCrumb from "../../shared/components/breadCrumb";
 function ProductDetails() {
 	const { product, isLoading } = useSelector((state) => state.products);
 	const { cart } = useSelector((state) => state.myCart);

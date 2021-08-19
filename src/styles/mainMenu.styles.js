@@ -7,7 +7,7 @@ export const MainMenuContainer = styled.div`
 	min-height: 50px;
 	position: sticky;
 	top: 0px;
-	z-index: 3;
+	z-index: ${(props) => (props.isSmall && props.isMapView ? "3" : "2")};
 	background-color: white;
 `;
 

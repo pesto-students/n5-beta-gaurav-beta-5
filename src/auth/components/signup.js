@@ -7,7 +7,7 @@ import { Loader } from "../../styles/loader.styles";
 import { Grid, TextField, Button, Container } from "@material-ui/core";
 import { AuthContainer } from "../../styles/auth.styles";
 import { useHistory } from "react-router-dom";
-
+import { toast } from "react-toastify";
 function Signup() {
 	const history = useHistory();
 
@@ -33,6 +33,11 @@ function Signup() {
 
 	const registerUser = () => {
 		let body = { name, password, email, username: email, phone };
+		if (name === "" || password === "" || email === "") {
+			toast.error("Please fill all required fields (*)");
+			return;
+		}
+		toast.success("Sign up successful!");
 		signUp(body);
 		if (
 			signUpSession !== null &&
