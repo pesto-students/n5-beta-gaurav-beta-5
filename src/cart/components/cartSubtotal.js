@@ -18,7 +18,7 @@ function CartSubtotal(props) {
 			elevation={0}
 			className={props.type ? "flex-height bg-white" : "no-flex"}
 		>
-			<Typography className="semiBold border-bottom">
+			<Box className="semiBold border-bottom">
 				<Box mx={3} my={1} pt={4}>
 					Subtotal ({cart.reduce((acc, item) => acc + item.qty, 0)}{" "}
 					items):&nbsp;&nbsp;&nbsp;
@@ -29,7 +29,7 @@ function CartSubtotal(props) {
 					<br />
 					<br />( &#8377;10 Shipping Charges Applicable )
 				</Box>
-			</Typography>
+			</Box>
 
 			{!props.type ? (
 				<Box mx={3} pb={4}>

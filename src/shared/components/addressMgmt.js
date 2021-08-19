@@ -223,10 +223,10 @@ function AddressMgmt() {
 							address.
 						</p>
 					</div>
-					<Grid container spacing="3">
-						<Grid container spacing="3" item lg="8" xs="12">
+					<Grid container spacing={3}>
+						<Grid container spacing={3} item lg={8} xs={12}>
 							{isLoading && (
-								<Grid item lg="4" xs="12">
+								<Grid item lg={4} xs={12}>
 									<Skeleton
 										variant="text"
 										style={{ marginBottom: "10px" }}
@@ -253,7 +253,12 @@ function AddressMgmt() {
 								isLoading == false &&
 								userAddresses.result.length > 0 &&
 								userAddresses.result.map((address) => (
-									<Grid item lg="4" xs="12">
+									<Grid
+										key={address.objectId}
+										item
+										lg={4}
+										xs={12}
+									>
 										<h4>
 											{address.firstName}{" "}
 											{address.lastName}
@@ -297,8 +302,8 @@ function AddressMgmt() {
 						<Grid
 							container
 							item
-							lg="4"
-							xs="12"
+							lg={4}
+							xs={12}
 							alignContent="center"
 							alignItems="center"
 						>
@@ -320,18 +325,18 @@ function AddressMgmt() {
 						<div className="add-address">
 							<h3>ADD NEW ADDRESS</h3>
 						</div>
-						<Grid container spacing="3">
-							<Grid item xs="12">
+						<Grid container spacing={3}>
+							<Grid item xs={12}>
 								<form
 									noValidate
 									autoComplete="off"
 									onChange={(e) => addEditAddress(e)}
 									onSubmit={(e) => onFormSubmit(e)}
 								>
-									<Grid container item spacing="3">
-										<Grid item lg="6" xs="12">
-											<Grid item container spacing="3">
-												<Grid item lg="6" xs="12">
+									<Grid container item spacing={3}>
+										<Grid item lg={6} xs={12}>
+											<Grid item container spacing={3}>
+												<Grid item lg={6} xs={12}>
 													<TextField
 														className="text-field"
 														label="First name"
@@ -348,7 +353,7 @@ function AddressMgmt() {
 														variant="outlined"
 													/>
 												</Grid>
-												<Grid item lg="6" xs="12">
+												<Grid item lg={6} xs={12}>
 													<TextField
 														className="text-field"
 														label="Last name"
@@ -394,7 +399,7 @@ function AddressMgmt() {
 												variant="outlined"
 											/>
 										</Grid>
-										<Grid item lg="6" xs="12">
+										<Grid item lg={6} xs={12}>
 											<TextField
 												className="text-field"
 												label="State"
@@ -436,7 +441,7 @@ function AddressMgmt() {
 												variant="outlined"
 											/>
 										</Grid>
-										<Grid item lg="6" xs="12">
+										<Grid item lg={6} xs={12}>
 											<button
 												disabled={isLoading}
 												type="submit"

@@ -4,7 +4,7 @@ import { ModalBody } from "../../styles/loactionService.styles.js";
 
 import { LocationOnOutlined } from "@material-ui/icons";
 import Modal from "@material-ui/core/Modal";
-
+import { Tooltip } from "@material-ui/core";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
@@ -149,16 +149,19 @@ function LocationService(props) {
 	return (
 		<>
 			<LocationServiceContainer isSmall={isSmall}>
-				<div
-					onClick={handleOpen}
-					className="location-text"
-					title={userSelectedLocation.place_name}
-				>
-					<LocationOnOutlined className="location-icon" />
-					{userSelectedLocation.place_name
-						? truncate(userSelectedLocation.place_name, 15)
-						: "Stores all around"}
-				</div>
+				<Tooltip title="Select Location">
+					<div
+						onClick={handleOpen}
+						className="location-text"
+						title={userSelectedLocation.place_name}
+					>
+						<LocationOnOutlined className="location-icon" />
+						{userSelectedLocation.place_name
+							? truncate(userSelectedLocation.place_name, 15)
+							: "Stores all around"}
+					</div>
+				</Tooltip>
+
 				<Modal
 					open={isMapView}
 					onClose={handleClose}
@@ -200,8 +203,9 @@ function LocationService(props) {
 										<div className="search-results">
 											<ul>
 												{locations.features.map(
-													(loc) => (
+													(loc, index) => (
 														<li
+															key={index}
 															onClick={() =>
 																selectUserLocation(
 																	loc

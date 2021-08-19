@@ -101,7 +101,7 @@ function MakePayment() {
 		return body;
 	};
 
-	useScript("https://checkout.razorpay.com/v1/checkout.js");
+	//useScript("https://checkout.razorpay.com/v1/checkout.js");
 
 	const options = {
 		key: "rzp_test_2rgkjmQlqzIKzO", // Enter the Key ID generated from the Dashboard

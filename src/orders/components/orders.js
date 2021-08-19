@@ -53,13 +53,14 @@ function Orders() {
 							{isLoading && <OrdersSkeleton />}
 							{orderListArry.length == 0 && (
 								<Paper variant="outlined">
-									<Grid container item className="no-orders">
-										<Grid
-											item
-											xs="12"
-											alignContent="center"
-											alignItems="center"
-										>
+									<Grid
+										container
+										alignContent="center"
+										alignItems="center"
+										item
+										className="no-orders"
+									>
+										<Grid item xs={12}>
 											No orders to show
 										</Grid>
 									</Grid>
@@ -68,6 +69,7 @@ function Orders() {
 							{orderListArry.length > 0 &&
 								orderListArry.map((order) => (
 									<Paper
+										key={order.objectId}
 										variant="outlined"
 										className="paper-order"
 									>
@@ -77,7 +79,7 @@ function Orders() {
 												item
 												className="order-heading"
 											>
-												<Grid item xs="6">
+												<Grid item xs={6}>
 													Order ID: {order.orderId}
 													<br />
 													Date:{" "}
@@ -85,7 +87,7 @@ function Orders() {
 														order.createdAt
 													).format("DD-MMM-YYYY")}
 												</Grid>
-												<Grid item xs="6">
+												<Grid item xs={6}>
 													<Box textAlign="right">
 														Delivery:{" "}
 														{order.deliveryStatus}
@@ -105,69 +107,79 @@ function Orders() {
 											</Grid>
 										</Box>
 										{order.Products &&
-											order.Products.map((product) => (
-												<Box mx={2} pt={1}>
-													<Grid
-														container
-														direction="row"
-														className="cart-border"
+											order.Products.map(
+												(product, index) => (
+													<Box
+														key={index}
+														mx={2}
+														pt={1}
 													>
-														<Grid item>
-															<ButtonBase className="resp-img img-margin ">
-																<img
-																	className="cart-product-img"
-																	alt="complex"
-																	src={
-																		product.image
-																	}
-																/>
-															</ButtonBase>
-														</Grid>
+														<Grid
+															container
+															direction="row"
+															className="cart-border"
+														>
+															<Grid item>
+																<ButtonBase className="resp-img img-margin ">
+																	<img
+																		className="cart-product-img"
+																		alt="complex"
+																		src={
+																			product.image
+																		}
+																	/>
+																</ButtonBase>
+															</Grid>
 
-														<Grid item xs={10} sm>
-															<Box mx={4}>
-																<Typography
-																	gutterBottom
-																	component="div"
-																	className="productName"
-																>
-																	{
-																		product.name
-																	}
-																</Typography>
-
-																<Typography
-																	variant="body2"
-																	color="text.secondary"
-																	className="productQTY"
-																>
-																	<span>
-																		Qty:
-																		&nbsp;
-																	</span>
-																	{
-																		product.quantity
-																	}
-																</Typography>
-															</Box>
-														</Grid>
-														<Grid item xs={2}>
-															<Typography
-																variant="subtitle1"
-																component="div"
-																className="cart-price"
+															<Grid
+																item
+																xs={10}
+																sm
 															>
-																<Box textAlign="right">
-																	&#8377;
-																	{
-																		product.price
-																	}
+																<Box mx={4}>
+																	<Typography
+																		gutterBottom
+																		component="div"
+																		className="productName"
+																	>
+																		{
+																			product.name
+																		}
+																	</Typography>
+
+																	<Typography
+																		variant="body2"
+																		color="textSecondary"
+																		className="productQTY"
+																	>
+																		<span>
+																			Qty:
+																			&nbsp;
+																		</span>
+																		{
+																			product.quantity
+																		}
+																	</Typography>
 																</Box>
-															</Typography>
+															</Grid>
+															<Grid item xs={2}>
+																<Typography
+																	variant="subtitle1"
+																	component="div"
+																	className="cart-price"
+																>
+																	<Box textAlign="right">
+																		&#8377;
+																		{
+																			product.price
+																		}
+																	</Box>
+																</Typography>
+															</Grid>
 														</Grid>
-													</Grid>
-												</Box>
-											))}
+													</Box>
+												)
+											)}
 									</Paper>
 								))}
 						</Paper>

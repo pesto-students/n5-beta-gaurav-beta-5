@@ -48,7 +48,7 @@ function ForgetPass() {
 		<AuthContainer>
 			<Container spacing={8} className="bg-white ">
 				<Grid container spacing={4}>
-					<Grid xs="12">
+					<Grid item xs={12}>
 						<h3 className="profile-title">Forget Password</h3>
 					</Grid>
 				</Grid>

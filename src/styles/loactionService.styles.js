@@ -3,6 +3,7 @@ export const LocationServiceContainer = styled.div`
 	display: inline-block;
 	color: ${(props) => (props.isSmall ? "black" : "white")};
 	.location-text {
+		cursor: pointer;
 	}
 	.location-icon {
 		position: relative;

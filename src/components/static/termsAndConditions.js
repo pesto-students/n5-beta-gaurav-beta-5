@@ -24,8 +24,8 @@ function Tnc() {
 					</Box>
 					<Box>
 						<ul>
-							{listTxt.map((item) => (
-								<li>{item}</li>
+							{listTxt.map((item, index) => (
+								<li key={index}>{item}</li>
 							))}
 						</ul>
 					</Box>

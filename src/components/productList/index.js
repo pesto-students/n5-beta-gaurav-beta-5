@@ -26,7 +26,7 @@ function ProductList() {
 
 	return (
 		<ProductListContainer>
-			<Row xs="1" sm="2" md="3" xl="4">
+			<Row xs={1} sm={2} md={3} xl={4}>
 				{products &&
 					products.length > 0 &&
 					products.map((item) => {

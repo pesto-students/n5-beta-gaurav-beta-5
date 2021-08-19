@@ -5,7 +5,7 @@ function OrdersSkeleton() {
 	const styles = {};
 	return (
 		<div>
-			<Skeleton variant />
+			<Skeleton variant="rect" />
 		</div>
 	);
 }

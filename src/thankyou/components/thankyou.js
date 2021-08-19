@@ -33,7 +33,7 @@ function Thankyou() {
 					<Grid item xs={12} md={6} className="main">
 						{orderSuccess !== null &&
 						orderSuccess?.transactionStatus === "success" ? (
-							<div class="customBold">
+							<div className="customBold">
 								<Box m={3}>
 									<img src={ThankYouImage} />
 								</Box>
@@ -46,7 +46,7 @@ function Thankyou() {
 								</Box>
 							</div>
 						) : (
-							<div class="customBold error">
+							<div className="customBold error">
 								<Box m={3}>
 									<img src={SorryImage} />
 								</Box>

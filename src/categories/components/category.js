@@ -272,17 +272,17 @@ function Category() {
 					</CategoryBannerLinksContainer>
 				</CategoryBanner>
 				<Container maxWidth={false} className="category-content">
-					<Grid container spacing="5" alignItems="stretch">
-						<Grid item xs="12">
+					<Grid container spacing={5} alignItems="stretch">
+						<Grid item xs={12}>
 							<BreadCrumb />
 						</Grid>
 						<Hidden smDown>
-							<Grid item lg="3">
+							<Grid item lg={3}>
 								<CategorySelection />
 							</Grid>
 						</Hidden>
 						<Hidden smUp>
-							<Grid item xs="12">
+							<Grid item xs={12}>
 								<CategoryBtn onClick={handleOpen}>
 									Select Categories
 								</CategoryBtn>
@@ -304,7 +304,7 @@ function Category() {
 								</Modal>
 							</Grid>
 						</Hidden>
-						<Grid item lg="9" xs="12">
+						<Grid item lg={9} xs={12}>
 							<LocalGlobalSwitch />
 							<CategoryMainTitle>
 								Popular Products From Stores Near You
@@ -312,7 +312,7 @@ function Category() {
 							<CategoryProductSlider>
 								<Grid
 									container
-									spacing="0"
+									spacing={0}
 									alignItems="stretch"
 									alignContent="center"
 									className="product-grid"
@@ -321,8 +321,13 @@ function Category() {
 										productListState.length > 0 &&
 										productListState
 											.slice(0, 4)
-											.map((product) => (
-												<Grid lg="3" xs="12">
+											.map((product, index) => (
+												<Grid
+													key={index}
+													item
+													lg={3}
+													xs={12}
+												>
 													<ProductCard
 														handleClick={
 															handleClick
@@ -333,8 +338,8 @@ function Category() {
 											))}
 								</Grid>
 							</CategoryProductSlider>
-							{showBanner().map((banner) => (
-								<Grid lg="12">
+							{showBanner().map((banner, index) => (
+								<Grid key={index} item lg={12}>
 									<CategoryBanner
 										banner={banner.img}
 										className="category-sub-banner"

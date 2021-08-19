@@ -130,10 +130,11 @@ function CategorySelection() {
 				categoriesState.length > 0 &&
 				categoriesState.map((cat) => {
 					return (
-						<CategoryListTitle>
+						<CategoryListTitle key={cat.name}>
 							{cat.name}
 							{cat.subCat.map((subItem) => (
 								<CategoryList
+									key={subItem.objectId}
 									onClick={() =>
 										handleClick({
 											route: `/categories/products?subCat=${subItem.objectId}`,

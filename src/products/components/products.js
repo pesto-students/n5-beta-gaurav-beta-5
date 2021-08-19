@@ -135,17 +135,17 @@ function Products() {
 	return (
 		<ProductsContainer className="category-content">
 			<Container maxWidth={false} className="category-content">
-				<Grid container spacing="5" alignItems="stretch">
-					<Grid item xs="12">
+				<Grid container spacing={5} alignItems="stretch">
+					<Grid item xs={12}>
 						<BreadCrumb />
 					</Grid>
 					<Hidden smDown>
-						<Grid item lg="3">
+						<Grid item lg={3}>
 							<CategorySelection />
 						</Grid>
 					</Hidden>
 					<Hidden smUp>
-						<Grid item xs="12">
+						<Grid item xs={12}>
 							<CategoryBtn onClick={handleOpen}>
 								Select Categories
 							</CategoryBtn>
@@ -165,10 +165,10 @@ function Products() {
 							</Modal>
 						</Grid>
 					</Hidden>
-					<Grid item lg="9" xs="12">
+					<Grid item lg={9} xs={12}>
 						<LocalGlobalSwitch />
 						<Container maxWidth={false}>
-							<Grid container spacing="4">
+							<Grid container spacing={4}>
 								{productListState &&
 									productListState.length > 0 &&
 									orderBy(
@@ -177,11 +177,12 @@ function Products() {
 										["asc"]
 									).map((product) => (
 										<Grid
+											key={product.objectId}
 											item
-											xl="3"
-											lg="3"
-											md="4"
-											xs="12"
+											xl={3}
+											lg={3}
+											md={4}
+											xs={12}
 											className="product-card"
 										>
 											{isLoading ? (

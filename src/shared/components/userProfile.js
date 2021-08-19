@@ -96,16 +96,16 @@ function UserProfile() {
 	return (
 		<UserProfileContainer avatar={avatarImg}>
 			<Container className="bg-white">
-				<Grid container spacing="3">
-					<Grid xs="12">
+				<Grid container spacing={3}>
+					<Grid item xs={12}>
 						<h3 className="profile-title">USER PROFILE</h3>
 					</Grid>
-					<Grid item xs="12">
-						<Grid container item spacing="3">
-							<Grid item lg="6" xs="12">
+					<Grid item xs={12}>
+						<Grid container item spacing={3}>
+							<Grid item lg={6} xs={12}>
 								<div className="avatar"></div>
 							</Grid>
-							<Grid item lg="6" xs="12">
+							<Grid item lg={6} xs={12}>
 								<h3 className="details">{userInfo.name}</h3>
 
 								<p>Phone: {userInfo.phone}</p>
@@ -116,11 +116,11 @@ function UserProfile() {
 									onSubmit={(e) => handleFormSubmit(e)}
 									onChange={(e) => handleOnChange(e)}
 								>
-									<Grid container item spacing="3">
+									<Grid container item spacing={3}>
 										<Box
 											display={formReadOnly ? "none" : ""}
 										>
-											<Grid item lg="6" xs="12">
+											<Grid item lg={6} xs={12}>
 												<TextField
 													className="text-field"
 													label="Full Name (First & Last name)"
@@ -160,7 +160,7 @@ function UserProfile() {
 											</Grid>
 										</Box>
 
-										<Grid item lg="3" xs="12">
+										<Grid item lg={3} xs={12}>
 											{formReadOnly == false && (
 												<button
 													disabled={isLoading}
@@ -179,7 +179,7 @@ function UserProfile() {
 												</button>
 											)}
 										</Grid>
-										<Grid item xs="12" lg="3">
+										<Grid item xs={12} lg={3}>
 											{session !== null && (
 												<button
 													onClick={logout}
@@ -189,8 +189,8 @@ function UserProfile() {
 												</button>
 											)}
 										</Grid>
-										<Grid container item lg="12" xs="12">
-											<Grid item lg="6" xs="12">
+										<Grid container item lg={12} xs={12}>
+											<Grid item lg={6} xs={12}>
 												{userAddresses.result &&
 													userAddresses.result
 														.length > 0 && (

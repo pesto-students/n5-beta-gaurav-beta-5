@@ -83,10 +83,10 @@ function ProductDetails() {
 		<ProductDetailsContainer>
 			<Container>
 				<Grid container className="products-content">
-					{/* <Grid item xs="12">
+					{/* <Grid item xs={12}>
 						<BreadCrumb />
 					</Grid> */}
-					<Grid item lg="6" xs="12">
+					<Grid item lg={6} xs={12}>
 						<Box className="image-list">
 							<ProductImage url={images[imageIndex].url} />
 							<ProductImageUl>
@@ -94,6 +94,7 @@ function ProductDetails() {
 									(image, index) =>
 										isEmpty(image) == false && (
 											<ProductImageList
+												key={index}
 												onClick={() =>
 													setImageIndex(index)
 												}
@@ -109,7 +110,7 @@ function ProductDetails() {
 							</ProductImageUl>
 						</Box>
 					</Grid>
-					<Grid item lg="6" xs="12">
+					<Grid item lg={6} xs={12}>
 						<ProductTitleContainer>
 							<ProductTitle>{product.name}</ProductTitle>
 							<ProductVendorInfo>
@@ -119,10 +120,10 @@ function ProductDetails() {
 						<Grid
 							container
 							item
-							xs="12"
+							xs={12}
 							className="price-container"
 						>
-							<Grid item lg="8" xs="12">
+							<Grid item lg={8} xs={12}>
 								<ProductPriceContainer>
 									<Box className="price-box">
 										<ProductPriceKey>MRP:</ProductPriceKey>
@@ -164,7 +165,7 @@ function ProductDetails() {
 									)}
 								</ProductPriceContainer>
 							</Grid>
-							<Grid item lg="4" xs="12">
+							<Grid item lg={4} xs={12}>
 								<ProductAddContainer>
 									<Box>
 										<ProductQtyLabel>Qty:</ProductQtyLabel>
@@ -198,7 +199,7 @@ function ProductDetails() {
 								</ProductAddContainer>
 							</Grid>
 						</Grid>
-						<Grid container item xs="12">
+						<Grid container item xs={12}>
 							<ProductInStock>
 								{product.stock > 0
 									? "In Stock"
@@ -211,15 +212,17 @@ function ProductDetails() {
 								<b>About this item</b>
 							</ProductAboutTitle>
 							<ProductAboutUl>
-								{about.map((item) => (
-									<ProductAboutList>{item}</ProductAboutList>
+								{about.map((item, index) => (
+									<ProductAboutList key={index}>
+										{item}
+									</ProductAboutList>
 								))}
 							</ProductAboutUl>
 						</Grid>
 					</Grid>
 				</Grid>
 				<Grid container>
-					<Grid item xs="12">
+					<Grid item xs={12}>
 						<ProductDescription>
 							{longDescription.map((para) => (
 								<p>{para}</p>

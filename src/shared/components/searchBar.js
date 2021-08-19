@@ -73,8 +73,9 @@ function SearchBar(props) {
 					{showSearchResult && (
 						<ul className="search-result">
 							{searchResult.length > 0 &&
-								searchResult.map((product) => (
+								searchResult.map((product, index) => (
 									<li
+										key={product.objectId}
 										onClick={() => setProductState(product)}
 									>
 										{product.name}

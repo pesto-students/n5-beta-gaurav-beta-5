@@ -116,7 +116,7 @@ function Cart(props) {
 								</Box>
 							) : (
 								cart.map((item, index) => (
-									<Box mx={2} pt={1}>
+									<Box key={index} mx={2} pt={1}>
 										<Box textAlign="right">Price</Box>
 										<Grid
 											container
@@ -156,7 +156,7 @@ function Cart(props) {
 													>
 														In Stock
 													</Typography>
-													<Typography
+													<Box
 														variant="body2"
 														color="text.secondary"
 														className="productQTY"
@@ -185,6 +185,9 @@ function Cart(props) {
 																	(e, i) => {
 																		return (
 																			<MenuItem
+																				key={
+																					i
+																				}
 																				value={
 																					i +
 																					1
@@ -229,11 +232,11 @@ function Cart(props) {
 																confirmProps.confirmMsg
 															}
 														</ConfirmDialog>
-													</Typography>
+													</Box>
 												</Box>
 											</Grid>
 											<Grid item xs={2}>
-												<Typography
+												<Box
 													variant="subtitle1"
 													component="div"
 													className="cart-price"
@@ -241,7 +244,7 @@ function Cart(props) {
 													<Box textAlign="right">
 														&#8377;{item.price}
 													</Box>
-												</Typography>
+												</Box>
 											</Grid>
 										</Grid>
 									</Box>

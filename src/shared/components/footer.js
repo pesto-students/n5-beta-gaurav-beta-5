@@ -81,7 +81,7 @@ function Footer() {
 					spacing={isSmall ? 0 : 7}
 					className="footer-links"
 				>
-					<Grid item lg xs="12">
+					<Grid item lg xs={12}>
 						<FooterLogo onClick={() => handleClick("/")}>
 							E-Life.
 						</FooterLogo>
@@ -97,7 +97,7 @@ function Footer() {
 							</FooterSMLink>
 						</FooterSMIcons>
 					</Grid>
-					<Grid item lg xs="6">
+					<Grid item lg xs={6}>
 						<FooterLinksTitle>SUPPORT</FooterLinksTitle>
 						<FooterLinksUl>
 							<FooterLink
@@ -112,7 +112,7 @@ function Footer() {
 							</FooterLink>
 						</FooterLinksUl>
 					</Grid>
-					<Grid item lg xs="6">
+					<Grid item lg xs={6}>
 						<FooterLinksTitle>Shop</FooterLinksTitle>
 						<FooterLinksUl>
 							<FooterLink
@@ -146,7 +146,7 @@ function Footer() {
 							</FooterLink>
 						</FooterLinksUl>
 					</Grid>
-					<Grid item lg xs="6">
+					<Grid item lg xs={6}>
 						<FooterLinksTitle>COMPANY</FooterLinksTitle>
 						<FooterLinksUl>
 							<FooterLink
@@ -163,7 +163,7 @@ function Footer() {
 							</FooterLink>
 						</FooterLinksUl>
 					</Grid>
-					<Grid item lg xs="6">
+					<Grid item lg xs={6}>
 						<FooterLinksTitle
 							onClick={() => handleClick("/content#contact")}
 						>

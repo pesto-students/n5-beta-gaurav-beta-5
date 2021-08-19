@@ -76,7 +76,7 @@ function MainCategory() {
 			</MainCategoryCard>
 			<Container>
 				<Grid container className="elife-features">
-					<Grid item xs="12" lg="4">
+					<Grid item xs={12} lg={4}>
 						<FeatureDiv>
 							<FeatureIconBlock className="feature-icon-block">
 								<PublicOutlined className="feature-icon" />
@@ -89,7 +89,7 @@ function MainCategory() {
 							</FeatureTextBlock>
 						</FeatureDiv>
 					</Grid>
-					<Grid item xs="12" lg="4">
+					<Grid item xs={12} lg={4}>
 						<FeatureDiv>
 							<FeatureIconBlock className="feature-icon-block">
 								<LocationOnOutlined className="feature-icon" />
@@ -102,7 +102,7 @@ function MainCategory() {
 							</FeatureTextBlock>
 						</FeatureDiv>
 					</Grid>
-					<Grid item xs="12" lg="4">
+					<Grid item xs={12} lg={4}>
 						<FeatureDiv>
 							<FeatureIconBlock className="feature-icon-block">
 								<LockOutlined className="feature-icon" />

@@ -59,7 +59,7 @@ function ProductCategories() {
 					</WhatsNewCategories>
 				</WhatsNewSection>
 				<Grid container spacing={4}>
-					<Grid item lg="4" xs="12">
+					<Grid item lg={4} xs={12}>
 						<PopularProductCard bgImg={imgMobile}>
 							<PopularProductOverlay>
 								<PopularProductOverlayText>
@@ -81,7 +81,7 @@ function ProductCategories() {
 							</PopularProductOverlay>
 						</PopularProductCard>
 					</Grid>
-					<Grid item lg="8" xs="12">
+					<Grid item lg={8} xs={12}>
 						<PopularProductCard bgImg={imgLaptop}>
 							<PopularProductOverlay>
 								<PopularProductOverlayText>
@@ -103,7 +103,7 @@ function ProductCategories() {
 							</PopularProductOverlay>
 						</PopularProductCard>
 					</Grid>
-					<Grid item lg="8" xs="12">
+					<Grid item lg={8} xs={12}>
 						<PopularProductCard bgImg={imgsubHomeAppliance}>
 							<PopularProductOverlay>
 								<PopularProductOverlayText>
@@ -125,7 +125,7 @@ function ProductCategories() {
 							</PopularProductOverlay>
 						</PopularProductCard>
 					</Grid>
-					<Grid item lg="4" xs="12">
+					<Grid item lg={4} xs={12}>
 						<PopularProductCard bgImg={imgsubHomeDecor}>
 							<PopularProductOverlay>
 								<PopularProductOverlayText>
@@ -159,8 +159,8 @@ function ProductCategories() {
 						className="featured-product"
 					>
 						{featuredProducts.length > 0 &&
-							featuredProducts.map((product) => (
-								<Grid item lg="4" xs="12">
+							featuredProducts.map((product, index) => (
+								<Grid key={index} item lg={4} xs={12}>
 									<PopularProductCard
 										onClick={() =>
 											handleFeaturedProductClick(product)
