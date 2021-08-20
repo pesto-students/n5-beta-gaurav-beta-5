@@ -20,14 +20,17 @@ function CartSubtotal(props) {
 		>
 			<Box className="semiBold border-bottom">
 				<Box mx={3} my={1} pt={4}>
-					Subtotal ({cart.reduce((acc, item) => acc + item.qty, 0)}{" "}
+					Total ({cart.reduce((acc, item) => acc + item.qty, 0)}{" "}
 					items):&nbsp;&nbsp;&nbsp;
 					<span className="total-price">
 						&#8377;{" "}
-						{cart.reduce((acc, item) => acc + item.subTotal, 0)}
+						{cart.reduce((acc, item) => acc + item.subTotal, 0) +
+							props.shippingCost}
 					</span>
 					<br />
-					<br />( &#8377;10 Shipping Charges Applicable )
+					{props.shippingCost > 0 &&
+						`(Including ₹${props.shippingCost} Shipping Charges )`}
+					{props.shippingCost == 0 && `Free Delivery`}
 				</Box>
 			</Box>
 

@@ -23,29 +23,64 @@ import ConfirmDialog from "../../shared/components/confirmDialog";
 import CartSubtotal from "./cartSubtotal";
 
 function Cart(props) {
-	const [state, setState] = React.useState({
-		checkedB: true,
-	});
-	const handleChange = (event) => {
-		setState({ ...state, [event.target.name]: event.target.checked });
-	};
-	const [confirmOpen, setConfirmOpen] = React.useState(false);
+	const [cartState, setCartState] = useState([]);
+	const [confirmOpen, setConfirmOpen] = useState(false);
 	const [confirmProps, setConfirmProps] = useState({});
-
+	const [shippingCost, setShippingCost] = useState(0);
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const { deleteToCart } = bindActionCreators(addToCartActions, dispatch);
 
-	const { cart } = useSelector((state) => state.myCart);
+	const { cart, totalShippingCharge } = useSelector((state) => state.myCart);
+
 	const [qty, setQty] = useState(1);
-	const { addToCart } = bindActionCreators(addToCartActions, dispatch);
+	const { addToCart, addShippingCharge } = bindActionCreators(
+		addToCartActions,
+		dispatch
+	);
 	const handleClick = (route) => {
 		history.push(route);
 	};
 
 	useEffect(() => {
 		console.log("incart", cart);
+
+		calculateShippingCost();
 	}, [cart]);
+
+	useEffect(() => {
+		console.log("totalShippingCharge", totalShippingCharge);
+	}, [totalShippingCharge]);
+
+	useEffect(() => {
+		if (cart.length > 0) {
+			setCartState([...cart]);
+			console.log("cartstate", cart, cartState);
+		}
+	}, []);
+
+	const calculateShippingCost = (cartParam) => {
+		let localCart = cartParam ? [...cartParam] : [...cart];
+		if (localCart.length > 0) {
+			let cartCopy = [...localCart];
+			cartCopy.forEach((item) => {
+				if (item.distance == undefined || item.distance > 30) {
+					item.shippingCost = 40 * item.qty;
+				} else {
+					item.shippingCost = 0;
+				}
+			});
+			console.log("cartCopy", cartCopy);
+			let shipping = cartCopy.reduce(
+				(acc, currVal) => acc + currVal.shippingCost,
+				0
+			);
+			console.log("shippingost", shipping);
+			setShippingCost(shipping);
+			addShippingCharge(shipping);
+			setCartState(cartCopy);
+		}
+	};
 
 	const handleDeleteItem = (id, type = "REMOVE_ITEM") => {
 		deleteToCart({ id: id, type: type });
@@ -76,6 +111,7 @@ function Cart(props) {
 	};
 
 	const increaseCattQty = (event, product) => {
+		let cartCopy = [...cartState];
 		const cProduct = Object.assign({}, product);
 		setQty(event.target.value);
 		cProduct.qty = event.target.value;
@@ -83,6 +119,13 @@ function Cart(props) {
 		const addProductItem = { ...cProduct };
 		//console.log("cart", cart);
 		addToCart(addProductItem);
+		cartCopy.forEach((item) => {
+			if (product.objectId == item.objectId) {
+				item.qty = event.target.value;
+			}
+		});
+		setCartState(cartCopy);
+		calculateShippingCost(cartCopy);
 	};
 
 	return (
@@ -104,18 +147,18 @@ function Cart(props) {
 										}}
 										className="productStock deletelink"
 									>
-										Deselect all items
+										Delete all items
 									</Link>
 								</h4>
 							) : (
 								<br />
 							)}
-							{cart.length === 0 ? (
+							{cartState.length === 0 ? (
 								<Box mx={2} py={4} textAlign="center">
 									<h4>Your E-Life Cart is empty.</h4>
 								</Box>
 							) : (
-								cart.map((item, index) => (
+								cartState.map((item, index) => (
 									<Box key={index} mx={2} pt={1}>
 										<Box textAlign="right">Price</Box>
 										<Grid
@@ -124,14 +167,6 @@ function Cart(props) {
 											className="cart-border"
 										>
 											<Grid item>
-												<Checkbox
-													checked={state.checkedB}
-													onChange={handleChange}
-													name="checkedB"
-													color="primary"
-													ml={2}
-												/>
-
 												<ButtonBase className="resp-img img-margin ">
 													<img
 														className="cart-product-img"
@@ -253,7 +288,7 @@ function Cart(props) {
 						</Paper>
 					</Grid>
 					<Grid item xs={12} md={4} className="pd ">
-						<CartSubtotal {...props} />
+						<CartSubtotal {...props} shippingCost={shippingCost} />
 					</Grid>
 				</Grid>
 			</Container>

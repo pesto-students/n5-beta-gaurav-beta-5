@@ -29,10 +29,11 @@ function MakePayment() {
 		console.log("currentAddress", currentAddress);
 	}, [currentAddress]);
 
-	const { cart } = useSelector((state) => state.myCart);
+	const { cart, totalShippingCharge } = useSelector((state) => state.myCart);
 
 	const { makeOrder } = bindActionCreators(ordersAction, dispatch);
 	const { deleteToCart } = bindActionCreators(addToCartActions, dispatch);
+
 	const preventDefault = (event) => event.preventDefault();
 	const history = useHistory();
 	const handleClick = (route) => {
@@ -40,7 +41,7 @@ function MakePayment() {
 	};
 
 	const calculate = () => {
-		const shippingCharges = 10;
+		const shippingCharges = totalShippingCharge;
 		return (
 			cart.reduce((acc, item) => acc + item.subTotal, shippingCharges) *
 			100
@@ -84,7 +85,7 @@ function MakePayment() {
 
 	const orderBody = (transStatus = "success", response) => {
 		const orderId = Date.now().toString();
-		const shippingCharges = 10;
+		const shippingCharges = totalShippingCharge;
 		const body = {
 			transactionId: response.razorpay_payment_id,
 			orderId: orderId,

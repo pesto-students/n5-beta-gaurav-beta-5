@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
 	LocalGlobalContainer,
 	LocalGlobalSwitchBtn,
 } from "../../styles/localGlobalSwitch.styles";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { localGlobalAction } from "../../state";
+import { localGlobalAction, mapAction } from "../../state";
 import { isEmpty } from "lodash";
 
 function LocalGlobalSwitch() {
 	const dispatch = useDispatch();
 	const { setGlobal } = bindActionCreators(localGlobalAction, dispatch);
+	const { showMap } = bindActionCreators(mapAction, dispatch);
 	const { isGlobal } = useSelector((state) => state.localGlobal);
 	const { userSelectedLocation } = useSelector(
 		(state) => state.searchedLocation
@@ -18,6 +19,7 @@ function LocalGlobalSwitch() {
 
 	const handleClick = (bool) => {
 		if (isEmpty(userSelectedLocation)) {
+			showMap(true);
 			return;
 		}
 		setGlobal(bool);

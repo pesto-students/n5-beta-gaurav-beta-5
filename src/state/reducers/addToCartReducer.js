@@ -4,12 +4,14 @@ import {
 	UPDATE_TO_CART_SUCCESS,
 	ADD_TO_CART_FAILED,
 	DELETE_TO_CART_SUCCESS,
+	ADD_SHIPPING_CHARGE,
 } from "../../constants/actionType";
 import { toast } from "react-toastify";
 
 let initialState = {
 	isLoading: false,
 	cart: [],
+	totalShippingCharge: 0,
 	error: null,
 };
 
@@ -42,7 +44,7 @@ const reducer = (state = initialState, action) => {
 			};
 			break;
 		case DELETE_TO_CART_SUCCESS:
-			toast.success("Product Deleted");
+			//toast.success("Product Deleted");
 			return {
 				...state,
 				isLoading: false,
@@ -50,8 +52,15 @@ const reducer = (state = initialState, action) => {
 			break;
 
 		case ADD_TO_CART_FAILED:
-			toast.error("Sorry Something went wrong");
+			toast.error("Something went wrong");
 			return { ...state, error: action.payload, isLoading: false };
+			break;
+		case ADD_SHIPPING_CHARGE:
+			return {
+				...state,
+				totalShippingCharge: action.payload,
+				isLoading: false,
+			};
 			break;
 		default:
 			return state;
