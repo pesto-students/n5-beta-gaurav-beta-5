@@ -25,8 +25,8 @@ function Content() {
 					<Box>
 						<p>
 							<b>
-								Maecenas tristique auctor maximus. Curabitur sit
-								amet dui velit?
+								Welcome to Ecommerce Platform Maecenas tristique
+								auctor maximus. Curabitur sit amet dui velit?
 							</b>
 						</p>
 						<p>
