@@ -152,10 +152,6 @@ function MakePayment() {
 	};
 
 	const handlePayment = (e) => {
-		if (session === undefined || session === null) {
-			history.push("/signin");
-			return;
-		}
 		if (isEmpty(currentAddress)) {
 			toast.error("Please Provide Delivery Address.");
 			return;

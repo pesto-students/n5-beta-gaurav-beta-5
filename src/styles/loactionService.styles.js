@@ -4,6 +4,7 @@ export const LocationServiceContainer = styled.div`
 	color: ${(props) => (props.isSmall ? "black" : "white")};
 	.location-text {
 		cursor: pointer;
+		font-size: 18px;
 	}
 	.location-icon {
 		position: relative;

@@ -12,6 +12,7 @@ import {
 	UPDATE_USER_INFO,
 	UPDATE_USER_INFO_SUCCESS,
 	UPDATE_USER_INFO_FAILED,
+	STORE_ROUTE,
 } from "../../constants/actionType";
 
 export const signIn = (payload) => ({
@@ -76,4 +77,9 @@ export const updateUserInfoFailed = (payload) => ({
 
 export const clearSession = () => ({
 	type: CLEAR_SESSION,
+});
+
+export const storeRoute = (payload) => ({
+	type: STORE_ROUTE,
+	payload,
 });

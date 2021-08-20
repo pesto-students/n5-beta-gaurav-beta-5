@@ -88,8 +88,8 @@ function MainMenu() {
 							<IconMenuItem onClick={() => handleUserIconClick()}>
 								<PersonOutlined />
 								<IconMenuText>
-									{userSession && userSession !== null
-										? userSession.name
+									{session && session !== null
+										? session.name
 										: ""}
 								</IconMenuText>
 							</IconMenuItem>

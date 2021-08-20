@@ -31,6 +31,7 @@ function Orders() {
 
 	useEffect(() => {
 		// orderList({ userId: userSession.objectId });
+		if (userSession === null) return;
 		setIsLoading(true);
 		getOrdersApi({ userId: userSession.objectId }).then((data) => {
 			console.log("order");

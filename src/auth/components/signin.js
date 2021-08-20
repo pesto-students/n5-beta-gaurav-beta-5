@@ -8,6 +8,7 @@ import { Grid, TextField, Button, Container } from "@material-ui/core";
 import { AuthContainer } from "../../styles/auth.styles";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import { storeRoute } from "../../state/actions/authActions";
 function Signin() {
 	const history = useHistory();
 	const [username, setUsername] = useState("");
@@ -15,7 +16,9 @@ function Signin() {
 	const handleClick = (route) => {
 		history.push(route);
 	};
-	const { session, isLoading } = useSelector((state) => state.auth);
+	const { session, isLoading, storedRoute } = useSelector(
+		(state) => state.auth
+	);
 	const dispatch = useDispatch();
 	const { signIn } = bindActionCreators(authActions, dispatch);
 	useEffect(() => {
@@ -23,9 +26,9 @@ function Signin() {
 	}, []);
 
 	useEffect(() => {
-		console.log("session", session);
+		console.log("session", session, storedRoute);
 		if (session !== null && session.sessionToken && isLoading == false)
-			history.push("/");
+			history.push(storedRoute);
 	}, [session]);
 
 	const userLogin = () => {
@@ -38,7 +41,7 @@ function Signin() {
 		signIn({ username, password });
 		toast.success("Signed In Successfully!");
 		if (session !== null && session.sessionToken && isLoading == false)
-			history.push("/");
+			history.push(storedRoute);
 	};
 	return (
 		<AuthContainer>

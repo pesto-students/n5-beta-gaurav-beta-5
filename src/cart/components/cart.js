@@ -32,6 +32,7 @@ function Cart(props) {
 	const { deleteToCart } = bindActionCreators(addToCartActions, dispatch);
 
 	const { cart, totalShippingCharge } = useSelector((state) => state.myCart);
+	const { storedRoute } = useSelector((state) => state.auth);
 
 	const [qty, setQty] = useState(1);
 	const { addToCart, addShippingCharge } = bindActionCreators(
@@ -53,6 +54,7 @@ function Cart(props) {
 	}, [totalShippingCharge]);
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		if (cart.length > 0) {
 			setCartState([...cart]);
 			console.log("cartstate", cart, cartState);

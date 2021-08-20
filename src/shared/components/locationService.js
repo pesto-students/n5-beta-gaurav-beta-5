@@ -157,7 +157,9 @@ function LocationService(props) {
 					>
 						<LocationOnOutlined className="location-icon" />
 						{userSelectedLocation.place_name
-							? truncate(userSelectedLocation.place_name, 15)
+							? isSmall
+								? truncate(userSelectedLocation.place_name, 15)
+								: truncate(userSelectedLocation.place_name, 35)
 							: "Stores all around"}
 					</div>
 				</Tooltip>

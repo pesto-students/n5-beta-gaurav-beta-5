@@ -1,15 +1,26 @@
 import React from "react";
 import { Button, Paper, Typography, Box } from "@material-ui/core";
-
+import { bindActionCreators } from "redux";
 import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addToCartActions, authActions } from "../../state";
 import { isEmpty } from "lodash";
 function CartSubtotal(props) {
 	const history = useHistory();
-
+	const dispatch = useDispatch();
 	const { cart } = useSelector((state) => state.myCart);
+	const { session } = useSelector((state) => state.auth);
+	const { storeRoute } = bindActionCreators(authActions, dispatch);
 	const userSession = JSON.parse(localStorage.getItem("session"));
 	const handleClick = (route) => {
+		history.push(route);
+	};
+	const handleProceed = (route) => {
+		if (userSession == null) {
+			storeRoute("/makepayment");
+			history.push("/signin");
+			return;
+		}
 		history.push(route);
 	};
 	const { currentAddress } = useSelector((state) => state.addressState);
@@ -40,7 +51,7 @@ function CartSubtotal(props) {
 						<Button
 							variant="contained"
 							className="submit-change"
-							onClick={() => handleClick("/makepayment")}
+							onClick={() => handleProceed("/makepayment")}
 						>
 							PROCEED TO BUY
 						</Button>
@@ -101,6 +112,14 @@ function CartSubtotal(props) {
 							CONTINUE SHOPPING
 						</Button>
 					)}
+					<Button
+						variant="contained"
+						disabled={session === null}
+						className="address-change below-payment"
+						onClick={() => handleClick("/address-management")}
+					>
+						ADD/EDIT ADDRESS
+					</Button>
 				</Box>
 			)}
 		</Paper>
