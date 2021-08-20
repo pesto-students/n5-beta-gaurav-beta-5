@@ -74,6 +74,9 @@ export const SearchBox = styled.div`
 	display: inline-block;
 	width: 70%;
 	position: relative;
+	@media only screen and (max-width: 400px) {
+		width: 80%;
+	}
 	ul.search-result {
 		position: absolute;
 		top: 57px;
