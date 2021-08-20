@@ -6,6 +6,9 @@ export const SearchBarDiv = styled.div`
 	min-height: 61px;
 	background-color: #000;
 	text-align: left;
+	position: sticky;
+	top: 40px;
+	z-index: 2;
 	.modal-body {
 		width: 30%;
 		min-height: 200px;
@@ -71,6 +74,30 @@ export const SearchBox = styled.div`
 	display: inline-block;
 	width: 80%;
 	position: relative;
+	ul.search-result {
+		position: absolute;
+		top: 57px;
+		right: 20px;
+		width: 96%;
+		background-color: white;
+		max-height: 300px;
+		overflow-y: scroll;
+		box-shadow: 0px 10px 10px #ddd;
+		@media only screen and (max-width: 768px) {
+			right: 5%;
+		}
+		li {
+			list-style: none;
+			padding: 10px;
+			border-bottom: 1px solid #ddd;
+			color: #555;
+			cursor: pointer;
+			:hover {
+				color: black;
+				background-color: #ddd;
+			}
+		}
+	}
 	.search-icon {
 		position: absolute;
 		top: 16px;
@@ -91,5 +118,17 @@ export const SearchByLocation = styled.div`
 		top: 5px;
 		margin-right: 5px;
 		left: -5px;
+	}
+`;
+
+export const HamburgerMenu = styled.div`
+	display: inline-block;
+	width: 20%;
+	text-align: left;
+	color: white;
+	.menu {
+		font-size: 35px;
+		position: relative;
+		top: 10px;
 	}
 `;

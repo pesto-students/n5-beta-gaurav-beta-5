@@ -2,22 +2,49 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Spinner } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { actionCreators } from "../../state";
+import { authActions } from "../../state";
 import { Loader } from "../../styles/loader.styles";
 import { Grid, TextField, Button, Container } from "@material-ui/core";
 import { AuthContainer } from "../../styles/auth.styles";
 import { useHistory } from "react-router-dom";
-
+import { toast } from "react-toastify";
 function Signin() {
 	const history = useHistory();
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
 	const handleClick = (route) => {
 		history.push(route);
+	};
+	const { session, isLoading } = useSelector((state) => state.auth);
+	const dispatch = useDispatch();
+	const { signIn } = bindActionCreators(authActions, dispatch);
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
+
+	useEffect(() => {
+		console.log("session", session);
+		if (session !== null && session.sessionToken && isLoading == false)
+			history.push("/");
+	}, [session]);
+
+	const userLogin = () => {
+		console.log(username, password, "login details");
+		if (username === "" || password === "") {
+			toast.error("Please provide username and password");
+			return;
+		}
+
+		signIn({ username, password });
+		toast.success("Signed In Successfully!");
+		if (session !== null && session.sessionToken && isLoading == false)
+			history.push("/");
 	};
 	return (
 		<AuthContainer>
 			<Container spacing={8} className="bg-white ">
 				<Grid container spacing={4}>
-					<Grid xs="12">
+					<Grid item xs={12}>
 						<h3 className="profile-title">SIGN IN</h3>
 					</Grid>
 				</Grid>
@@ -28,6 +55,8 @@ function Signin() {
 							className="text-field"
 							label="Email or Mobile number"
 							type="text"
+							required
+							onChange={(e) => setUsername(e.target.value)}
 							InputLabelProps={{
 								shrink: true,
 							}}
@@ -41,6 +70,8 @@ function Signin() {
 							className="text-field"
 							label="Password"
 							type="password"
+							required
+							onChange={(e) => setPassword(e.target.value)}
 							InputLabelProps={{
 								shrink: true,
 							}}
@@ -73,7 +104,12 @@ function Signin() {
 					</Grid>
 				</Grid>
 				<Grid container justify="center" style={{ marginTop: "10px" }}>
-					<Button variant="contained" className="submit-change">
+					<Button
+						variant="contained"
+						className="submit-change"
+						disabled={isLoading}
+						onClick={() => userLogin()}
+					>
 						Login
 					</Button>
 				</Grid>

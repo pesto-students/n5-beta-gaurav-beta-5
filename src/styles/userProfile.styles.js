@@ -4,6 +4,23 @@ export const UserProfileContainer = styled.div`
 	width: 100%;
 	background-color: #f5f5f5;
 	padding: 20px 0;
+	.avatar {
+		background-image: url(${(props) => props.avatar});
+		background-repeat: no-repeat;
+		background-position: center;
+		width: 300px;
+		min-height: 300px;
+		text-align: center;
+		margin: 0 auto;
+		background-size: contain;
+	}
+	.details {
+		margin-top: 60px;
+		margin-bottom: 20px;
+	}
+	p {
+		margin-bottom: 15px;
+	}
 	.bg-white {
 		background-color: white;
 		padding: 20px;
@@ -31,7 +48,7 @@ export const UserProfileContainer = styled.div`
 		font-size: 13px;
 		padding: 10px;
 		border: none;
-		width: 20%;
+		width: 100%;
 		cursor: pointer;
 	}
 `;

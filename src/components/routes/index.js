@@ -15,6 +15,9 @@ import Thankyou from "../../thankyou/components/thankyou";
 import ProductList from "../productList";
 import AddressMgmt from "../../shared/components/addressMgmt";
 import UserProfile from "../../shared/components/userProfile";
+import Tnc from "../static/termsAndConditions";
+import Content from "../static/content";
+import NotFound from "../static/notFound";
 function Routes() {
 	return (
 		<Switch>
@@ -35,6 +38,9 @@ function Routes() {
 			/>
 			<Route path="/address-management" component={AddressMgmt} />
 			<Route path="/user-profile" component={UserProfile} />
+			<Route path="/terms-and-conditions" component={Tnc} />
+			<Route path="/content" component={Content} />
+			<Route component={NotFound} />
 		</Switch>
 	);
 }

@@ -3,13 +3,35 @@ import styled from "styled-components";
 export const AddressMgmtContainer = styled.div`
 	width: 100%;
 	background-color: #f5f5f5;
+	padding: 30px 0;
 `;
 
 export const SelectAddressContainer = styled.div`
 	width: 100%;
 	background-color: #fff;
 	padding: 20px;
+	.add-address-box {
+		width: 100%;
+		cursor: pointer;
+	}
+	.add-address {
+		position: relative;
+		background-color: #ffd814;
+		padding: 15px;
+		border-radius: 50%;
+		width: 50px;
+		height: 50px;
+		display: inline-block;
 
+		.add-icon {
+		}
+	}
+	.add-text {
+		display: inline-block;
+		padding: 15px 10px;
+		position: relative;
+		top: -5px;
+	}
 	.select-address {
 		border-bottom: 1px solid #ddd;
 		margin-bottom: 20px;
@@ -52,7 +74,8 @@ export const AddAdressContainer = styled.div`
 		padding-bottom: 20px;
 		margin-bottom: 20px;
 	}
-	.save-address-btn {
+	.save-address-btn,
+	.cancel-address-btn {
 		background-color: #ffd814;
 		display: inline-block;
 		font-size: 13px;
@@ -60,6 +83,18 @@ export const AddAdressContainer = styled.div`
 		border: none;
 		width: 20%;
 		cursor: pointer;
+		@media only screen and (max-width: 768px) {
+			width: 100%;
+
+			margin-bottom: 15px;
+		}
+	}
+	.cancel-address-btn {
+		margin-left: 15px;
+		background-color: #ddd;
+		@media only screen and (max-width: 768px) {
+			margin-left: 0;
+		}
 	}
 	.text-field {
 		width: 100%;

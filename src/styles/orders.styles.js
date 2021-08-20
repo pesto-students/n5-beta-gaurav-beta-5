@@ -5,6 +5,27 @@ export const OrderContainer = styled.div`
 	.bg-white {
 		background-color: #ffffff;
 	}
+	.continue-shopping {
+		position: sticky;
+		top: 115px;
+	}
+	.no-orders {
+		padding: 20px;
+		text-align: center;
+	}
+
+	.paper-main {
+		padding: 20px;
+	}
+	.paper-order {
+		margin-bottom: 20px;
+	}
+
+	.order-heading {
+		padding: 20px;
+		font-weight: bold;
+		line-height: 27px;
+	}
 
 	.pd.MuiGrid-item {
 		padding-top: 5px;
@@ -15,10 +36,12 @@ export const OrderContainer = styled.div`
 		font-family: ${fontFamily};
 	}
 	.semiBold {
-		font-family: Futura-SemiBold;
+		font-family: inherit;
+		font-weight: bold;
 	}
 	.productName {
-		font-family: Futura-SemiBold;
+		font-weight: bold;
+		font-family: inherit;
 		font-size: 14px;
 	}
 
@@ -90,8 +113,16 @@ export const OrderContainer = styled.div`
 		&:hover {
 			background-color: #f8dc4d;
 		}
+		font-family: inherit;
+		border-radius: 0;
+	}
+	.continue-shopping-paper {
+		position: sticky;
+		top: 150px;
 	}
 	.ctn-shopping-btn {
 		background-color: #ffa41c;
+		font-family: inherit;
+		border-radius: 0;
 	}
 `;

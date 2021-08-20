@@ -9,10 +9,10 @@ export const LocalGlobalContainer = styled.div`
 
 export const LocalGlobalSwitchBtn = styled.div`
 	display: inline-block;
-	width: 332px;
+	width: 285px;
 	margin: 20px 0;
 	padding: 15px;
-	font-size: 30px;
+	font-size: 20px;
 	font-weight: bold;
 	min-height: 50px;
 	text-align: center;
@@ -26,5 +26,8 @@ export const LocalGlobalSwitchBtn = styled.div`
 		background-color: #303030;
 		color: white;
 		border: 2px solid #303030;
+	}
+	@media only screen and (max-width: 600px) {
+		margin: 0;
 	}
 `;

@@ -1,265 +1,253 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
 	Grid,
 	Button,
 	Container,
 	Paper,
-	ButtonBase,
 	Typography,
-	Checkbox,
 	Box,
-	MenuItem,
-	Select,
-	FormControl,
-	Link,
 } from "@material-ui/core";
 import { CartContainer } from "../../styles/cart.styles";
-import clockImage from "../../assets/images/clock.jpg";
-import craftImage from "../../assets/images/craft.jpg";
+
+import applogo from "../../assets/images/E-Life_logo.png";
+import { useSelector, useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
 import { useHistory } from "react-router-dom";
+import { ordersAction, addToCartActions } from "../../state";
+import { isEmpty } from "lodash";
+import Cart from "../../cart/components/cart";
+import { toast } from "react-toastify";
+import useScript from "../../shared/hook/useScript";
 
 function MakePayment() {
-	const [state, setState] = React.useState({
-		checkedB: true,
-	});
+	const dispatch = useDispatch();
 
-	const handleChange = (event) => {
-		setState({ ...state, [event.target.name]: event.target.checked });
-	};
+	const { currentAddress } = useSelector((state) => state.addressState);
+	const { session } = useSelector((state) => state.auth);
+	const userSession = JSON.parse(localStorage.getItem("session"));
+	useEffect(() => {
+		console.log("currentAddress", currentAddress);
+	}, [currentAddress]);
+
+	const { cart, totalShippingCharge } = useSelector((state) => state.myCart);
+
+	const { makeOrder } = bindActionCreators(ordersAction, dispatch);
+	const { deleteToCart } = bindActionCreators(addToCartActions, dispatch);
+
 	const preventDefault = (event) => event.preventDefault();
 	const history = useHistory();
 	const handleClick = (route) => {
 		history.push(route);
 	};
 
+	const calculate = () => {
+		const shippingCharges = totalShippingCharge;
+		return (
+			cart.reduce((acc, item) => acc + item.subTotal, shippingCharges) *
+			100
+		);
+	};
+
+	const getProducts = () => {
+		const products = [];
+		cart.forEach((item) => {
+			let prodObj = {
+				id: item.objectId,
+				quantity: item.qty,
+				name: item.name,
+				description: item.description,
+				image: item.image1.url,
+				price: item.price,
+			};
+
+			products.push(prodObj);
+		});
+
+		return products;
+	};
+
+	const getShippingAddress = () => {
+		const shippingAdd = {
+			userId: userSession.objectId || "",
+			firstName: currentAddress.firstName || "",
+			lastName: currentAddress.lastName || "",
+			mobileNo: currentAddress.mobileNo || "",
+			pincode: currentAddress.pincode || "",
+			addressTitle: currentAddress.addressTitle || "",
+			city: currentAddress.city || "",
+			state: currentAddress.state || "",
+			country: currentAddress.country || "",
+			streetAddress: currentAddress.streetAddress || "",
+		};
+
+		return shippingAdd;
+	};
+
+	const orderBody = (transStatus = "success", response) => {
+		const orderId = Date.now().toString();
+		const shippingCharges = totalShippingCharge;
+		const body = {
+			transactionId: response.razorpay_payment_id,
+			orderId: orderId,
+			userId: userSession.objectId,
+			transactionStatus: transStatus,
+			deliveryStatus: "pending",
+			shippingAddress: getShippingAddress(),
+			shippingCharges: shippingCharges,
+			totalAmount: calculate(),
+			Products: getProducts(),
+			reason: response?.error?.reason || "",
+		};
+
+		return body;
+	};
+
+	useScript("https://checkout.razorpay.com/v1/checkout.js");
+
+	const options = {
+		key: "rzp_test_2rgkjmQlqzIKzO", // Enter the Key ID generated from the Dashboard
+		amount: calculate(), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to
+		currency: "INR",
+		name: "E-Life",
+		description: "Order Transaction",
+		image: applogo,
+		//	order_id: Date.now().toString(), //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+		handler: function (response) {
+			//intgrate order api
+			const body = orderBody("success", response);
+
+			makeOrder(body);
+			//alert(response.razorpay_payment_id);
+			handleClick("thankYou");
+			deleteToCart({ id: 0, type: "REMOVE_ALL" });
+
+			//alert(response.razorpay_order_id);
+			//alert(response.razorpay_signature);
+		},
+		prefill: {
+			name: userSession?.name,
+			email: userSession?.email,
+			contact: userSession?.phone,
+		},
+		modal: {
+			ondismiss: function () {
+				const ele = document.querySelectorAll(".razorpay-container");
+				ele.forEach(function (a, i) {
+					console.log(a, i, ele.length);
+					if (i + 1 !== ele.length) {
+						a.remove();
+					} else {
+						a.style.display = "none";
+					}
+				});
+				//console.log("Checkout form closed");
+			},
+		},
+		notes: {
+			address: "Razorpay Corporate Office",
+		},
+		theme: {
+			color: "#3399cc",
+		},
+	};
+
+	const handlePayment = (e) => {
+		if (session === undefined || session === null) {
+			history.push("/signin");
+			return;
+		}
+		if (isEmpty(currentAddress)) {
+			toast.error("Please Provide Delivery Address.");
+			return;
+		}
+		var rzp1 = new window.Razorpay(options);
+		rzp1.on("payment.failed", function (response) {
+			//order api
+			const body = orderBody("failed", response);
+			makeOrder(body);
+			rzp1.close();
+			handleClick("thankYou");
+			deleteToCart({ id: 0, type: "REMOVE_ALL" });
+
+			// alert(response.error.code);
+			// alert(response.error.description);
+			// alert(response.error.source);
+			// alert(response.error.step);
+			// alert(response.error.reason);
+			// alert(response.error.metadata.order_id);
+			// alert(response.error.metadata.payment_id);
+		});
+		rzp1.open();
+		e.preventDefault();
+	};
+
 	return (
 		<CartContainer>
-			<Container spacing={8} className="container">
-				<Grid container spacing={3}>
-					<Grid item xs={12} md={8}>
-						<Paper elevation={0}>
-							<h3 className="cart-title">SHOPPING CART</h3>
-							<h4 className="item-seleted">Deselect all items</h4>
-							<Box mx={2} pt={1}>
-								<Box textAlign="right">Price</Box>
-								<Grid
-									container
-									direction="row"
-									className="cart-border"
-								>
-									<Grid item>
-										<Checkbox
-											checked={state.checkedB}
-											onChange={handleChange}
-											name="checkedB"
-											color="primary"
-											ml={2}
-										/>
-
-										<ButtonBase className="resp-img img-margin ">
-											<img
-												className="cart-product-img"
-												alt="complex"
-												src={clockImage}
-											/>
-										</ButtonBase>
-									</Grid>
-
-									<Grid item xs={10} sm>
-										<Box mx={4}>
-											<Typography
-												gutterBottom
-												component="div"
-												className="productName"
+			<Cart
+				currentAddress={isEmpty(currentAddress) ? null : currentAddress}
+				type="payment"
+				spacing="1"
+				handlePayment={handlePayment}
+			/>
+			{(session !== undefined || session !== null) && (
+				<Container spacing={8}>
+					<Grid container spacing={3} className="addressSection">
+						<Grid item xs={12} md={12}>
+							<Paper elevation={0}>
+								<Box mx={4} py={2}>
+									<h3 pb={0} className="title cart-title">
+										DELIVERY ADDRESS
+									</h3>
+									<hr />
+									<Typography className="default-font address">
+										{isEmpty(currentAddress) == false && (
+											<>
+												<b>
+													{currentAddress.firstName}{" "}
+													{currentAddress.lastName}
+												</b>
+												<br />
+												{
+													currentAddress.streetAddress
+												}, {currentAddress.city}
+												<br />
+												{currentAddress.state}
+												<br />
+												{currentAddress.country}
+												<br />
+												Phone:{" "}
+												{userSession !== null
+													? userSession.phone
+													: ""}
+												<br />
+												Pin: {currentAddress.pincode}
+												<br />
+											</>
+										)}
+									</Typography>
+									{(session !== undefined ||
+										session !== null) && (
+										<Box pb={4}>
+											<Button
+												variant="contained"
+												disabled={session === null}
+												className="address-change"
+												onClick={() =>
+													handleClick(
+														"/address-management"
+													)
+												}
 											>
-												Solima 12-Inch Wall
-												Clock-Classic Roulette (Silver
-												Movement, Black Frame)
-											</Typography>
-											<Typography
-												className="productStock"
-												gutterBottom
-											>
-												In Stock
-											</Typography>
-											<Typography
-												variant="body2"
-												color="text.secondary"
-												className="productQTY"
-											>
-												<span>Qty: &nbsp;</span>
-												<FormControl variant="outlined">
-													<Select
-														labelId="qty"
-														id="qty"
-														value="1"
-														className="qtyDropdow"
-													>
-														<MenuItem value={1}>
-															1
-														</MenuItem>
-														<MenuItem value={2}>
-															2
-														</MenuItem>
-														<MenuItem value={3}>
-															3
-														</MenuItem>
-													</Select>
-												</FormControl>
-												<Link
-													href="#"
-													onClick={preventDefault}
-													className="productStock deletelink"
-												>
-													Delete
-												</Link>
-											</Typography>
+												ADD/EDIT ADDRESS
+											</Button>
 										</Box>
-									</Grid>
-									<Grid item xs={2}>
-										<Typography
-											variant="subtitle1"
-											component="div"
-											className="cart-price"
-										>
-											<Box textAlign="right">
-												&#8377;149.00
-											</Box>
-										</Typography>
-									</Grid>
-								</Grid>
-							</Box>
-							<Box mx={2} pt={1}>
-								<Box textAlign="right">Price</Box>
-								<Grid
-									container
-									direction="row"
-									className="cart-border"
-								>
-									<Grid item>
-										<Checkbox
-											checked={state.checkedB}
-											onChange={handleChange}
-											name="checkedB"
-											color="primary"
-											ml={2}
-										/>
-
-										<ButtonBase className="resp-img img-margin ">
-											<img
-												className="cart-product-img"
-												alt="complex"
-												src={craftImage}
-											/>
-										</ButtonBase>
-									</Grid>
-
-									<Grid item xs={10} sm>
-										<Box mx={4}>
-											<Typography
-												gutterBottom
-												component="div"
-												className="productName"
-											>
-												Ezzu Crafts Metal Plant Stand,
-												White Standard 2 Pieces
-											</Typography>
-											<Typography
-												className="productStock"
-												gutterBottom
-											>
-												In Stock
-											</Typography>
-											<Typography
-												variant="body2"
-												color="text.secondary"
-												className="productQTY"
-											>
-												<span>Qty: &nbsp;</span>
-												<FormControl variant="outlined">
-													<Select
-														labelId="qty"
-														id="qty"
-														value="1"
-														className="qtyDropdow"
-													>
-														<MenuItem value={1}>
-															1
-														</MenuItem>
-														<MenuItem value={2}>
-															2
-														</MenuItem>
-														<MenuItem value={3}>
-															3
-														</MenuItem>
-													</Select>
-												</FormControl>
-												<Link
-													href="#"
-													onClick={preventDefault}
-													className="productStock deletelink"
-												>
-													Delete
-												</Link>
-											</Typography>
-										</Box>
-									</Grid>
-									<Grid item xs={2}>
-										<Typography
-											variant="subtitle1"
-											component="div"
-											className="cart-price"
-										>
-											<Box textAlign="right">
-												&#8377; 1,649.00
-											</Box>
-										</Typography>
-									</Grid>
-								</Grid>
-							</Box>
-						</Paper>
-					</Grid>
-					<Grid item xs={12} md={4} className="pd">
-						<Paper elevation={0} className="bg-white flex-height">
-							<Typography className="semiBold">
-								<Box mx={3} my={1} pt={4}>
-									Subtotal (2 items):&nbsp;&nbsp;&nbsp;
-									<span className="total-price">
-										&#8377; 1,798.00
-									</span>
+									)}
 								</Box>
-							</Typography>
-
-							<Box mx={3} pb={4}>
-								<Button
-									variant="contained"
-									className="submit-change"
-									onClick={() => handleClick("/orders")}
-								>
-									MAKE PAYMENT
-								</Button>
-							</Box>
-						</Paper>
+							</Paper>
+						</Grid>
 					</Grid>
-				</Grid>
-				<Grid container spacing={3} className="addressSection">
-					<Grid item xs={12} md={12}>
-						<Paper elevation={0}>
-							<Box mx={4} py={2}>
-								<h3 pb={0} className="title cart-title">
-									DELIVERY ADDRESS
-								</h3>
-								<hr />
-								<Typography className="semiBold address">
-									Omkar Kamble 506 Abc CHS, Plot 123, Sector
-									19, Nerul Navi, Mumbai Maharashtra 400706
-									India
-								</Typography>
-							</Box>
-						</Paper>
-					</Grid>
-				</Grid>
-			</Container>
+				</Container>
+			)}
 		</CartContainer>
 	);
 }

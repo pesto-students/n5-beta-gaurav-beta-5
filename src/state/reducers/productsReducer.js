@@ -1,9 +1,9 @@
 import {
-	GET_PRODUCT_LIST,
-	GET_PRODUCT_LIST_SUCCESS,
-	GET_PRODUCT_LIST_FAILED,
+	GET_PRODUCTS,
+	GET_PRODUCTS_SUCCESS,
+	GET_PRODUCTS_FAILED,
 	SET_PRODUCT,
-} from "../../constants";
+} from "../../constants/actionType";
 
 let initialState = {
 	isLoading: false,
@@ -14,13 +14,13 @@ let initialState = {
 
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
-		case GET_PRODUCT_LIST:
+		case GET_PRODUCTS:
 			return { ...state, isLoading: true };
 			break;
-		case GET_PRODUCT_LIST_SUCCESS:
+		case GET_PRODUCTS_SUCCESS:
 			return { ...state, productList: action.payload, isLoading: false };
 			break;
-		case GET_PRODUCT_LIST_FAILED:
+		case GET_PRODUCTS_FAILED:
 			return { ...state, error: action.payload, isLoading: false };
 			break;
 		case SET_PRODUCT:

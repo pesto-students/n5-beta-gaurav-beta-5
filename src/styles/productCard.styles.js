@@ -2,14 +2,36 @@ import styled from "styled-components";
 
 export const ProductCardContainer = styled.div`
 	color: black;
-
 	box-shadow: 0px 2px 5px rgb(0 0 0 / 20%);
 	display: inline-block;
 	background: white;
 	padding: 20px;
 	max-width: 265px;
+	min-width: 250px;
+	min-height: 345px;
+	cursor: pointer;
+	.card-content {
+		min-height: 240px;
+	}
 	.title {
 		cursor: pointer;
+	}
+	@media only screen and (max-width: 600px) {
+		margin-bottom: 15px;
+		max-width: 100%;
+	}
+`;
+
+export const ProductCardSkeletonDiv = styled.div`
+	box-shadow: 0px 2px 5px rgb(0 0 0 / 20%);
+	display: inline-block;
+	background: white;
+	padding: 20px;
+	width: 265px;
+	min-height: 345px;
+	@media only screen and (max-width: 600px) {
+		margin-bottom: 15px;
+		max-width: 100%;
 	}
 `;
 
@@ -75,7 +97,7 @@ export const ProductCardAddToCart = styled.div`
 	font-size: 13px;
 	padding: 12px;
 	font-weight: bold;
-	width: 50%;
+	width: 60%;
 	text-align: center;
 	margin: 15px 20%;
 	margin-bottom: 0;

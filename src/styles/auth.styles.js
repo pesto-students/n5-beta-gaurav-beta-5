@@ -9,6 +9,9 @@ export const AuthContainer = styled.div`
 		padding: 20px;
 		width: 600px;
 		margin: 30px auto 100px auto;
+		@media only screen and (max-width: 768px) {
+			width: 100%;
+		}
 	}
 	.profile-title {
 		padding: 0;
@@ -51,5 +54,20 @@ export const AuthContainer = styled.div`
 	.link {
 		color: #9e1b1b;
 		font-weight: 500;
+	}
+	.link,
+	.submit-change,
+	input {
+		font-family: inherit;
+	}
+	.submit-change {
+		border-radius: 0px;
+	}
+	.dialog-email-sent {
+		h2,
+		p,
+		button {
+			font-family: inherit;
+		}
 	}
 `;

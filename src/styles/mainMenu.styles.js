@@ -3,20 +3,24 @@ import styled from "styled-components";
 export const MainMenuContainer = styled.div`
 	width: 100%;
 	text-align: left;
-	margin: 20px 0;
+	margin: ${(props) => (props.isSmall ? "10px 0 0 0" : "20px 0")};
 	min-height: 50px;
+	position: sticky;
+	top: 0px;
+	z-index: ${(props) => (props.isSmall && props.isMapView ? "3" : "2")};
+	background-color: white;
 `;
 
 export const Logo = styled.div`
 	font-size: 24px;
 	font-family: Futura-Bold;
-	width: 60%;
+	width: ${(props) => (props.isSmall ? "40%" : "40%")};
 	display: inline-block;
 	cursor: pointer;
 `;
 
 export const Menu = styled.div`
-	width: 20%;
+	width: 40%;
 	display: inline-block;
 	text-align: right;
 `;
@@ -36,7 +40,7 @@ export const MenuItem = styled.a`
 `;
 
 export const IconsMenuDiv = styled.div`
-	width: 20%;
+	width: ${(props) => (props.isSmall ? "60%" : "60%")};
 	display: inline-block;
 	text-align: right;
 `;
@@ -48,6 +52,23 @@ export const IconMenuItem = styled.div`
 	margin-left: 10px;
 	position: relative;
 	top: 5px;
+	.cart-icon {
+		position: relative;
+		.cart-count {
+			position: absolute;
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			color: black;
+			background-color: #ffd814;
+			top: -8px;
+			text-align: center;
+			padding: 4px;
+			font-size: 10px;
+			right: -10px;
+			font-weight: bold;
+		}
+	}
 `;
 
 export const IconMenuText = styled.span`

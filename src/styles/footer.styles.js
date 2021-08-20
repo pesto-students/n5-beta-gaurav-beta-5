@@ -28,7 +28,7 @@ export const FooterSubscribeContainer = styled.div`
 `;
 
 export const FooterSubscribeInput = styled.input.attrs((props) => ({
-	type: "text",
+	type: "email",
 	placeholder: "Enter Email*",
 }))`
 	display: inline-block;
@@ -57,7 +57,7 @@ export const FooterSubscribeBtn = styled.button.attrs((props) => ({
 	border-radius: 0;
 	font-size: 14px;
 	padding: 15px;
-	width: 20%;
+	width: ${(props) => (props.isSmall ? "40%" : "20%")};
 	cursor: pointer;
 	text-transform: uppercase;
 	font-family: inherit;
@@ -71,6 +71,7 @@ export const FooterLogo = styled.div`
 	font-size: 24px;
 	font-family: Futura-Bold;
 	text-align: center;
+	cursor: pointer;
 `;
 
 export const FooterSMIcons = styled.ul`

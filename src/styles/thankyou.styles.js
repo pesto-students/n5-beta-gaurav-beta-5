@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 export const ThankYouContainer = styled.div`
+	#main {
+		display: none;
+	}
 	.main {
 		font-family: Futura-Light;
 		background: #f7f7f7;
@@ -28,5 +31,17 @@ export const ThankYouContainer = styled.div`
 		&:hover {
 			background-color: #f8dc4d;
 		}
+	}
+	.customBold {
+		font-weight: 800;
+	}
+	.error {
+		color: red;
+	}
+	.hidden {
+		display: none;
+	}
+	.show {
+		display: block;
 	}
 `;
