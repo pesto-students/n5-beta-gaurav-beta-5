@@ -328,7 +328,7 @@ function AddressMgmt() {
 						</Grid>
 					</Grid>
 				</SelectAddressContainer>
-				{showAddAddress && (
+				{showAddAddress && isEmpty(userSelectedLocation) == false && (
 					<AddAdressContainer>
 						<div className="add-address">
 							<h3>ADD NEW ADDRESS</h3>
