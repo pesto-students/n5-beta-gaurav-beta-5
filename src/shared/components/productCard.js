@@ -100,7 +100,10 @@ function ProductCard({ handleClick, product }) {
 						<ProductCardPrice> ₹{product.price}</ProductCardPrice>
 					</ProductCardPriceSection>
 				</div>
-				<ProductCardAddToCart onClick={handleAddToCart}>
+				<ProductCardAddToCart
+					id="pc-add-to-cart"
+					onClick={handleAddToCart}
+				>
 					Add to cart
 				</ProductCardAddToCart>
 			</ProductCardContainer>

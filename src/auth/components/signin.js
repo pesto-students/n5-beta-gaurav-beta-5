@@ -8,6 +8,7 @@ import { Grid, TextField, Button, Container } from "@material-ui/core";
 import { AuthContainer } from "../../styles/auth.styles";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import { storeRoute } from "../../state/actions/authActions";
 function Signin() {
 	const history = useHistory();
 	const [username, setUsername] = useState("");
@@ -15,7 +16,9 @@ function Signin() {
 	const handleClick = (route) => {
 		history.push(route);
 	};
-	const { session, isLoading } = useSelector((state) => state.auth);
+	const { session, isLoading, storedRoute } = useSelector(
+		(state) => state.auth
+	);
 	const dispatch = useDispatch();
 	const { signIn } = bindActionCreators(authActions, dispatch);
 	useEffect(() => {
@@ -23,9 +26,15 @@ function Signin() {
 	}, []);
 
 	useEffect(() => {
-		console.log("session", session);
-		if (session !== null && session.sessionToken && isLoading == false)
-			history.push("/");
+		console.log("session", session, storedRoute);
+		if (session !== null && session.error) {
+			toast.error(session.error);
+			return;
+		}
+		if (session !== null && session.sessionToken && isLoading == false) {
+			toast.success("Signed In Successfully!");
+			history.push(storedRoute);
+		}
 	}, [session]);
 
 	const userLogin = () => {
@@ -36,9 +45,9 @@ function Signin() {
 		}
 
 		signIn({ username, password });
-		toast.success("Signed In Successfully!");
+
 		if (session !== null && session.sessionToken && isLoading == false)
-			history.push("/");
+			history.push(storedRoute);
 	};
 	return (
 		<AuthContainer>
@@ -53,8 +62,9 @@ function Signin() {
 					<Grid item md={true} sm={true} xs={true}>
 						<TextField
 							className="text-field"
-							label="Email or Mobile number"
+							label="Email"
 							type="text"
+							id="email"
 							required
 							onChange={(e) => setUsername(e.target.value)}
 							InputLabelProps={{
@@ -69,6 +79,7 @@ function Signin() {
 						<TextField
 							className="text-field"
 							label="Password"
+							id="password"
 							type="password"
 							required
 							onChange={(e) => setPassword(e.target.value)}
@@ -108,6 +119,7 @@ function Signin() {
 						variant="contained"
 						className="submit-change"
 						disabled={isLoading}
+						id="login"
 						onClick={() => userLogin()}
 					>
 						Login

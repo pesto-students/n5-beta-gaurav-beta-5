@@ -186,11 +186,13 @@ function ProductDetails() {
 										</FormControl>
 									</Box>
 									<ProductBtn
+										id="pd-add-to-cart"
 										onClick={() => handleAddToCart()}
 									>
 										Add to cart
 									</ProductBtn>
 									<ProductBtn
+										id="buy-now"
 										bg="#FFA41C"
 										onClick={() => handleAddToCart("buy")}
 									>

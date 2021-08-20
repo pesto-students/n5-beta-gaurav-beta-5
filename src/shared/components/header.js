@@ -25,7 +25,9 @@ function Header() {
 			<Container maxWidth="lg">
 				<FreeShippingDiv isSmall={isSmall}>
 					<FreeShippingIcon />
-					<FreeShippingText>Free Shipping over ₹100</FreeShippingText>
+					<FreeShippingText>
+						Free Shipping from Local Stores
+					</FreeShippingText>
 				</FreeShippingDiv>
 				<Hidden smDown>
 					<SameDayDiv>

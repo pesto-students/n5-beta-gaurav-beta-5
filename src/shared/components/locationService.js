@@ -141,6 +141,7 @@ function LocationService(props) {
 		setMapCenter(loc.center);
 		setMapMarker(mapMarker.setLngLat(loc.center));
 		setInputValue(loc.place_name);
+		setShowLocSearch(false);
 	};
 
 	const truncate = (input, length) =>
@@ -150,14 +151,12 @@ function LocationService(props) {
 		<>
 			<LocationServiceContainer isSmall={isSmall}>
 				<Tooltip title="Select Location">
-					<div
-						onClick={handleOpen}
-						className="location-text"
-						title={userSelectedLocation.place_name}
-					>
+					<div onClick={handleOpen} className="location-text">
 						<LocationOnOutlined className="location-icon" />
 						{userSelectedLocation.place_name
-							? truncate(userSelectedLocation.place_name, 15)
+							? isSmall
+								? truncate(userSelectedLocation.place_name, 15)
+								: truncate(userSelectedLocation.place_name, 35)
 							: "Stores all around"}
 					</div>
 				</Tooltip>
@@ -187,6 +186,11 @@ function LocationService(props) {
 									placeholder="Search Location"
 									onChange={(e) => searchLocation(e)}
 									onFocus={() => setShowLocSearch(true)}
+									onBlur={() =>
+										setTimeout(() => {
+											setShowLocSearch(false);
+										}, 100)
+									}
 									value={inputValue}
 								/>
 								<button

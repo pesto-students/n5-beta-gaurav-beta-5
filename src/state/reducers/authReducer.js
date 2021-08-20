@@ -12,6 +12,7 @@ import {
 	UPDATE_USER_INFO,
 	UPDATE_USER_INFO_SUCCESS,
 	UPDATE_USER_INFO_FAILED,
+	STORE_ROUTE,
 } from "../../constants/actionType";
 
 let initialState = {
@@ -25,6 +26,7 @@ let initialState = {
 			? JSON.parse(localStorage.getItem("signUpSession"))
 			: null,
 	resetPasswordState: null,
+	storedRoute: "/",
 	userUpdated: null,
 	error: null,
 };
@@ -78,6 +80,9 @@ const reducer = (state = initialState, action) => {
 			break;
 		case UPDATE_USER_INFO_FAILED:
 			return { ...state, error: action.payload, isLoading: false };
+			break;
+		case STORE_ROUTE:
+			return { ...state, storedRoute: action.payload, isLoading: false };
 			break;
 		case CLEAR_SESSION:
 			localStorage.clear();

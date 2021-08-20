@@ -132,6 +132,10 @@ export const CartContainer = styled.div`
 		background-color: #ffd814;
 		border-radius: 0;
 		font-family: inherit;
+		&.below-payment {
+			margin: 15px 0;
+			width: 100%;
+		}
 	}
 	.ctn-shopping-btn {
 		background-color: #ffa41c;

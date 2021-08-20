@@ -70,26 +70,36 @@ function MainMenu() {
 				<IconsMenuDiv isSmall={isSmall}>
 					<Hidden smDown>
 						<Menu>
-							<MenuItem onClick={() => handleClick("/")}>
+							<MenuItem
+								id="home-link"
+								onClick={() => handleClick("/")}
+							>
 								Home
 							</MenuItem>
 							<MenuItem
+								id="categories-link"
 								onClick={() => handleClick("/categories")}
 							>
 								Categories
 							</MenuItem>
-							<MenuItem onClick={() => handleClick("/orders")}>
+							<MenuItem
+								id="orders-link"
+								onClick={() => handleClick("/orders")}
+							>
 								Orders
 							</MenuItem>
 						</Menu>
 					</Hidden>
 					<Hidden smDown>
 						<Tooltip title="User Profile">
-							<IconMenuItem onClick={() => handleUserIconClick()}>
+							<IconMenuItem
+								id="user-profile"
+								onClick={() => handleUserIconClick()}
+							>
 								<PersonOutlined />
 								<IconMenuText>
-									{userSession && userSession !== null
-										? userSession.name
+									{session && session !== null
+										? session.name
 										: ""}
 								</IconMenuText>
 							</IconMenuItem>
@@ -102,6 +112,7 @@ function MainMenu() {
 						<Tooltip title="Shopping Cart">
 							<Box className="cart-icon">
 								<ShoppingCartOutlined
+									id="cart-link"
 									onClick={() => handleClick("/cart")}
 								/>
 								{cart && cart.length > 0 && (

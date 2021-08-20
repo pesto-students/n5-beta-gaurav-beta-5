@@ -72,8 +72,11 @@ export const SearchInput = styled.input.attrs((props) => ({
 
 export const SearchBox = styled.div`
 	display: inline-block;
-	width: 80%;
+	width: 70%;
 	position: relative;
+	@media only screen and (max-width: 400px) {
+		width: 80%;
+	}
 	ul.search-result {
 		position: absolute;
 		top: 57px;
@@ -110,7 +113,8 @@ export const SearchBox = styled.div`
 
 export const SearchByLocation = styled.div`
 	display: inline-block;
-	width: 20%;
+	width: 30%;
+	font-weight: bold;
 	text-align: left;
 	color: white;
 	.location-icon {
