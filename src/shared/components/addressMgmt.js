@@ -12,7 +12,7 @@ import { bindActionCreators } from "redux";
 import { addressAction, mapAction } from "../../state";
 import { isEmpty } from "lodash";
 import Skeleton from "@material-ui/lab/Skeleton";
-
+import { toast } from "react-toastify";
 function AddressMgmt() {
 	const history = useHistory();
 	const handleCurrentAddress = (route, address) => {
@@ -30,6 +30,7 @@ function AddressMgmt() {
 		country: "India",
 		addressId: "",
 		userId: userSession && userSession !== null ? userSession.objectId : "",
+		geoLocation: { lat: 0, long: 0 },
 	});
 
 	const [error, setError] = useState({
@@ -108,6 +109,10 @@ function AddressMgmt() {
 	const addEditAddress = (e) => {
 		let addressCopy = { ...addressFields };
 		let errorCopy = { ...error };
+		if (isEmpty(userSelectedLocation) === false) {
+			addressCopy.geoLocation.lat = userSelectedLocation.center[0];
+			addressCopy.geoLocation.long = userSelectedLocation.center[1];
+		}
 		switch (e.target.id) {
 			case "fname":
 				addressCopy.fname = e.target.value;
@@ -200,7 +205,10 @@ function AddressMgmt() {
 		var valueBlank = Object.keys(addressFields).some(
 			(k) => k !== "addressId" && addressFields[k] === ""
 		);
-		if (errorTrue || valueBlank) return;
+		if (errorTrue || valueBlank) {
+			toast.error("Please fill all the required (*) fields");
+			return;
+		}
 		if (addressFields.addressId !== "") {
 			console.log("edit", JSON.stringify(addressFields));
 			updateAddress(addressFields);

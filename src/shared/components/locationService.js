@@ -150,11 +150,7 @@ function LocationService(props) {
 		<>
 			<LocationServiceContainer isSmall={isSmall}>
 				<Tooltip title="Select Location">
-					<div
-						onClick={handleOpen}
-						className="location-text"
-						title={userSelectedLocation.place_name}
-					>
+					<div onClick={handleOpen} className="location-text">
 						<LocationOnOutlined className="location-icon" />
 						{userSelectedLocation.place_name
 							? isSmall

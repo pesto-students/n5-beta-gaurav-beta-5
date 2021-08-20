@@ -71,6 +71,7 @@ Parse.Cloud.define("updateAddressByUserIdApi", async (request) => {
 		country,
 		userId,
 		addressId,
+		geoLocation,
 	} = request.params;
 	const query = new Parse.Query("Addresses");
 	try {
@@ -84,7 +85,7 @@ Parse.Cloud.define("updateAddressByUserIdApi", async (request) => {
 		object.set("state", state);
 		object.set("country", country);
 		object.set("pincode", pincode);
-		object.set("geoLocation", { foo: "bar" });
+		object.set("geoLocation", geoLocation);
 		try {
 			const response = await object.save();
 			return response;
@@ -98,8 +99,17 @@ Parse.Cloud.define("updateAddressByUserIdApi", async (request) => {
 });
 
 Parse.Cloud.define("addAddressByUserIdApi", async (request) => {
-	const { fname, lname, street, pincode, city, state, country, userId } =
-		request.params;
+	const {
+		fname,
+		lname,
+		street,
+		pincode,
+		city,
+		state,
+		country,
+		userId,
+		geoLocation,
+	} = request.params;
 	const object = new Parse.Object("Addresses");
 
 	object.set("userId", userId);
@@ -111,7 +121,7 @@ Parse.Cloud.define("addAddressByUserIdApi", async (request) => {
 	object.set("state", state);
 	object.set("country", country);
 	object.set("pincode", pincode);
-	object.set("geoLocation", { foo: "bar" });
+	object.set("geoLocation", geoLocation);
 	try {
 		const response = await object.save();
 		return response;
