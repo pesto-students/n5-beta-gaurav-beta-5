@@ -1,17 +1,8 @@
-import {
-	takeEvery,
-	takeLatest,
-	all,
-	call,
-	put,
-	takeLeading,
-} from "redux-saga/effects";
-import { SIGNIN, SET_PRODUCT } from "../../constants/actionType";
+import { takeLatest, all, call, put } from "redux-saga/effects";
+import { SIGNIN } from "../../constants/actionType";
 
-import { signIn, signInSuccess, signInFailed } from "../actions/authActions";
+import { signInSuccess, signInFailed } from "../actions/authActions";
 import { signInAPI } from "../../api/auth/signin";
-import { signUpAPI } from "../../api/auth/signup";
-import { userMeApi } from "../../api/auth/userme";
 
 function* signInSaga(payload) {
 	try {

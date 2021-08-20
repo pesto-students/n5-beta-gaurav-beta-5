@@ -1,21 +1,12 @@
-import {
-	takeEvery,
-	takeLatest,
-	all,
-	call,
-	put,
-	takeLeading,
-} from "redux-saga/effects";
+import { takeLatest, all, call, put } from "redux-saga/effects";
 import { RESET_PASSWORD } from "../../constants/actionType";
 
 import {
-	resetPassword,
 	resetPasswordSuccess,
 	resetPasswordFailed,
 } from "../actions/authActions";
 
 import { passwordResetApi } from "../../api/auth/passwordReset";
-import { userMeApi } from "../../api/auth/userme";
 
 function* resetPasswordSaga(payload) {
 	try {

@@ -102,7 +102,7 @@ function MakePayment() {
 		return body;
 	};
 
-	//useScript("https://checkout.razorpay.com/v1/checkout.js");
+	useScript("https://checkout.razorpay.com/v1/checkout.js");
 
 	const options = {
 		key: "rzp_test_2rgkjmQlqzIKzO", // Enter the Key ID generated from the Dashboard
@@ -128,6 +128,20 @@ function MakePayment() {
 			name: userSession?.name,
 			email: userSession?.email,
 			contact: userSession?.phone,
+		},
+		modal: {
+			ondismiss: function () {
+				const ele = document.querySelectorAll(".razorpay-container");
+				ele.forEach(function (a, i) {
+					console.log(a, i, ele.length);
+					if (i + 1 !== ele.length) {
+						a.remove();
+					} else {
+						a.style.display = "none";
+					}
+				});
+				//console.log("Checkout form closed");
+			},
 		},
 		notes: {
 			address: "Razorpay Corporate Office",

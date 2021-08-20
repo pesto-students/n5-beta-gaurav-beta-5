@@ -1,11 +1,4 @@
-import {
-	takeEvery,
-	takeLatest,
-	all,
-	call,
-	put,
-	takeLeading,
-} from "redux-saga/effects";
+import { takeLatest, all, call, put } from "redux-saga/effects";
 import { GET_SUB_CATEGORIES } from "../../constants/actionType";
 
 import {

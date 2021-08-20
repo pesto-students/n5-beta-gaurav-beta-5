@@ -1,11 +1,4 @@
-import {
-	takeEvery,
-	takeLatest,
-	all,
-	call,
-	put,
-	takeLeading,
-} from "redux-saga/effects";
+import { takeLatest, all, call, put } from "redux-saga/effects";
 import { UPDATE_USER_INFO } from "../../constants/actionType";
 
 import {

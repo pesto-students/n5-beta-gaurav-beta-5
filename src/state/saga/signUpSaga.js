@@ -1,17 +1,9 @@
-import {
-	takeEvery,
-	takeLatest,
-	all,
-	call,
-	put,
-	takeLeading,
-} from "redux-saga/effects";
+import { takeLatest, all, call, put } from "redux-saga/effects";
 import { SIGNUP } from "../../constants/actionType";
 
-import { signUp, signUpSuccess, signUpFailed } from "../actions/authActions";
+import { signUpSuccess, signUpFailed } from "../actions/authActions";
 
 import { signUpAPI } from "../../api/auth/signup";
-import { userMeApi } from "../../api/auth/userme";
 
 function* signUpSaga(payload) {
 	try {

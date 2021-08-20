@@ -1,11 +1,4 @@
-import {
-	takeEvery,
-	takeLatest,
-	all,
-	call,
-	put,
-	takeLeading,
-} from "redux-saga/effects";
+import { takeLatest, all, call, put } from "redux-saga/effects";
 import { GET_PRODUCTS } from "../../constants/actionType";
 
 import {
@@ -13,8 +6,8 @@ import {
 	getProductsFailed,
 } from "../actions/getProductsAction";
 import { getProductsApi } from "../../api/products/getProductsApi";
-import { distanceApi } from "../../api/location/distanceApi";
-import { select } from "redux-saga/effects";
+
+// import { select } from "redux-saga/effects";
 
 export const obj = (state) => state.searchedLocation;
 
@@ -22,10 +15,10 @@ function* getProductsSaga(payload) {
 	try {
 		const data = yield call(getProductsApi, payload);
 		console.log("getProducts", data);
-		let userLoc = yield select(obj);
-		let latLng = userLoc.userSelectedLocation
-			? userLoc.userSelectedLocation.center
-			: [];
+		// let userLoc = yield select(obj);
+		// let latLng = userLoc.userSelectedLocation
+		// 	? userLoc.userSelectedLocation.center
+		// 	: [];
 
 		yield put(getProductsSuccess(data));
 	} catch (error) {
