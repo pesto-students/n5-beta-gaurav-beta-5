@@ -27,7 +27,7 @@ function Signin() {
 
 	useEffect(() => {
 		console.log("session", session, storedRoute);
-		if (session.error) {
+		if (session !== null && session.error) {
 			toast.error(session.error);
 			return;
 		}

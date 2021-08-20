@@ -112,6 +112,7 @@ function MainMenu() {
 						<Tooltip title="Shopping Cart">
 							<Box className="cart-icon">
 								<ShoppingCartOutlined
+									id="cart-link"
 									onClick={() => handleClick("/cart")}
 								/>
 								{cart && cart.length > 0 && (

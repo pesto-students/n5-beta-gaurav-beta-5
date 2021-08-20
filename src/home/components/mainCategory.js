@@ -44,6 +44,7 @@ function MainCategory() {
 					className="category-btn"
 					bg="white"
 					width="60%"
+					id="appliances"
 					onClick={() => handleClick(`/categories?id=${applianceId}`)}
 				>
 					Shop Appliances
@@ -56,6 +57,7 @@ function MainCategory() {
 					className="category-btn"
 					bg="white"
 					width="60%"
+					id="furniture"
 					onClick={() => handleClick(`/categories?id=${furnitureId}`)}
 				>
 					Shop Furniture
@@ -68,6 +70,7 @@ function MainCategory() {
 					className="category-btn"
 					bg="white"
 					width="60%"
+					id="home-decor"
 					onClick={() => handleClick(`/categories?id=${homeDecorId}`)}
 				>
 					Shop Home Decor

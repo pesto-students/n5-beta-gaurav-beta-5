@@ -38,7 +38,7 @@ export const SameDayDiv = styled.span`
 
 export const HeaderLinksDiv = styled.div`
 	display: inline-block;
-	width: ${(props) => (props.isSmall ? "30%" : "20%")};
+	width: ${(props) => (props.isSmall ? "30%" : "30%")};
 	color: #595959;
 	text-align: right;
 `;
