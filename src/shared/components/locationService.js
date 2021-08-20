@@ -141,6 +141,7 @@ function LocationService(props) {
 		setMapCenter(loc.center);
 		setMapMarker(mapMarker.setLngLat(loc.center));
 		setInputValue(loc.place_name);
+		setShowLocSearch(false);
 	};
 
 	const truncate = (input, length) =>
@@ -185,6 +186,11 @@ function LocationService(props) {
 									placeholder="Search Location"
 									onChange={(e) => searchLocation(e)}
 									onFocus={() => setShowLocSearch(true)}
+									onBlur={() =>
+										setTimeout(() => {
+											setShowLocSearch(false);
+										}, 100)
+									}
 									value={inputValue}
 								/>
 								<button
