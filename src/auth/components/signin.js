@@ -27,8 +27,14 @@ function Signin() {
 
 	useEffect(() => {
 		console.log("session", session, storedRoute);
-		if (session !== null && session.sessionToken && isLoading == false)
+		if (session.error) {
+			toast.error(session.error);
+			return;
+		}
+		if (session !== null && session.sessionToken && isLoading == false) {
+			toast.success("Signed In Successfully!");
 			history.push(storedRoute);
+		}
 	}, [session]);
 
 	const userLogin = () => {
@@ -39,7 +45,7 @@ function Signin() {
 		}
 
 		signIn({ username, password });
-		toast.success("Signed In Successfully!");
+
 		if (session !== null && session.sessionToken && isLoading == false)
 			history.push(storedRoute);
 	};
@@ -56,8 +62,9 @@ function Signin() {
 					<Grid item md={true} sm={true} xs={true}>
 						<TextField
 							className="text-field"
-							label="Email or Mobile number"
+							label="Email"
 							type="text"
+							id="email"
 							required
 							onChange={(e) => setUsername(e.target.value)}
 							InputLabelProps={{
@@ -72,6 +79,7 @@ function Signin() {
 						<TextField
 							className="text-field"
 							label="Password"
+							id="password"
 							type="password"
 							required
 							onChange={(e) => setPassword(e.target.value)}
@@ -111,6 +119,7 @@ function Signin() {
 						variant="contained"
 						className="submit-change"
 						disabled={isLoading}
+						id="login"
 						onClick={() => userLogin()}
 					>
 						Login
