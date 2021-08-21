@@ -71,7 +71,7 @@ function ProductCard({ handleClick, product }) {
 	return (
 		product &&
 		product.name && (
-			<ProductCardContainer>
+			<ProductCardContainer className="product-card">
 				<div
 					onClick={() => showProductDetails()}
 					className="card-content"
@@ -101,7 +101,7 @@ function ProductCard({ handleClick, product }) {
 					</ProductCardPriceSection>
 				</div>
 				<ProductCardAddToCart
-					id="pc-add-to-cart"
+					className="pc-add-to-cart"
 					onClick={handleAddToCart}
 				>
 					Add to cart
