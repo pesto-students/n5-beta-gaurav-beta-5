@@ -19,7 +19,7 @@
 * [Contributors](#contributors)
 
 ## Introduction
-E-life-frontend is react based user interface that provides a eCommerce platform for the global and local vendors to sell their products online with good benfits to the customers who buying their products. One of the best benifit of this platform user can get product delivery with in the hours or in a day if he purchase product from local vendors which are near by his/her location.
+E-life-frontend is react based user interface that provides an eCommerce platform for the global and local vendors to sell their products online with good benfits to the customers who buying their products. One of the best benifit of this platform user can get product delivery with in the hours or in a day if he purchase product from local vendors which are near by his/her location.
 
 * **Live demo [_here_](https://elife.netlify.app/).**
 
