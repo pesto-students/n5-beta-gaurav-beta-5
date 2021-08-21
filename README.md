@@ -20,7 +20,7 @@
 
 ## Introduction
 
-E-life-frontend is react based user interface that provides a eCommerce platform for the global and local vendors to sell their products online with good benfits to the customers who buying their products. One of the best benifit of this platform user can get product delivery with in the hours or in a day if he purchase product from local vendors which are near by his/her location.
+E-life-frontend is react based user interface that provides an eCommerce platform for the global and local vendors to sell their products online with good benfits to the customers who buying their products. One of the best benifit of this platform user can get product delivery with in the hours or in a day if he purchase product from local vendors which are near by his/her location.
 
 -   **Live demo [_here_](https://elife.netlify.app/).**
 
@@ -54,7 +54,8 @@ localhost:[3000] or running port
 ## Features
 
 -   UI is complelety build on react and functional component.
--   Google Map Integration to set user location
+-   Google Map Integration to set and get the user location
+-   Razorpay payment gateway integration
 -   Easy to navigate through the page(SPA)
 -   Unit test coverage(React Testing Library)
 -   End-to-End testing using Cypress
