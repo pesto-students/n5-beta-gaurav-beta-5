@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const ProductCardContainer = styled.div`
 	color: black;
 	box-shadow: 0px 2px 5px rgb(0 0 0 / 20%);
-	display: inline-block;
+	display: flex;
 	background: white;
 	padding: 20px;
 	//max-width: 265px;
