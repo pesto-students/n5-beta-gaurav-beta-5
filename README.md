@@ -21,7 +21,7 @@
 ## Introduction
 E-life-frontend is react based user interface that provides a eCommerce platform for the global and local vendors to sell their products online with good benfits to the customers who buying their products. One of the best benifit of this platform user can get product delivery with in the hours or in a day if he purchase product from local vendors which are near by his/her location.
 
--Live demo [_here_](https://elife.netlify.app/).
+**-Live demo [_here_](https://elife.netlify.app/).**
 
 Frontend and Backend are hosted on Heroku.
 
@@ -66,8 +66,24 @@ localhost:[3000] or running port
   TBD
 
 ## Screenshots
-![Example screenshot](./src/assets/images/landingPage.png)
-![Example screenshot](./src/assets/images/categoryPage.png)
+<table>
+  <tr>
+    <td align="center">
+       **HOME** <br/>
+      <a  href="https://elife.netlify.app/" >
+            <img src="./src/assets/images/landingPage_big.png" width="500"  alt="Landing Page" />
+       </a>
+    </td>
+    <td align="center">
+              **Category** <br />
+      <a  href="https://elife.netlify.app/categories" >
+            <img src="./src/assets/images/categoryPage.png" width="500"  alt="Category Page" />
+       </a>
+    </td>
+
+    
+  </tr>
+</table>
 
 
 ## Contributors ✨
