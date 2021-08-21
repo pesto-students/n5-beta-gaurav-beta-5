@@ -75,9 +75,9 @@ localhost:[3000] or running port
        </a>
     </td>
     <td align="center">
-              **Category** <br />
+              **Category** 
       <a  href="https://elife.netlify.app/categories" >
-            <img src="./src/assets/images/categoryPage.png" width="500"  alt="Category Page" />
+            <img src="./src/assets/images/categoryPage.png" width="520"  alt="Category Page" />
        </a>
     </td>
 
