@@ -9,8 +9,8 @@ describe("renders the home page and login", () => {
 	});
 });
 
-// describe("renders the category page", () => {
-// 	it("renders correctly", () => {
-// 		cy.visit("/categories");
-// 	});
-// });
+describe("renders the category page", () => {
+	it("renders correctly", () => {
+		cy.visit("/categories");
+	});
+});

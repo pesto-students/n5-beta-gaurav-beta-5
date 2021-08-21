@@ -6,8 +6,9 @@ export const ProductCardContainer = styled.div`
 	display: inline-block;
 	background: white;
 	padding: 20px;
-	max-width: 265px;
-	min-width: 250px;
+	//max-width: 265px;
+	min-width: 90%;
+	max-width: 90%;
 	min-height: 345px;
 	cursor: pointer;
 	.card-content {
@@ -19,6 +20,10 @@ export const ProductCardContainer = styled.div`
 	@media only screen and (max-width: 600px) {
 		margin-bottom: 15px;
 		max-width: 100%;
+	}
+	@media only screen and (min-width: 600px) and (max-width: 1400px) {
+		margin-bottom: 15px;
+		min-width: 92%;
 	}
 `;
 
@@ -97,9 +102,9 @@ export const ProductCardAddToCart = styled.div`
 	font-size: 13px;
 	padding: 12px;
 	font-weight: bold;
-	width: 60%;
+	width: 80%;
 	text-align: center;
-	margin: 15px 20%;
+	margin: 15px 10%;
 	margin-bottom: 0;
 	cursor: pointer;
 `;

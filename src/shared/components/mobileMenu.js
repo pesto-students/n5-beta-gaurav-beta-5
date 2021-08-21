@@ -44,6 +44,11 @@ function MobileMenu({ showMenu, closeMenu }) {
 							Categories
 						</li>
 						<li onClick={() => handleRoute("/orders")}>Orders</li>
+						{session === null && (
+							<li onClick={() => handleRoute("/signin")}>
+								Login
+							</li>
+						)}
 						{session !== null && (
 							<>
 								<li

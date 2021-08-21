@@ -21,6 +21,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { productsAction } from "../../state";
+import validateEmail from "../helpers/validateEmail";
 
 function Footer() {
 	const history = useHistory();
@@ -52,12 +53,6 @@ function Footer() {
 		if (id) {
 			getProducts({ body: { categoryId: id }, type: "category" });
 		}
-	};
-
-	const validateEmail = (email) => {
-		const re =
-			/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-		return re.test(String(email).toLowerCase());
 	};
 
 	return (

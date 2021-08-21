@@ -58,8 +58,13 @@ function Signin() {
 					</Grid>
 				</Grid>
 
-				<Grid container spacing={4} alignItems="flex-end">
-					<Grid item md={true} sm={true} xs={true}>
+				<Grid
+					container
+					spacing={4}
+					alignItems="flex-end"
+					className="input-text"
+				>
+					<Grid item md={true} sm={true} xs={12}>
 						<TextField
 							className="text-field"
 							label="Email"
@@ -74,8 +79,13 @@ function Signin() {
 						/>
 					</Grid>
 				</Grid>
-				<Grid container spacing={4} alignItems="flex-end">
-					<Grid item md={true} sm={true} xs={true}>
+				<Grid
+					container
+					spacing={4}
+					alignItems="flex-end"
+					className="input-text"
+				>
+					<Grid item md={true} sm={true} xs={12}>
 						<TextField
 							className="text-field"
 							label="Password"

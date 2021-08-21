@@ -108,13 +108,13 @@ function MainMenu() {
 					<Hidden smUp>
 						<LocationService isSmall={isSmall} />
 					</Hidden>
-					<IconMenuItem>
+					<IconMenuItem
+						id="cart-icon"
+						onClick={() => handleClick("/cart")}
+					>
 						<Tooltip title="Shopping Cart">
 							<Box className="cart-icon">
-								<ShoppingCartOutlined
-									id="cart-link"
-									onClick={() => handleClick("/cart")}
-								/>
+								<ShoppingCartOutlined id="cart-link" />
 								{cart && cart.length > 0 && (
 									<div className="cart-count">
 										{cart.reduce(
