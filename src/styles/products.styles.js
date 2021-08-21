@@ -6,5 +6,6 @@ export const ProductsContainer = styled.div`
 	padding-bottom: 100px;
 	.product-card {
 		margin-bottom: 20px;
+		display: flex;
 	}
 `;
