@@ -11,7 +11,7 @@ import {
 	ProductCardPrice,
 	ProductCardAddToCart,
 } from "../../styles/productCard.styles";
-
+import { Grid, Hidden } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { productsAction, addToCartActions } from "../../state";
@@ -72,40 +72,53 @@ function ProductCard({ handleClick, product }) {
 		product &&
 		product.name && (
 			<ProductCardContainer className="product-card">
-				<div
-					onClick={() => showProductDetails()}
-					className="card-content"
-				>
-					<ProductCardImg src={image.url} title={product.name} />
-					<ProductCardTitle>
-						{truncate(product.name, 50)}
-					</ProductCardTitle>
+				<Grid container>
+					<Grid item xs={12}>
+						<div
+							onClick={() => showProductDetails()}
+							className="card-content"
+						>
+							<ProductCardImg
+								src={image.url}
+								title={product.name}
+							/>
+							<ProductCardTitle>
+								{truncate(product.name, 50)}
+							</ProductCardTitle>
 
-					{product.vendorRef && (
-						<ProductCardVendorSection>
-							<ProductCardVendorName>
-								Vendor:
-							</ProductCardVendorName>
-							<ProductCardVendorLocation>
-								{product.vendorRef.name}
-								{isEmpty(userSelectedLocation) == false &&
-									isGlobal == false &&
-									product.distance &&
-									`(${product.distance} km)`}
-							</ProductCardVendorLocation>
-						</ProductCardVendorSection>
-					)}
-					<ProductCardPriceSection>
-						<ProductCardMrp>₹{product.mrp}</ProductCardMrp>
-						<ProductCardPrice> ₹{product.price}</ProductCardPrice>
-					</ProductCardPriceSection>
-				</div>
-				<ProductCardAddToCart
-					className="pc-add-to-cart"
-					onClick={handleAddToCart}
-				>
-					Add to cart
-				</ProductCardAddToCart>
+							{product.vendorRef && (
+								<ProductCardVendorSection>
+									<ProductCardVendorName>
+										Vendor:
+									</ProductCardVendorName>
+									<ProductCardVendorLocation>
+										{product.vendorRef.name}
+										{isEmpty(userSelectedLocation) ==
+											false &&
+											isGlobal == false &&
+											product.distance &&
+											`(${product.distance} km)`}
+									</ProductCardVendorLocation>
+								</ProductCardVendorSection>
+							)}
+							<ProductCardPriceSection>
+								<ProductCardMrp>₹{product.mrp}</ProductCardMrp>
+								<ProductCardPrice>
+									{" "}
+									₹{product.price}
+								</ProductCardPrice>
+							</ProductCardPriceSection>
+						</div>
+					</Grid>
+					<Grid item xs={12}>
+						<ProductCardAddToCart
+							className="pc-add-to-cart"
+							onClick={handleAddToCart}
+						>
+							Add to cart
+						</ProductCardAddToCart>
+					</Grid>
+				</Grid>
 			</ProductCardContainer>
 		)
 	);

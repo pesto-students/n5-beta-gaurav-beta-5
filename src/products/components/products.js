@@ -181,7 +181,7 @@ function Products() {
 											item
 											xl={3}
 											lg={3}
-											md={4}
+											md={3}
 											xs={12}
 											className="product-card"
 										>

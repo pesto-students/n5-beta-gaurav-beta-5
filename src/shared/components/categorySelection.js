@@ -134,6 +134,7 @@ function CategorySelection() {
 							{cat.name}
 							{cat.subCat.map((subItem) => (
 								<CategoryList
+									className="sub-category-item"
 									key={subItem.objectId}
 									onClick={() =>
 										handleClick({
