@@ -53,7 +53,8 @@ localhost:[3000] or running port
 
 ## Features
   - UI is complelety build on react and functional component.
-  - Google Map Integration to set user location 
+  - Google Map Integration to set and get the user location 
+  - Razorpay payment gateway integration
   - Easy to navigate through the page(SPA)
   - Unit test coverage(React Testing Library)
   - End-to-End testing using Cypress
