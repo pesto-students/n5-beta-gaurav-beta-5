@@ -66,8 +66,8 @@ localhost:[3000] or running port
   TBD
 
 ## Screenshots
-![Example screenshot](./src/assets/landingPage.png)
-![Example screenshot](./src/assets/categoryPage.png)
+![Example screenshot](./src/assets/images/landingPage.png)
+![Example screenshot](./src/assets/images/categoryPage.png)
 
 
 ## Contributors ✨
