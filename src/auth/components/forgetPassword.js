@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Spinner } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { actionCreators } from "../../state";
 import { authActions } from "../../state";
-import { Loader } from "../../styles/loader.styles";
+import { toast } from "react-toastify";
 import {
 	Grid,
 	TextField,
@@ -18,6 +16,7 @@ import {
 } from "@material-ui/core";
 import { AuthContainer } from "../../styles/auth.styles";
 import { useHistory } from "react-router-dom";
+import validateEmail from "../../shared/helpers/validateEmail";
 
 function ForgetPass() {
 	const history = useHistory();
@@ -35,7 +34,11 @@ function ForgetPass() {
 	}, [resetPasswordState]);
 
 	const handleResetPassword = () => {
-		resetPassword({ email });
+		if (validateEmail(email) && email !== "") {
+			resetPassword({ email });
+			return;
+		}
+		toast.error("Please enter a valid email");
 	};
 
 	const handleClick = (route) => {
@@ -53,7 +56,12 @@ function ForgetPass() {
 					</Grid>
 				</Grid>
 
-				<Grid container spacing={4} alignItems="flex-end">
+				<Grid
+					container
+					spacing={4}
+					alignItems="flex-end"
+					className="input-text"
+				>
 					<Grid item md={true} sm={true} xs={true}>
 						<TextField
 							className="text-field"

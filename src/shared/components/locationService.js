@@ -170,7 +170,11 @@ function LocationService(props) {
 				>
 					<ModalBody isSmall={isSmall}>
 						<div className="modal-body-div">
-							<div className="close" onClick={handleClose}>
+							<div
+								className="close"
+								id="modal-close"
+								onClick={handleClose}
+							>
 								<CloseIcon className="close-icon" />
 							</div>
 							<div
@@ -183,6 +187,7 @@ function LocationService(props) {
 							<div className="search-location">
 								<input
 									type="text"
+									id="search-input"
 									placeholder="Search Location"
 									onChange={(e) => searchLocation(e)}
 									onFocus={() => setShowLocSearch(true)}
@@ -196,7 +201,7 @@ function LocationService(props) {
 								<button
 									disabled={isEmpty(userSelectedLocation)}
 									onClick={handleClose}
-									className="select"
+									className="select select-location"
 								>
 									Select
 								</button>
@@ -210,6 +215,7 @@ function LocationService(props) {
 													(loc, index) => (
 														<li
 															key={index}
+															className="search-result"
 															onClick={() =>
 																selectUserLocation(
 																	loc

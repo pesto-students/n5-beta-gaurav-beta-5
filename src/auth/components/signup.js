@@ -55,7 +55,12 @@ function Signup() {
 						<h3 className="profile-title">CREATE ACCOUNT</h3>
 					</Grid>
 				</Grid>
-				<Grid container spacing={4} alignItems="flex-end">
+				<Grid
+					container
+					spacing={4}
+					alignItems="flex-end"
+					className="input-text"
+				>
 					<Grid item md={true} sm={true} xs={true}>
 						<TextField
 							className="text-field"
@@ -71,7 +76,12 @@ function Signup() {
 					</Grid>
 				</Grid>
 
-				<Grid container spacing={4} alignItems="flex-end">
+				<Grid
+					container
+					spacing={4}
+					alignItems="flex-end"
+					className="input-text"
+				>
 					<Grid item md={true} sm={true} xs={true}>
 						<TextField
 							className="text-field"
@@ -86,7 +96,12 @@ function Signup() {
 						/>
 					</Grid>
 				</Grid>
-				<Grid container spacing={4} alignItems="flex-end">
+				<Grid
+					container
+					spacing={4}
+					alignItems="flex-end"
+					className="input-text"
+				>
 					<Grid item md={true} sm={true} xs={true}>
 						<TextField
 							className="text-field"
@@ -101,7 +116,12 @@ function Signup() {
 					</Grid>
 				</Grid>
 
-				<Grid container spacing={4} alignItems="flex-end">
+				<Grid
+					container
+					spacing={4}
+					alignItems="flex-end"
+					className="input-text"
+				>
 					<Grid item md={true} sm={true} xs={true}>
 						<TextField
 							className="text-field"

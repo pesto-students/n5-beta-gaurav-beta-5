@@ -50,7 +50,7 @@ function CartSubtotal(props) {
 					{cart.length > 0 && (
 						<Button
 							variant="contained"
-							className="submit-change"
+							className="submit-change proceed-to-buy"
 							onClick={() => handleProceed("/makepayment")}
 						>
 							PROCEED TO BUY
@@ -95,7 +95,7 @@ function CartSubtotal(props) {
 							</Typography>
 							<Button
 								variant="contained"
-								className="submit-change"
+								className="submit-change make-payment"
 								onClick={props?.handlePayment}
 							>
 								MAKE PAYMENT

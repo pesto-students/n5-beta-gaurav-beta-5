@@ -18,6 +18,9 @@ export const AuthContainer = styled.div`
 		margin: 0;
 		padding: 20px;
 	}
+	.input-text {
+		padding: 15px;
+	}
 	.text-field {
 		width: 100%;
 		margin: 15px 0;

@@ -168,7 +168,7 @@ function Products() {
 					<Grid item lg={9} xs={12}>
 						<LocalGlobalSwitch />
 						<Container maxWidth={false}>
-							<Grid container spacing={4}>
+							<Grid container spacing={1}>
 								{productListState &&
 									productListState.length > 0 &&
 									orderBy(

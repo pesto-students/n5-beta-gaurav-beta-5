@@ -31,7 +31,10 @@ export const ModalBody = styled.div`
 	border-radius: 0;
 	.map-container {
 		width: 100%;
-		min-height: ${(props) => (props.isSmall ? "400px" : "600px")};
+		min-height: ${(props) => (props.isSmall ? "300px" : "600px")};
+		@media only screen and (min-width: 600px) and (max-width: 1400px) {
+			min-height: 430px;
+		}
 		color: black;
 	}
 	.distance-text {
