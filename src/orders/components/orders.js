@@ -22,6 +22,7 @@ function Orders() {
 	const dispatch = useDispatch();
 	const { orderListSuccess } = bindActionCreators(ordersAction, dispatch);
 	const { orderListArry } = useSelector((state) => state.orderState);
+	const [orderListState, setOrderListState] = useState([]);
 	const userSession = JSON.parse(localStorage.getItem("session"));
 	const [isLoading, setIsLoading] = useState(false);
 	const history = useHistory();
@@ -42,7 +43,28 @@ function Orders() {
 
 	useEffect(() => {
 		console.log("orderListArr", orderListArry);
+
+		let sortedOrders = sortByDate(orderListArry);
+		console.log("sorted Orders", sortedOrders);
+		setOrderListState(sortedOrders);
 	}, [orderListArry]);
+
+	const sortByDate = (orders) => {
+		let sortedOrders = orders.sort(function (a, b) {
+			var key1 = new Date(a.createdAt);
+			var key2 = new Date(b.createdAt);
+			return key2 - key1;
+			// if (key1 < key2) {
+			// 	return -1;
+			// } else if (key1 == key2) {
+			// 	return 0;
+			// } else {
+			// 	return 1;
+			// }
+		});
+
+		return sortedOrders;
+	};
 
 	return (
 		<OrderContainer>
@@ -52,7 +74,7 @@ function Orders() {
 						<Paper elevation={0} className="paper-main">
 							<h3 className="cart-title">ORDERS</h3>
 							{isLoading && <OrdersSkeleton />}
-							{orderListArry.length == 0 && (
+							{orderListState.length == 0 && (
 								<Paper variant="outlined">
 									<Grid
 										container
@@ -62,13 +84,15 @@ function Orders() {
 										className="no-orders"
 									>
 										<Grid item xs={12}>
-											No orders to show
+											{isLoading
+												? "Loading..."
+												: "No orders to show"}
 										</Grid>
 									</Grid>
 								</Paper>
 							)}
-							{orderListArry.length > 0 &&
-								orderListArry.map((order) => (
+							{orderListState.length > 0 &&
+								orderListState.map((order) => (
 									<Paper
 										key={order.objectId}
 										variant="outlined"
