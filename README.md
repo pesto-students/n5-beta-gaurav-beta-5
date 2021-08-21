@@ -88,8 +88,7 @@ localhost:[3000] or running port
 </table>
 
 
-## Contributors ✨
-
+## Contributors✨
 <table>
   <tr>
     <td align="center"><a href="#"><img src="" width="100px;" alt=""/><br /><sub><b>Omkar Kamble</b></sub></a><br /><a href="" title="Code">💻</a></td>
