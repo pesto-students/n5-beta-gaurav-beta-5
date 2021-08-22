@@ -55,7 +55,7 @@ function ProductCategories() {
 					<WhatsNewSmallText>WHAT’S NEW</WhatsNewSmallText>
 					<WhatsNewTitle>New Products</WhatsNewTitle>
 					<WhatsNewCategories>
-						Electronics, Clothing, Home Decor, Appliances
+						Electronics, Home Decor, Appliances
 					</WhatsNewCategories>
 				</WhatsNewSection>
 				<Grid container spacing={4}>
