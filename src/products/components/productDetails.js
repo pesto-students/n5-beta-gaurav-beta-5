@@ -25,20 +25,25 @@ import {
 } from "../../styles/productDetails.styles";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { addToCartActions } from "../../state";
+import { addToCartActions, productsAction } from "../../state";
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { isEmpty } from "lodash";
+import { getProductByIdApi } from "../../api/products/getProductByIdApi";
 // import BreadCrumb from "../../shared/components/breadCrumb";
 function ProductDetails() {
 	const { product, isLoading } = useSelector((state) => state.products);
 	const { cart } = useSelector((state) => state.myCart);
 	const [qty, setQty] = useState(1);
+	// const [about, setAbout] = useState([]);
+	// const [longDescription, setLongDescription] = useState([]);
 	const [imageIndex, setImageIndex] = useState(0);
 	const search = useLocation().search;
 	const dispatch = useDispatch();
 	const { addToCart } = bindActionCreators(addToCartActions, dispatch);
+
+	const { setProduct } = bindActionCreators(productsAction, dispatch);
 	const productId = new URLSearchParams(search).get("productId");
 	const history = useHistory();
 	const img1 = { ...product["image1"] };
@@ -47,10 +52,10 @@ function ProductDetails() {
 	const img4 = { ...product["image4"] };
 	const img5 = { ...product["image5"] };
 	const img6 = { ...product["image6"] };
-	let about = product.specification.split("$$");
-	about.shift();
-	let longDescription = product.longDescription
-		.split("\n")
+	let about = product?.specification?.split("$$");
+	about?.shift();
+	let longDescription = product?.longDescription
+		?.split("\n")
 		.filter((s) => s !== "");
 
 	const images = [img1, img2, img3, img4, img5, img6];
@@ -58,7 +63,13 @@ function ProductDetails() {
 	useEffect(() => {
 		//console.log("images", images);
 		window.scrollTo(0, 0);
+		getProductByIdApi({ productId: productId }).then((data) => {
+			console.log(data.result);
+			setProduct(data.result[0]);
+		});
 	}, []);
+
+	useEffect(() => {}, [product]);
 
 	useEffect(() => {
 		console.log(" addedd cart", cart);
@@ -81,158 +92,177 @@ function ProductDetails() {
 
 	return (
 		<ProductDetailsContainer>
-			<Container>
-				<Grid container className="products-content">
-					{/* <Grid item xs={12}>
+			{product && product.name && (
+				<Container>
+					<Grid container className="products-content">
+						{/* <Grid item xs={12}>
 						<BreadCrumb />
 					</Grid> */}
-					<Grid item lg={6} xs={12}>
-						<Box className="image-list">
-							<ProductImage url={images[imageIndex].url} />
-							<ProductImageUl>
-								{images.map(
-									(image, index) =>
-										isEmpty(image) == false && (
-											<ProductImageList
-												key={index}
-												onClick={() =>
-													setImageIndex(index)
-												}
-												src={image.url}
-												className={
-													index == imageIndex
-														? "active"
-														: "not-active"
-												}
-											/>
-										)
+						<Grid item lg={6} xs={12}>
+							<Box className="image-list">
+								<ProductImage url={images[imageIndex].url} />
+								<ProductImageUl>
+									{images.map(
+										(image, index) =>
+											isEmpty(image) == false && (
+												<ProductImageList
+													key={index}
+													onClick={() =>
+														setImageIndex(index)
+													}
+													src={image.url}
+													className={
+														index == imageIndex
+															? "active"
+															: "not-active"
+													}
+												/>
+											)
+									)}
+								</ProductImageUl>
+							</Box>
+						</Grid>
+						<Grid item lg={6} xs={12}>
+							<ProductTitleContainer>
+								<ProductTitle>{product.name}</ProductTitle>
+								{product.vendorRef.name && (
+									<ProductVendorInfo>
+										Vendor: {product.vendorRef.name}
+									</ProductVendorInfo>
 								)}
-							</ProductImageUl>
-						</Box>
-					</Grid>
-					<Grid item lg={6} xs={12}>
-						<ProductTitleContainer>
-							<ProductTitle>{product.name}</ProductTitle>
-							<ProductVendorInfo>
-								Vendor: {product.vendorRef.name}
-							</ProductVendorInfo>
-						</ProductTitleContainer>
-						<Grid
-							container
-							item
-							xs={12}
-							className="price-container"
-						>
-							<Grid item lg={8} xs={12}>
-								<ProductPriceContainer>
-									<Box className="price-box">
-										<ProductPriceKey>MRP:</ProductPriceKey>
-										<ProductPriceValue lineThru>
-											₹{product.mrp}
-										</ProductPriceValue>
-									</Box>
-									<Box className="price-box">
-										<ProductPriceKey>
-											PRICE:
-										</ProductPriceKey>
-										<ProductPriceValue color="#B12704">
-											₹{product.price}
-										</ProductPriceValue>
-									</Box>
-									<Box className="price-box">
-										<ProductPriceKey>
-											You Save:
-										</ProductPriceKey>
-										<ProductPriceValue color="#B12704">
-											₹{product.mrp - product.price}
-										</ProductPriceValue>
-									</Box>
-									<Box className="price-box">
-										<ProductPriceKey> </ProductPriceKey>
-										<ProductPriceValue>
-											Inclusive of all taxes
-										</ProductPriceValue>
-									</Box>
-									{product.distance && product.distance < 30 && (
+							</ProductTitleContainer>
+							<Grid
+								container
+								item
+								xs={12}
+								className="price-container"
+							>
+								<Grid item lg={8} xs={12}>
+									<ProductPriceContainer>
 										<Box className="price-box">
 											<ProductPriceKey>
-												Free Delivery:
+												MRP:
 											</ProductPriceKey>
-											<ProductPriceValue fontWeight="bold">
-												Tomorrow
+											<ProductPriceValue lineThru>
+												₹{product.mrp}
 											</ProductPriceValue>
 										</Box>
-									)}
-								</ProductPriceContainer>
-							</Grid>
-							<Grid item lg={4} xs={12}>
-								<ProductAddContainer>
-									<Box>
-										<ProductQtyLabel>Qty:</ProductQtyLabel>
-										<FormControl
-											variant="outlined"
-											className="qty-dropdown"
-										>
-											<Select
-												className="select-menu"
-												value={qty}
-												onChange={handleQtyChange}
+										<Box className="price-box">
+											<ProductPriceKey>
+												PRICE:
+											</ProductPriceKey>
+											<ProductPriceValue color="#B12704">
+												₹{product.price}
+											</ProductPriceValue>
+										</Box>
+										<Box className="price-box">
+											<ProductPriceKey>
+												You Save:
+											</ProductPriceKey>
+											<ProductPriceValue color="#B12704">
+												₹{product.mrp - product.price}
+											</ProductPriceValue>
+										</Box>
+										<Box className="price-box">
+											<ProductPriceKey> </ProductPriceKey>
+											<ProductPriceValue>
+												Inclusive of all taxes
+											</ProductPriceValue>
+										</Box>
+										{product.distance &&
+											product.distance < 30 && (
+												<Box className="price-box">
+													<ProductPriceKey>
+														Free Delivery:
+													</ProductPriceKey>
+													<ProductPriceValue fontWeight="bold">
+														Tomorrow
+													</ProductPriceValue>
+												</Box>
+											)}
+									</ProductPriceContainer>
+								</Grid>
+								<Grid item lg={4} xs={12}>
+									<ProductAddContainer>
+										<Box>
+											<ProductQtyLabel>
+												Qty:
+											</ProductQtyLabel>
+											<FormControl
+												variant="outlined"
+												className="qty-dropdown"
 											>
-												<MenuItem value={1}>1</MenuItem>
-												<MenuItem value={2}>2</MenuItem>
-												<MenuItem value={3}>3</MenuItem>
-												<MenuItem value={4}>4</MenuItem>
-											</Select>
-										</FormControl>
-									</Box>
-									<ProductBtn
-										id="pd-add-to-cart"
-										onClick={() => handleAddToCart()}
-									>
-										Add to cart
-									</ProductBtn>
-									<ProductBtn
-										id="buy-now"
-										bg="#FFA41C"
-										onClick={() => handleAddToCart("buy")}
-									>
-										Buy now
-									</ProductBtn>
-								</ProductAddContainer>
+												<Select
+													className="select-menu"
+													value={qty}
+													onChange={handleQtyChange}
+												>
+													<MenuItem value={1}>
+														1
+													</MenuItem>
+													<MenuItem value={2}>
+														2
+													</MenuItem>
+													<MenuItem value={3}>
+														3
+													</MenuItem>
+													<MenuItem value={4}>
+														4
+													</MenuItem>
+												</Select>
+											</FormControl>
+										</Box>
+										<ProductBtn
+											id="pd-add-to-cart"
+											onClick={() => handleAddToCart()}
+										>
+											Add to cart
+										</ProductBtn>
+										<ProductBtn
+											id="buy-now"
+											bg="#FFA41C"
+											onClick={() =>
+												handleAddToCart("buy")
+											}
+										>
+											Buy now
+										</ProductBtn>
+									</ProductAddContainer>
+								</Grid>
 							</Grid>
-						</Grid>
-						<Grid container item xs={12}>
-							<ProductInStock>
-								{product.stock > 0
-									? "In Stock"
-									: "Out Of Stock"}
-							</ProductInStock>
-							{/* <ProductType>
+							<Grid container item xs={12}>
+								<ProductInStock>
+									{product.stock > 0
+										? "In Stock"
+										: "Out Of Stock"}
+								</ProductInStock>
+								{/* <ProductType>
 								Type: <b>Wall Clock</b>
 							</ProductType> */}
-							<ProductAboutTitle>
-								<b>About this item</b>
-							</ProductAboutTitle>
-							<ProductAboutUl>
-								{about.map((item, index) => (
-									<ProductAboutList key={index}>
-										{item}
-									</ProductAboutList>
-								))}
-							</ProductAboutUl>
+								<ProductAboutTitle>
+									<b>About this item</b>
+								</ProductAboutTitle>
+								<ProductAboutUl>
+									{about.map((item, index) => (
+										<ProductAboutList key={index}>
+											{item}
+										</ProductAboutList>
+									))}
+								</ProductAboutUl>
+							</Grid>
 						</Grid>
 					</Grid>
-				</Grid>
-				<Grid container>
-					<Grid item xs={12}>
-						<ProductDescription>
-							{longDescription.map((para) => (
-								<p>{para}</p>
-							))}
-						</ProductDescription>
+					<Grid container>
+						<Grid item xs={12}>
+							<ProductDescription>
+								{longDescription.map((para) => (
+									<p>{para}</p>
+								))}
+							</ProductDescription>
+						</Grid>
 					</Grid>
-				</Grid>
-			</Container>
+				</Container>
+			)}
 		</ProductDetailsContainer>
 	);
 }
