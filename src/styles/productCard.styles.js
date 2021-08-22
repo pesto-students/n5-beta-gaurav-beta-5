@@ -13,6 +13,9 @@ export const ProductCardContainer = styled.div`
 	cursor: pointer;
 	.card-content {
 		min-height: 240px;
+		@media only screen and (min-width: 600px) and (max-width: 1600px) {
+			min-height: 280px;
+		}
 	}
 	.title {
 		cursor: pointer;
@@ -21,7 +24,7 @@ export const ProductCardContainer = styled.div`
 		margin-bottom: 15px;
 		max-width: 100%;
 	}
-	@media only screen and (min-width: 600px) and (max-width: 1400px) {
+	@media only screen and (min-width: 600px) and (max-width: 1600px) {
 		margin-bottom: 15px;
 		min-width: 92%;
 	}
