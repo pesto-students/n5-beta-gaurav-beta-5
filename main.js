@@ -46,6 +46,7 @@ Parse.Cloud.define("getProductByIdApi", async (request) => {
 	const query = new Parse.Query(Products);
 	// You can also query by using a parameter of an object
 	query.equalTo("objectId", productId);
+	query.include("vendorRef");
 	const results = await query.find();
 	return results;
 });

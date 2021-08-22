@@ -36,6 +36,7 @@ import { bindActionCreators } from "redux";
 import { productsAction, uvDistanceAction } from "../../state";
 import BreadCrumb from "../../shared/components/breadCrumb";
 import { isEmpty, orderBy } from "lodash";
+import ProductSkeleton from "../../products/components/productSkeleton";
 
 function Category() {
 	const themeMat = useTheme();
@@ -59,7 +60,7 @@ function Category() {
 	const search = useLocation().search;
 	const id = new URLSearchParams(search).get("id");
 
-	const { productList } = useSelector((state) => state.products);
+	const { productList, isLoading } = useSelector((state) => state.products);
 	const dispatch = useDispatch();
 	const { getProducts } = bindActionCreators(productsAction, dispatch);
 	const { getDistance } = bindActionCreators(uvDistanceAction, dispatch);
@@ -317,6 +318,28 @@ function Category() {
 									alignContent="center"
 									className="product-grid"
 								>
+									{isLoading && productListState.length == 0 && (
+										<Grid container item xs={12}>
+											<Grid item lg={3} xs={12}>
+												<ProductSkeleton />
+											</Grid>
+											<Grid item lg={3} xs={12}>
+												<ProductSkeleton />
+											</Grid>
+											<Grid item lg={3} xs={12}>
+												<ProductSkeleton />
+											</Grid>
+											<Grid item lg={3} xs={12}>
+												<ProductSkeleton />
+											</Grid>
+										</Grid>
+									)}
+									{isLoading == false &&
+										productListState.length == 0 && (
+											<Grid item xs={12}>
+												<h2>No products to show</h2>
+											</Grid>
+										)}
 									{productListState !== undefined &&
 										productListState.length > 0 &&
 										productListState
