@@ -158,6 +158,9 @@ function Category() {
 				return item.vendorRef.distance < 30;
 			});
 			setProductListState(arr);
+			if (isEmpty(userSelectedLocation) == false) {
+				setProductDistance(productList.result);
+			}
 		} else {
 			setProductListState(orgProductListState);
 		}
