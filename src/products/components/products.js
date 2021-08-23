@@ -170,6 +170,15 @@ function Products() {
 						<Container maxWidth={false}>
 							<Grid container spacing={1}>
 								{productListState &&
+									isLoading == false &&
+									productListState.length == 0 && (
+										<Grid item xs={12}>
+											<Box textAlign="center">
+												<h2>No products to show</h2>
+											</Box>
+										</Grid>
+									)}
+								{productListState &&
 									productListState.length > 0 &&
 									orderBy(
 										productListState,
