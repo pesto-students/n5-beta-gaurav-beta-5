@@ -311,7 +311,7 @@ function Category() {
 						<Grid item lg={9} xs={12}>
 							<LocalGlobalSwitch />
 							<CategoryMainTitle>
-								Popular Products From Stores Near You
+								Popular Products
 							</CategoryMainTitle>
 							<CategoryProductSlider>
 								<Grid

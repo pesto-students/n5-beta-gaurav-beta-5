@@ -25,15 +25,15 @@ export const ModalBody = styled.div`
 	background-color: #000;
 	margin: 0 auto;
 	position: relative;
-	top: 8%;
+	top: 5%;
 	border: none;
 	color: black;
 	border-radius: 0;
 	.map-container {
 		width: 100%;
 		min-height: ${(props) => (props.isSmall ? "300px" : "600px")};
-		@media only screen and (min-width: 600px) and (max-width: 1400px) {
-			min-height: 430px;
+		@media only screen and (min-width: 600px) and (max-width: 1600px) {
+			min-height: 400px;
 		}
 		color: black;
 	}

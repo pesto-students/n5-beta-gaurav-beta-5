@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	LocalGlobalContainer,
 	LocalGlobalSwitchBtn,
@@ -13,6 +13,7 @@ function LocalGlobalSwitch() {
 	const { setGlobal } = bindActionCreators(localGlobalAction, dispatch);
 	const { showMap } = bindActionCreators(mapAction, dispatch);
 	const { isGlobal } = useSelector((state) => state.localGlobal);
+	const [btnState, setBtnState] = useState(true);
 	const { userSelectedLocation } = useSelector(
 		(state) => state.searchedLocation
 	);
@@ -20,10 +21,17 @@ function LocalGlobalSwitch() {
 	const handleClick = (bool) => {
 		if (isEmpty(userSelectedLocation)) {
 			showMap(true);
+			setBtnState(bool);
 			return;
 		}
 		setGlobal(bool);
 	};
+
+	useEffect(() => {
+		if (isEmpty(userSelectedLocation) == false && btnState == false) {
+			setGlobal(false);
+		}
+	}, [userSelectedLocation]);
 
 	return (
 		<LocalGlobalContainer>

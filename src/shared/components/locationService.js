@@ -110,15 +110,17 @@ function LocationService(props) {
 
 	useEffect(() => {
 		map.current.flyTo({ center: [lng, lat], zoom: zoom });
-	}, [zoom]);
+	}, [zoom, lng]);
 
 	useEffect(() => {
 		//console.log("locations", locations);
 		console.log("userSelectedLocation", userSelectedLocation);
 		setShowLocSearch(false);
 		if (userSelectedLocation.center) {
-			setLat(userSelectedLocation.center[0]);
-			setLng(userSelectedLocation.center[1]);
+			setLat(userSelectedLocation.center[1]);
+			setLng(userSelectedLocation.center[0]);
+			//map.current.flyTo({ center: [lng, lat], zoom: zoom });
+			setZoom(12);
 			console.log(lat, lng);
 		}
 	}, [userSelectedLocation]);
@@ -194,7 +196,7 @@ function LocationService(props) {
 									onBlur={() =>
 										setTimeout(() => {
 											setShowLocSearch(false);
-										}, 100)
+										}, 300)
 									}
 									value={inputValue}
 								/>
