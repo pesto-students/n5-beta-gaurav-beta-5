@@ -45,7 +45,7 @@ function Cart(props) {
 
 	useEffect(() => {
 		console.log("incart", cart);
-
+		setCartState([...cart]);
 		calculateShippingCost();
 	}, [cart]);
 
@@ -281,6 +281,13 @@ function Cart(props) {
 													<Box textAlign="right">
 														&#8377;{item.price}
 													</Box>
+													{item.shippingCost > 0 && (
+														<Box textAlign="right">
+															Shipping: &#8377;
+															{item.shippingCost *
+																item.qty}
+														</Box>
+													)}
 												</Box>
 											</Grid>
 										</Grid>

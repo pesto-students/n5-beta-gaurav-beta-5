@@ -40,7 +40,10 @@ export const SelectAddressContainer = styled.div`
 		margin-bottom: 20px;
 	}
 	p {
-		margin-bottom: 30px;
+		margin-bottom: 10px;
+	}
+	.address-text {
+		min-height: 130px;
 	}
 	.delivery-address-btn {
 		background-color: #ffd814;

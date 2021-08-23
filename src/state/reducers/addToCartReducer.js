@@ -45,8 +45,10 @@ const reducer = (state = initialState, action) => {
 			break;
 		case DELETE_TO_CART_SUCCESS:
 			//toast.success("Product Deleted");
+			console.log("delete payload red", action.payload);
 			return {
 				...state,
+				cart: [...action.payload],
 				isLoading: false,
 			};
 			break;

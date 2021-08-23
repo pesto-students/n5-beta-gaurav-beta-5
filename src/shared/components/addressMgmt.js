@@ -240,7 +240,15 @@ function AddressMgmt() {
 						</p>
 					</div>
 					<Grid container spacing={3}>
-						<Grid container spacing={3} item lg={8} xs={12}>
+						<Grid
+							container
+							spacing={3}
+							item
+							lg={8}
+							xs={12}
+							alignContent="stretch"
+							alignItems="stretch"
+						>
 							{isLoading && (
 								<Grid item lg={4} xs={12}>
 									<Skeleton
@@ -279,7 +287,7 @@ function AddressMgmt() {
 											{address.firstName}{" "}
 											{address.lastName}
 										</h4>
-										<p>
+										<p className="address-text">
 											{address.streetAddress}, <br />
 											{address.city}, {address.state},
 											<br />

@@ -29,21 +29,25 @@ function CartSubtotal(props) {
 			elevation={0}
 			className={props.type ? "flex-height bg-white" : "no-flex"}
 		>
-			<Box className="semiBold border-bottom">
-				<Box mx={3} my={1} pt={4}>
-					Total ({cart.reduce((acc, item) => acc + item.qty, 0)}{" "}
-					items):&nbsp;&nbsp;&nbsp;
-					<span className="total-price">
-						&#8377;{" "}
-						{cart.reduce((acc, item) => acc + item.subTotal, 0) +
-							props.shippingCost}
-					</span>
-					<br />
-					{props.shippingCost > 0 &&
-						`(Including ₹${props.shippingCost} Shipping Charges )`}
-					{props.shippingCost == 0 && `Free Delivery`}
+			{cart.length > 0 && (
+				<Box className="semiBold border-bottom">
+					<Box mx={3} my={1} pt={4}>
+						Total ({cart.reduce((acc, item) => acc + item.qty, 0)}{" "}
+						items):&nbsp;&nbsp;&nbsp;
+						<span className="total-price">
+							&#8377;{" "}
+							{cart.reduce(
+								(acc, item) => acc + item.subTotal,
+								0
+							) + props.shippingCost}
+						</span>
+						<br />
+						{props.shippingCost > 0 &&
+							`(Including ₹${props.shippingCost} Shipping Charges )`}
+						{props.shippingCost == 0 && `Free Delivery`}
+					</Box>
 				</Box>
-			</Box>
+			)}
 
 			{!props.type ? (
 				<Box mx={3} pb={4}>
