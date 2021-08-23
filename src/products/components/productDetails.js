@@ -32,6 +32,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import { isEmpty } from "lodash";
 import { getProductByIdApi } from "../../api/products/getProductByIdApi";
 // import BreadCrumb from "../../shared/components/breadCrumb";
+import { distanceApi } from "../../api/location/distanceApi";
 function ProductDetails() {
 	const { product, isLoading } = useSelector((state) => state.products);
 	const { cart } = useSelector((state) => state.myCart);
@@ -52,6 +53,9 @@ function ProductDetails() {
 	const img4 = { ...product["image4"] };
 	const img5 = { ...product["image5"] };
 	const img6 = { ...product["image6"] };
+	const { userSelectedLocation } = useSelector(
+		(state) => state.searchedLocation
+	);
 	let about = product?.specification?.split("$$");
 	about?.shift();
 	let longDescription = product?.longDescription
@@ -67,13 +71,35 @@ function ProductDetails() {
 			console.log(data.result);
 			setProduct(data.result[0]);
 		});
+		//setProductDistance();
 	}, []);
 
-	useEffect(() => {}, [product]);
+	useEffect(() => {
+		//setProductDistance();
+	}, [product]);
 
 	useEffect(() => {
 		console.log(" addedd cart", cart);
 	}, [cart]);
+
+	const setProductDistance = () => {
+		if (
+			userSelectedLocation.center == undefined ||
+			product.vendorRef == undefined
+		)
+			return;
+		//console.log("product Card", product, userSelectedLocation);
+		let vendorGeo = `${product.vendorRef.geoLocation.long},${product.vendorRef.geoLocation.lat}`;
+
+		let userGeo = `${userSelectedLocation.center[0]},${userSelectedLocation.center[1]}`;
+		let query = `${vendorGeo};${userGeo}`;
+
+		distanceApi(query).then((data) => {
+			console.log("distance", data);
+			let distance = data.waypoints[0].distance;
+			setVendorDistance(distance);
+		});
+	};
 
 	const handleAddToCart = (type = "add") => {
 		console.log("product to add", product, qty);
@@ -255,8 +281,8 @@ function ProductDetails() {
 					<Grid container>
 						<Grid item xs={12}>
 							<ProductDescription>
-								{longDescription.map((para) => (
-									<p>{para}</p>
+								{longDescription.map((para, index) => (
+									<p key={index}>{para}</p>
 								))}
 							</ProductDescription>
 						</Grid>

@@ -19,6 +19,7 @@ import { productsAction, addToCartActions } from "../../state";
 import { useHistory } from "react-router-dom";
 
 import { isEmpty } from "lodash";
+
 function ProductCard({ handleClick, product }) {
 	// const { url } = product.image1;
 
@@ -32,6 +33,7 @@ function ProductCard({ handleClick, product }) {
 	const { userSelectedLocation } = useSelector(
 		(state) => state.searchedLocation
 	);
+
 	useEffect(() => {
 		if (
 			userSelectedLocation.center == undefined ||
@@ -43,6 +45,7 @@ function ProductCard({ handleClick, product }) {
 
 		let userGeo = `${userSelectedLocation.center[0]},${userSelectedLocation.center[1]}`;
 		let query = `${vendorGeo};${userGeo}`;
+
 		// distanceApi(query).then((data) => {
 		// 	console.log("distance", data);
 		// 	let distance = data.waypoints[0].distance;
