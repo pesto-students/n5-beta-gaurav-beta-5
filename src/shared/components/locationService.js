@@ -193,11 +193,7 @@ function LocationService(props) {
 									placeholder="Search Location"
 									onChange={(e) => searchLocation(e)}
 									onFocus={() => setShowLocSearch(true)}
-									onBlur={() =>
-										setTimeout(() => {
-											setShowLocSearch(false);
-										}, 300)
-									}
+									onBlur={() => setShowLocSearch(false)}
 									value={inputValue}
 								/>
 								<button
@@ -218,7 +214,7 @@ function LocationService(props) {
 														<li
 															key={index}
 															className="search-result"
-															onClick={() =>
+															onMouseDown={() =>
 																selectUserLocation(
 																	loc
 																)
