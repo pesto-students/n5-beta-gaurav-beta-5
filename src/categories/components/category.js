@@ -194,7 +194,7 @@ function Category() {
 		if (userSelectedLocation.center == undefined)
 			setProductListState(productsArray);
 
-		productsArray.forEach((item) => {
+		productsArray?.forEach((item) => {
 			calculateDistance(item);
 		});
 	};
