@@ -12,7 +12,7 @@ function Thankyou() {
 	const history = useHistory();
 	setTimeout(() => {
 		document.getElementById("main").style.display = "block";
-	}, 1000);
+	}, 2000);
 	const handleClick = (route) => {
 		history.push(route);
 	};
