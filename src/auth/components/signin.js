@@ -11,8 +11,8 @@ import { toast } from "react-toastify";
 import { storeRoute } from "../../state/actions/authActions";
 function Signin() {
 	const history = useHistory();
-	const [username, setUsername] = useState("");
-	const [password, setPassword] = useState("");
+	const [username, setUsername] = useState("beta@gmail.com");
+	const [password, setPassword] = useState("beta@123");
 	const handleClick = (route) => {
 		history.push(route);
 	};
