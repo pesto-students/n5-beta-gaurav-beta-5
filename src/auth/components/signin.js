@@ -70,7 +70,7 @@ function Signin() {
 							label="Email"
 							type="text"
 							id="email"
-                                                        value="beta@gmail.com"
+                                                        defaultValue="beta@gmail.com"
 							required
 							onChange={(e) => setUsername(e.target.value)}
 							InputLabelProps={{
@@ -92,7 +92,7 @@ function Signin() {
 							label="Password"
 							id="password"
 							type="password"
-                                                        value="beta@123"
+                                                        defaultValue="beta@123"
 							required
 							onChange={(e) => setPassword(e.target.value)}
 							InputLabelProps={{
